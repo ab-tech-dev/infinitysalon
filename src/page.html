@@ -215,7 +215,6 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 /* --------------------------------------------------- the hairstyle swapper */
 .styles{background:#e9c9c6;overflow:hidden}
 .styles__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
-.styles__img[alt="Natural curls"]{transform:translateY(-2%) scale(1.08);transform-origin:center top}
 /* the settled look */
 .styles__img.is-base{opacity:1}
 /* the incoming look, revealed through a soft edge that travels with --p */
@@ -433,9 +432,6 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
   .svc__media{min-height:52svh}
   #hair .styles{background:#d39b9a}
   #hair .styles__img{object-position:center top}
-  .hair-feature.has-natural .styles{position:relative;z-index:2;overflow:visible}
-  .hair-feature.has-natural .band__line{z-index:3}
-  .hair-feature.has-natural .styles__img[alt="Natural curls"]{transform:translateY(-20%) scale(1.08)}
   #hair .styles.is-active:after,#hair .styles.is-kept:after{inset:0 14px 14px;border-color:rgba(216,178,106,.7);border-top:0}
   .svc__body{padding:46px var(--pad) 54px;gap:18px}
   .svc h2{font-size:2.35rem}
@@ -577,7 +573,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
            alt="Knotless box braids" decoding="async">
       <img class="styles__img" src="assets/styles/style-silkpress.jpg"
            alt="A silk press" loading="lazy" decoding="async">
-      <img class="styles__img" src="assets/styles/style-afro-extended.png"
+      <img class="styles__img" src="assets/styles/style-afro.jpg"
            alt="Natural curls" loading="lazy" decoding="async">
       <i class="styles__shimmer" aria-hidden="true"></i>
       <p class="styles__name" aria-live="polite"></p>
@@ -1021,7 +1017,6 @@ function styleSwap(){
   if (imgs.length < 2) return;
 
   const LABELS = imgs.map(i => i.alt);
-  const naturalIndex = LABELS.indexOf('Natural curls');
   const SPAN = 4000;                 /* four seconds for the full pass */
   const SWEEP_END = 1.25;            /* lets the light leave the frame */
   const following = from => {
@@ -1058,9 +1053,6 @@ function styleSwap(){
       im.classList.toggle('is-base', i === base);
       im.classList.toggle('is-next', i === next);
     });
-    if (feature && naturalIndex >= 0) {
-      feature.classList.toggle('has-natural', base === naturalIndex || next === naturalIndex);
-    }
   };
   const paint = () => {
     const inc = imgs[next];
