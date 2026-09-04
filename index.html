@@ -67,6 +67,7 @@ header{
   transition:background .5s ease,border-color .5s ease,color .5s ease;
   border-bottom:1px solid transparent;
 }
+header.is-at-top{background:transparent;border-bottom-color:transparent;transition:none}
 header.on-dark{color:var(--paper)}
 header.solid{background:rgba(247,244,239,.92);backdrop-filter:blur(10px);border-bottom-color:var(--rule)}
 header.solid.on-dark{background:rgba(18,16,14,.86);border-bottom-color:var(--rule-dark)}
@@ -1141,13 +1142,15 @@ function chrome(){
   const darks = $$('.hero, .band, .svc--dark, .visit, footer');
   const onScroll = () => {
     const y = window.scrollY || 0;
-    hdr.classList.toggle('solid', y > 40);
+    const atTop = y <= 2;
+    hdr.classList.toggle('is-at-top', atTop);
+    hdr.classList.toggle('solid', !atTop && y > 40);
     wa.classList.toggle('in', y > window.innerHeight * .5);
     wa.classList.toggle('footer-near', !!footer && footer.getBoundingClientRect().top < innerHeight - 80);
     /* the header inverts over any dark chapter it happens to be sitting on */
     const probe = hdr.getBoundingClientRect().bottom - 8;
     const dark = darks.some(d => { const r = d.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; });
-    hdr.classList.toggle('on-dark', dark);
+    hdr.classList.toggle('on-dark', atTop || dark);
   };
   addEventListener('scroll', onScroll, { passive:true });
   addEventListener('resize', onScroll, { passive:true });
