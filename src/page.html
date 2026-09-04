@@ -569,7 +569,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     <!-- ========================================================== hair -->
     <section class="chapter svc" id="hair" aria-labelledby="hair-h">
     <div class="svc__media styles" id="styles">
-      <img class="styles__img is-on" src="assets/styles/style-braids.jpg"
+      <img class="styles__img" src="assets/styles/style-braids.jpg"
            alt="Knotless box braids" decoding="async">
       <img class="styles__img" src="assets/styles/style-silkpress.jpg"
            alt="A silk press" loading="lazy" decoding="async">
@@ -1019,8 +1019,16 @@ function styleSwap(){
   const LABELS = imgs.map(i => i.alt);
   const SPAN = 4000;                 /* four seconds for the full pass */
   const SWEEP_END = 1.25;            /* lets the light leave the frame */
+  const following = from => {
+    const currentSrc = imgs[from].currentSrc || imgs[from].src;
+    for (let step = 1; step < imgs.length; step++) {
+      const candidate = (from + step) % imgs.length;
+      if ((imgs[candidate].currentSrc || imgs[candidate].src) !== currentSrc) return candidate;
+    }
+    return from;
+  };
   let base = 0;                      /* the kept look          */
-  let next = 1;                      /* the one coming through */
+  let next = following(base);        /* the one coming through */
   let p = 0;                         /* 0 … SWEEP_END          */
   let hovering = false, raf = null, last = 0, resumeTimer = null;
 
@@ -1062,7 +1070,7 @@ function styleSwap(){
   };
   const commit = () => {
     base = next;
-    next = (next + 1) % imgs.length;
+    next = following(base);
     p = 0;
     layout(); paint();
     setKept(true);
