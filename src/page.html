@@ -1,0 +1,1244 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Infinity Hair and Beauty Salon — Woolwich, London</title>
+<meta name="description" content="Hair braiding, silk presses, gel nails, spa massage and a fashion boutique on Powis Street, Woolwich. Open every day, 9am–9pm. Book on WhatsApp.">
+<meta name="theme-color" content="#14213D">
+<link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Infinity Salon">
+<meta property="og:title" content="Infinity Hair and Beauty Salon">
+<meta property="og:description" content="Hair, nails, spa and boutique on Powis Street, Woolwich.">
+<meta property="og:image" content="assets/img/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================== tokens
+   Warm ivory paper, near-black chapters, the salon's own navy and a single
+   muted gold used only for selection and status. No glass, no gradients. */
+:root{
+  --paper:#f7f4ef; --paper-2:#efe9e0;
+  --ink:#17130f; --navy:#14213d; --slate:#5f5851;
+  --gold:#a8874a; --gold-lift:#c9a961;
+  --rule:rgba(23,19,15,.14); --rule-dark:rgba(247,244,239,.16);
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --pad:clamp(20px,5vw,72px);
+  --measure:64ch;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{margin:0;font-family:var(--serif);font-weight:400;letter-spacing:-.01em;line-height:1.02}
+
+/* ---------------------------------------------------------- snap scroll
+   Media chapters are exactly one viewport and snap. The reading sections
+   below them are ordinary flow — snapping a long price list would trap the
+   reader halfway down it. */
+html{scroll-snap-type:y proximity;scroll-behavior:smooth}
+.chapter{scroll-snap-align:start;scroll-snap-stop:always;min-height:100svh}
+.flow{scroll-snap-align:start}
+@media (prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
+
+/* ------------------------------------------------------------ utilities */
+.vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.kicker{margin:0 0 18px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.lede{font-size:clamp(16px,1.5vw,19px);color:var(--slate);max-width:46ch;margin:0}
+.rule{height:1px;background:var(--rule);border:0;margin:0}
+
+/* grain — one small WebGL quad over the whole page, very low opacity */
+#grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.5;mix-blend-mode:multiply}
+@media (prefers-reduced-motion:reduce){#grain{display:none}}
+
+/* ================================================================ header */
+header{
+  position:fixed;inset:0 0 auto 0;z-index:20;
+  display:flex;align-items:center;gap:20px;padding:16px var(--pad);
+  transition:background .5s ease,border-color .5s ease,color .5s ease;
+  border-bottom:1px solid transparent;
+}
+header.on-dark{color:var(--paper)}
+header.solid{background:rgba(247,244,239,.92);backdrop-filter:blur(10px);border-bottom-color:var(--rule)}
+header.solid.on-dark{background:rgba(18,16,14,.86);border-bottom-color:var(--rule-dark)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:38px;height:auto}
+.brand b{font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:.18em}
+.brand span{display:block;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-top:2px}
+nav.main{margin-left:auto;display:flex;gap:30px}
+nav.main a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;
+  opacity:.72;transition:opacity .2s,color .2s}
+nav.main a:hover,nav.main a:focus-visible{opacity:1;color:var(--gold)}
+@media(max-width:820px){nav.main{display:none}}
+.menu-toggle{display:none}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:2px;
+  background:var(--ink);color:var(--paper);text-decoration:none;border:1px solid var(--ink);
+  font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.btn:hover,.btn:focus-visible{background:transparent;color:var(--ink);border-color:var(--ink)}
+header.on-dark .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+header.on-dark .btn:hover{background:transparent;color:var(--paper)}
+.btn--gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn--gold:hover,.btn--gold:focus-visible{background:transparent;color:var(--gold);border-color:var(--gold)}
+.btn svg{width:15px;height:15px;fill:currentColor;flex:none}
+@media(max-width:820px){
+  .menu-toggle{position:relative;display:grid;place-items:center;width:42px;height:42px;padding:0;
+    border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+  .menu-toggle__icon,.menu-toggle__icon:before,.menu-toggle__icon:after{display:block;width:18px;height:1px;background:currentColor;transition:transform .25s ease}
+  .menu-toggle__icon:before,.menu-toggle__icon:after{content:"";position:absolute;left:11px}
+  .menu-toggle__icon:before{transform:translateY(-6px)}
+  .menu-toggle__icon:after{transform:translateY(6px)}
+  .menu-toggle[aria-expanded="true"] .menu-toggle__icon{background:transparent}
+  .menu-toggle[aria-expanded="true"] .menu-toggle__icon:before{transform:rotate(45deg)}
+  .menu-toggle[aria-expanded="true"] .menu-toggle__icon:after{transform:rotate(-45deg)}
+  .mobile-menu{position:fixed;inset:67px 0 auto;z-index:19;display:grid;padding:10px var(--pad) 18px;
+    background:rgba(18,16,14,.96);border-bottom:1px solid var(--rule-dark);backdrop-filter:blur(14px);
+    opacity:0;pointer-events:none;transform:translateY(-12px);transition:opacity .24s ease,transform .24s ease}
+  .mobile-menu.is-open{opacity:1;pointer-events:auto;transform:none}
+  .mobile-menu a{padding:18px 0;border-bottom:1px solid var(--rule-dark);color:var(--paper);text-decoration:none;
+    font-size:19px;line-height:1.2}
+  .mobile-menu a:last-child{border-bottom:0}
+  body.menu-open{overflow:hidden}
+}
+
+/* ================================================================== hero */
+.hero{position:relative;display:grid;align-items:end;
+  padding:112px var(--pad) clamp(74px,10vh,122px);
+  background:#12100e;color:var(--paper);overflow:hidden}
+.stage{position:absolute;inset:0;z-index:0}
+.stage video,.stage img{width:100%;height:100%;object-fit:cover}
+.hero-reel__clip{position:absolute;inset:0;opacity:0;filter:blur(0) saturate(1.04) contrast(1.03);
+  transform:scale(1.035);transition:opacity 1.55s ease,filter 1.55s ease,transform 7.5s ease}
+.hero-reel__clip.is-active{opacity:1;transform:scale(1)}
+.hero-reel__clip.is-leaving{opacity:0;filter:blur(12px) saturate(1.16) contrast(1.08);transform:scale(1.075)}
+.hero-reel__clip.is-entering{opacity:1;filter:blur(0) saturate(1.06) contrast(1.04)}
+.hero-reel__veil{position:absolute;inset:-12%;z-index:1;pointer-events:none;opacity:0;
+  background:linear-gradient(108deg,transparent 0%,rgba(247,244,239,.04) 28%,
+    rgba(226,192,122,.52) 47%,rgba(255,246,226,.34) 54%,transparent 74%);
+  filter:blur(18px);transform:translateX(-34%) skewX(-10deg);mix-blend-mode:screen}
+.hero.is-transitioning .hero-reel__veil{animation:heroVeil 2.05s cubic-bezier(.16,1,.3,1)}
+@keyframes heroVeil{
+  0%{opacity:0;transform:translateX(-42%) skewX(-10deg)}
+  28%{opacity:.92}
+  100%{opacity:0;transform:translateX(42%) skewX(-10deg)}
+}
+/* This clip runs from a near-white logo intro into a warm, light salon
+   interior — unlike the night footage the previous scrims were tuned for, it
+   is never dark on its own. The gradient here carries much more of its own
+   opacity throughout, not just at the foot of the frame, so the white intro
+   doesn't blow the overlay copy out and the loop stays readable end to end. */
+.scrim{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(9,8,7,.66) 0%,rgba(9,8,7,.32) 30%,
+    rgba(9,8,7,.42) 58%,rgba(9,8,7,.74) 82%,rgba(9,8,7,.97) 100%),
+    linear-gradient(90deg,rgba(9,8,7,.78) 0%,transparent 44%,rgba(9,8,7,.34) 100%)}
+.hero__in{position:relative;z-index:2;max-width:1180px;width:100%;display:grid}
+.hero__copy{max-width:650px;display:grid;gap:14px;text-align:left;justify-self:start;
+  text-shadow:0 2px 28px rgba(5,4,3,.85),0 1px 4px rgba(5,4,3,.9);
+  transition:opacity .36s ease,transform .36s ease}
+.hero__copy.is-changing{opacity:0;transform:translateY(14px)}
+.hero__eyebrow{margin:0;color:var(--gold-lift);font-size:12px;font-weight:600;
+  line-height:1.35;text-transform:uppercase;letter-spacing:0}
+.hero__title{font-size:4.45rem;line-height:.94;letter-spacing:0;max-width:9.6ch;color:#fffaf1}
+.hero__title span{display:block}
+.hero__title .accent{font-style:italic;color:#f3dca9}
+.hero__tag{margin:0;max-width:34rem;font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:1.75rem;line-height:1.15;color:#fff4df}
+.hero__meta{margin-top:4px;display:flex;flex-wrap:wrap;gap:9px 20px;
+  font-size:12px;font-weight:600;line-height:1.35;text-transform:uppercase;letter-spacing:0;
+  color:rgba(247,244,239,.88)}
+.hero[data-copy-pos="right"] .hero__meta{justify-content:flex-end}
+.hero__meta span{display:inline-flex;align-items:center;gap:12px}
+.hero__meta span + span:before{content:"";width:34px;height:1px;background:rgba(201,169,97,.74)}
+.cue{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;z-index:2;font-size:10px;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(247,244,239,.6);text-shadow:0 1px 10px rgba(10,8,6,.9)}
+@media(max-width:900px){
+  .hero{padding-top:104px}
+  .hero__title{font-size:3.55rem;max-width:10.8ch}
+  .hero__tag{font-size:1.45rem}
+}
+@media(max-width:640px){
+  .hero{padding-bottom:78px}
+  .hero[data-copy-pos] .hero__copy{justify-self:start;text-align:left}
+  .hero__title{font-size:2.92rem;line-height:.98;max-width:10.6ch}
+  .hero__tag{font-size:1.28rem;max-width:20rem;margin-inline:0}
+  .hero__meta{display:grid;gap:8px;font-size:11px}
+  .hero__meta span + span:before{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero-reel__clip,.hero__copy{transition:none}
+  .hero.is-transitioning .hero-reel__veil{animation:none}
+}
+
+/* ------------------------------------------------------- the gradient band
+   The one place on the page that raises its voice. Deep navy through plum to
+   a warm gold edge, with the line drifting slowly across it. */
+.band{
+  position:relative;overflow:hidden;padding:clamp(64px,11vh,132px) var(--pad);
+  display:grid;place-items:center;text-align:center;
+  /* The blush here is lifted straight off the headshot backdrop in the next
+     section, so the band hands over to it instead of cutting against it. */
+  background:linear-gradient(105deg,#0d1730 0%,#2a1b3d 26%,#7d4551 48%,
+    #e9c9c6 66%,#d99a86 80%,#d8b26a 100%);
+  background-size:220% 100%;animation:bandDrift 22s ease-in-out infinite alternate;
+}
+@keyframes bandDrift{from{background-position:0% 50%}to{background-position:100% 50%}}
+.band:before{content:"";position:absolute;inset:0;
+  background:radial-gradient(120% 85% at 62% 118%,rgba(233,201,198,.42),transparent 64%)}
+.band__shimmer{position:absolute;top:-20%;bottom:-20%;width:46%;left:-50%;pointer-events:none;z-index:1;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,240,205,.10) 30%,rgba(255,246,225,.55) 50%,rgba(255,240,205,.10) 70%,transparent 100%);
+  filter:blur(7px);opacity:0;transform:skewX(-10deg);transition:opacity .35s ease}
+.band.is-wiping .band__shimmer{opacity:1}
+.hair-feature{position:relative}
+.hair-feature__shimmer{display:none}
+.band__line{
+  position:relative;z-index:2;margin:0;max-width:22ch;color:#fdf7ee;
+  font-family:var(--serif);font-weight:300;line-height:1.04;
+  font-size:clamp(30px,5.4vw,74px);letter-spacing:-.015em;
+  text-shadow:0 2px 30px rgba(20,10,4,.45);
+}
+.band__line em{display:block;font-style:italic;color:#fff1e4}
+@media (prefers-reduced-motion:reduce){.band{animation:none}}
+
+/* --------------------------------------------------- the hairstyle swapper */
+.styles{background:#e9c9c6;overflow:hidden}
+.styles__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+/* the settled look */
+.styles__img.is-base{opacity:1}
+/* the incoming look, revealed through a soft edge that travels with --p */
+.styles__img.is-next{
+  opacity:1;
+  -webkit-mask-image:linear-gradient(100deg,#000 0%,#000 var(--a),transparent var(--b),transparent 100%);
+  mask-image:linear-gradient(100deg,#000 0%,#000 var(--a),transparent var(--b),transparent 100%);
+}
+/* the shimmer that sweeps on every change */
+.styles__shimmer{
+  position:absolute;top:-20%;bottom:-20%;width:46%;left:-50%;pointer-events:none;
+  background:linear-gradient(100deg,transparent 0%,rgba(255,240,205,.10) 30%,
+    rgba(255,246,225,.55) 50%,rgba(255,240,205,.10) 70%,transparent 100%);
+  filter:blur(7px);opacity:0;transform:skewX(-10deg);transition:opacity .35s ease;
+}
+/* the light rides the mask edge rather than running on its own timer, so the
+   glow is always exactly where the image is changing */
+.styles.is-wiping .styles__shimmer{opacity:1}
+.styles__name{
+  position:absolute;left:0;right:0;bottom:66px;margin:0;text-align:center;z-index:3;
+  font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#fff;
+  text-shadow:0 2px 18px rgba(0,0,0,.7);opacity:0;transition:opacity .3s
+}
+.styles.is-active .styles__name{opacity:1}
+.styles.is-wiping .styles__name,.styles.is-wiping .styles__hint{opacity:0}
+.styles__hint{
+  position:absolute;left:0;right:0;bottom:32px;margin:0;text-align:center;z-index:3;
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);text-shadow:0 2px 14px rgba(0,0,0,.75);
+  transition:opacity .3s
+}
+.styles.is-kept .styles__hint{color:var(--gold-lift)}
+/* the ring that confirms a look has been kept */
+.styles:after{
+  content:"";position:absolute;inset:14px;border:1px solid transparent;pointer-events:none;
+  transition:border-color .6s ease;z-index:2
+}
+.styles.is-kept:after{border-color:rgba(216,178,106,.7)}
+@media (prefers-reduced-motion:reduce){
+  .styles__img{transition:none}
+  .styles.is-sweeping .styles__shimmer{animation:none}
+}
+
+/* ---------------------------------------------------------------- shop */
+.shop{padding:clamp(80px,13vh,150px) var(--pad);max-width:1180px;margin:0 auto}
+.shop__head{max-width:var(--measure);margin-bottom:44px}
+.shop h2{font-size:clamp(32px,4.4vw,58px);font-weight:300;margin-bottom:16px}
+.shop__grid{list-style:none;margin:0;padding:0;display:grid;gap:34px 26px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.shop__grid li{display:flex;flex-direction:column}
+.shop__shot{aspect-ratio:4/5;overflow:hidden;background:var(--paper-2);margin-bottom:16px}
+.shop__shot img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.shop__grid li:hover .shop__shot img{transform:scale(1.045)}
+.shop__grid h3{font-size:19px;margin-bottom:6px}
+.shop__grid p{font-size:14px;color:var(--slate);margin:0 0 12px;flex:1}
+.shop__price{font-size:13px;letter-spacing:.1em;color:var(--gold);margin-bottom:14px!important}
+.shop__buy{
+  display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+  padding:10px 18px;border:1px solid var(--ink);border-radius:2px;text-decoration:none;
+  font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  transition:background .2s,color .2s
+}
+.shop__buy:hover,.shop__buy:focus-visible{background:var(--ink);color:var(--paper)}
+.shop__buy svg{width:14px;height:14px;fill:currentColor}
+
+/* ============================================================== chapters */
+.svc{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+.svc__media{position:relative;overflow:hidden;background:var(--paper-2);min-height:100svh}
+.svc__media video,.svc__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.svc__body{display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,8vh,110px) var(--pad);gap:22px}
+.svc h2{font-size:clamp(34px,4.6vw,62px);font-weight:300}
+.svc--dark{background:#12100e;color:var(--paper)}
+.svc--dark .lede{color:rgba(247,244,239,.72)}
+.svc--dark .rule{background:var(--rule-dark)}
+.svc--flip .svc__media{order:2}
+@media(max-width:900px){
+  .svc{grid-template-columns:1fr}
+  .svc__media{min-height:46svh}
+  .svc--flip .svc__media{order:0}
+  /* Only the service chapters relax to their content. The hero must stay a
+     full viewport — collapsed to content height it loses its bottom-aligned
+     anchoring and the statement rides up under the fixed header. */
+  .svc.chapter{min-height:auto}
+  .svc__body{padding:clamp(40px,6vh,64px) var(--pad)}
+  /* Stacked media-over-copy sections are taller than the screen, so snapping
+     them would strand the reader mid-section. The phone scrolls normally. */
+  html{scroll-snap-type:none}
+}
+.num{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:22px;
+  letter-spacing:.16em;color:var(--gold);font-style:italic}
+.num:after{content:"";height:1px;width:52px;background:currentColor;opacity:.5}
+
+/* a compact price teaser inside a chapter */
+.teaser{margin:0;padding:0;list-style:none;max-width:46ch}
+.teaser li{display:flex;justify-content:space-between;gap:20px;padding:11px 0;
+  border-bottom:1px solid var(--rule);font-size:14.5px}
+.svc--dark .teaser li{border-bottom-color:var(--rule-dark)}
+.teaser li:last-child{border-bottom:0}
+.teaser b{font-weight:500;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.note{font-size:13px;color:var(--slate);max-width:44ch}
+.svc--dark .note{color:rgba(247,244,239,.6)}
+
+/* boutique product row */
+.prods{margin:0;padding:0;list-style:none;display:grid;gap:2px 26px;grid-template-columns:1fr 1fr;max-width:52ch}
+.prods li{padding:9px 0;border-bottom:1px solid var(--rule-dark);font-size:14px}
+.prods span{display:block;color:rgba(247,244,239,.6);font-size:12.5px}
+@media(max-width:560px){.prods{grid-template-columns:1fr}}
+
+/* ============================================================== prices */
+.prices{padding:clamp(80px,13vh,150px) var(--pad);max-width:1180px;margin:0 auto}
+.prices__head{max-width:var(--measure);margin-bottom:44px}
+.prices h2{font-size:clamp(32px,4.4vw,58px);font-weight:300;margin-bottom:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;border-bottom:1px solid var(--rule);padding-bottom:18px}
+.tab{
+  appearance:none;background:transparent;border:1px solid var(--rule);border-radius:2px;
+  padding:9px 15px;font:inherit;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--slate);cursor:pointer;transition:color .18s,border-color .18s,background .18s;
+}
+.tab:hover{color:var(--ink);border-color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.panel[hidden]{display:none}
+.plist{margin:0;padding:0;list-style:none;columns:2;column-gap:56px}
+@media(max-width:760px){.plist{columns:1}}
+.plist li{break-inside:avoid;display:flex;justify-content:space-between;align-items:baseline;gap:22px;
+  padding:12px 0;border-bottom:1px solid var(--rule)}
+.plist .n{font-size:15px}
+.plist .n i{display:block;font-style:normal;font-size:12.5px;color:var(--slate);margin-top:2px}
+.plist b{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:15px}
+
+/* ================================================================ visit */
+.visit{background:#12100e;color:var(--paper);padding:clamp(80px,13vh,150px) var(--pad)}
+.visit__grid{max-width:1180px;margin:0 auto;display:grid;gap:clamp(36px,5vw,72px);
+  grid-template-columns:1.1fr .9fr}
+@media(max-width:880px){.visit__grid{grid-template-columns:1fr}}
+.visit h2{font-size:clamp(32px,4.4vw,58px);font-weight:300;margin-bottom:20px}
+.visit dl{margin:34px 0 0;display:grid;gap:0}
+.visit dt{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
+  padding-top:18px;border-top:1px solid var(--rule-dark)}
+.visit dd{margin:5px 0 18px;font-size:17px}
+.visit dd a{text-decoration:none;border-bottom:1px solid rgba(247,244,239,.3);padding-bottom:2px}
+.visit dd a:hover{border-bottom-color:var(--gold-lift);color:var(--gold-lift)}
+.visit small{display:block;font-size:13px;color:rgba(247,244,239,.55);margin-top:4px}
+.policies{margin:0;padding:0;list-style:none}
+.policies li{padding:13px 0 13px 22px;position:relative;font-size:14.5px;color:rgba(247,244,239,.78);
+  border-bottom:1px solid var(--rule-dark)}
+.policies li:before{content:"";position:absolute;left:0;top:21px;width:9px;height:1px;background:var(--gold)}
+
+/* =============================================================== footer */
+footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);font-size:12.5px}
+.foot__in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:24px 38px}
+.foot__brand{display:inline-flex;align-items:center;gap:10px;color:var(--paper);font-family:var(--serif);font-size:18px;text-decoration:none}
+.foot__brand img{width:28px;height:auto}
+.foot__details{margin:0;max-width:58ch;line-height:1.55}
+.foot__actions{display:flex;align-items:center;gap:22px}
+.foot__actions a{color:rgba(247,244,239,.72);text-decoration:none;white-space:nowrap}
+.foot__actions a:last-child{color:var(--gold-lift)}
+.foot__actions a:hover,.foot__brand:hover{color:var(--gold-lift)}
+
+/* ---------------------------------------------------------- floating CTA */
+#wa{
+  position:fixed;right:var(--pad);bottom:24px;z-index:25;
+  display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;
+  background:#1f9c4d;color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;
+  letter-spacing:.06em;box-shadow:0 10px 30px rgba(0,0,0,.26);
+  transform:translateY(90px);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s
+}
+#wa.in{transform:none;opacity:1}
+#wa.footer-near{transform:translateY(90px);opacity:0;pointer-events:none}
+#wa:hover{background:#178a41}
+#wa svg{width:19px;height:19px;fill:currentColor;flex:none}
+@media(max-width:560px){#wa span{display:none}#wa{padding:15px}}
+
+/* ========================================================== small screens
+   The desktop layout already collapses its large grids, but a phone benefits
+   from a purposefully compact reading rhythm: a smaller masthead, one-column
+   editorial sections, and a swipeable price-category row. */
+@media(max-width:640px){
+  :root{--pad:20px}
+
+  header{gap:12px;padding:12px var(--pad)}
+  .brand{gap:8px;min-width:0}
+  .brand img{width:30px}
+  .brand b{font-size:15px;letter-spacing:.13em;white-space:nowrap}
+  .brand span{font-size:7.5px;letter-spacing:.28em}
+  header .btn{margin-left:auto;padding:10px 13px;font-size:10px;letter-spacing:.1em;white-space:nowrap}
+
+  .hero{min-height:100svh;padding:96px var(--pad) 64px}
+  .stage video,.stage img{object-position:52% center}
+  .hero__copy{gap:11px;max-width:19rem}
+  .hero__eyebrow{font-size:10px}
+  .hero__title{font-size:2.75rem;max-width:9.8ch}
+  .hero__tag{font-size:1.2rem;max-width:17rem}
+  .hero__meta{margin-top:2px;font-size:10px}
+  .cue{bottom:12px;font-size:9px}
+  .kicker,.hero__eyebrow,.hero__meta{letter-spacing:0}
+  .lede{font-size:16px;line-height:1.55}
+
+  /* Let the statement band hand straight into the first hairstyle rather
+     than ending on a hard, unrelated colour edge. */
+  .band{padding:68px var(--pad) 46px;background:linear-gradient(to bottom,transparent 0%,transparent 48%,#cb9293 80%,#c99999 100%),linear-gradient(105deg,#3f284a 0%,#986475 46%,#cb9293 77%,#c99999 100%);background-size:100% 100%;animation:none}
+  .band:before{background:none}
+  .band__line{font-size:2.15rem;max-width:12ch}
+  /* The slogan and portrait are one interactive feature on a phone, so the
+     kept-look frame is drawn as one uninterrupted outline across both. */
+  .band.is-active:after,.band.is-kept:after{content:"";position:absolute;inset:14px 14px 0;border:1px solid rgba(216,178,106,.7);border-bottom:0;pointer-events:none;z-index:4}
+  /* One sweep layer spans the two stacked surfaces, so it crosses their
+     boundary as a single beam instead of starting afresh in each one. */
+  .band__shimmer,.styles__shimmer{display:none}
+  .hair-feature__shimmer{display:block;position:absolute;top:0;bottom:auto;width:46%;height:var(--sweep-height,0px);left:-50%;pointer-events:none;z-index:5;
+    background:linear-gradient(100deg,transparent 0%,rgba(255,240,205,.10) 30%,rgba(255,246,225,.55) 50%,rgba(255,240,205,.10) 70%,transparent 100%);
+    filter:blur(7px);opacity:0;transform:skewX(-10deg);transition:opacity .35s ease}
+  .hair-feature.is-wiping .hair-feature__shimmer{opacity:1}
+
+  .svc__media{min-height:52svh}
+  #hair .styles{background:#d39b9a}
+  #hair .styles__img{object-position:center top}
+  #hair .styles.is-active:after,#hair .styles.is-kept:after{inset:0 14px 14px;border-color:rgba(216,178,106,.7);border-top:0}
+  .svc__body{padding:46px var(--pad) 54px;gap:18px}
+  .svc h2{font-size:2.35rem}
+  .num{gap:10px;font-size:20px}
+  .num:after{width:38px}
+  .teaser li{gap:12px;font-size:14px}
+  .teaser b{font-size:13px}
+
+  .shop,.prices,.visit{padding:72px var(--pad)}
+  .shop{padding-right:0}
+  .shop__head,.prices__head{margin-bottom:30px}
+  .shop__head{padding-right:var(--pad)}
+  .shop h2,.prices h2,.visit h2{font-size:2.35rem}
+  .shop__rail{position:relative}
+  .shop__grid{display:grid;min-width:0;max-width:100%;contain:inline-size;grid-auto-flow:column;
+    grid-auto-columns:minmax(280px,84vw);grid-template-columns:none;overflow-x:auto;
+    overscroll-behavior-x:contain;scroll-snap-type:x mandatory;gap:16px;
+    margin:0;padding:0 var(--pad) 18px 0}
+  .shop__grid li{scroll-snap-align:start}
+  .shop__rail-cue{position:absolute;right:var(--pad);top:50%;z-index:2;width:38px;height:38px;display:grid;place-items:center;
+    border:1px solid rgba(23,19,15,.24);border-radius:50%;background:rgba(247,244,239,.92);box-shadow:0 4px 16px rgba(23,19,15,.14);pointer-events:none}
+  .shop__rail-cue:before{content:"";width:9px;height:9px;border-top:2px solid var(--ink);border-right:2px solid var(--ink);transform:rotate(45deg)}
+  .shop__shot{margin-bottom:13px}
+  .shop__grid h3{font-size:1.28rem;line-height:1.05}
+  .shop__grid p{font-size:14px;line-height:1.5}
+  .shop__price{font-size:12px}
+
+  .tabs{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;gap:7px;
+    margin-right:calc(var(--pad) * -1);padding:0 var(--pad) 14px 0;margin-bottom:26px}
+  .tab{flex:0 0 auto;padding:9px 12px;font-size:10px;letter-spacing:.08em}
+  .plist li{gap:12px;padding:11px 0}
+  .plist .n,.plist b{font-size:14px}
+
+  .visit__grid{gap:36px}
+  .visit dl{margin-top:28px}
+  .visit dd{font-size:16px}
+  .policies li{padding-left:18px;font-size:14px}
+
+  footer{padding:32px var(--pad);font-size:12px}
+  .foot__in{grid-template-columns:1fr;align-items:flex-start;gap:18px}
+  .foot__brand{font-size:20px}
+  .foot__details{font-size:12px;line-height:1.6}
+  .foot__actions{display:grid;grid-template-columns:1fr;width:100%;gap:0;border-top:1px solid var(--rule-dark)}
+  .foot__actions a{padding:13px 0;border-bottom:1px solid var(--rule-dark);font-size:12px}
+  .foot__actions a:last-child{text-align:left}
+  #wa{right:16px;bottom:16px}
+}
+@media(max-width:360px){
+  .brand b{font-size:13px}
+  .brand span{letter-spacing:.2em}
+  header .btn{padding-inline:11px}
+  .hero__title{font-size:2.45rem}
+}
+
+/* ------------------------------------------------------------- reveals */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none}}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.svc--dark :focus-visible,.visit :focus-visible,.hero :focus-visible{outline-color:var(--gold-lift)}
+</style>
+</head>
+<body>
+
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<header id="hdr" class="on-dark">
+  <a class="brand" href="#top">
+    <img src="assets/img/logo-mark.png" alt="" width="38" height="27">
+    <span class="vh">Infinity Hair and Beauty Salon — home</span>
+    <b aria-hidden="true">INFINITY<span>Hair &amp; Beauty</span></b>
+  </a>
+  <nav class="main" aria-label="Sections">
+    <a href="#hair">Hair</a>
+    <a href="#nails">Nails</a>
+    <a href="#spa">Spa</a>
+    <a href="#shop">Shop</a>
+    <a href="#prices">Prices</a>
+    <a href="#visit">Visit</a>
+  </nav>
+  <a class="btn js-wa" href="#" target="_blank" rel="noopener noreferrer">Book</a>
+  <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+    <span class="vh">Open navigation</span>
+    <span class="menu-toggle__icon" aria-hidden="true"></span>
+  </button>
+</header>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile sections">
+  <a href="#hair">Hair</a>
+  <a href="#nails">Nails</a>
+  <a href="#spa">Spa</a>
+  <a href="#shop">Shop</a>
+  <a href="#prices">Prices</a>
+  <a href="#visit">Visit</a>
+</nav>
+
+<main id="top">
+
+  <!-- ============================================================ hero -->
+  <section class="chapter hero" id="hero" data-copy-pos="left">
+    <!-- The salon's own logo animation: the mark morphs into a styled
+         mannequin head as the room resolves around it. Plays on load like
+         every other chapter clip — entry-triggered, never scroll-scrubbed. -->
+    <div class="stage" id="hero-reel">
+      <video class="hero-reel__clip is-active" data-hero-clip data-src="assets/video/hero.mp4"
+             poster="assets/video/hero.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
+      <video class="hero-reel__clip" data-hero-clip data-src="assets/video/hero.mp4"
+             poster="assets/video/hero.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
+      <div class="hero-reel__veil" aria-hidden="true"></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="hero__in">
+      <div class="hero__copy rv" id="hero-copy">
+        <p class="hero__eyebrow" id="hero-eyebrow">Woolwich beauty, open daily</p>
+        <h1 class="hero__title" id="hero-title">
+          <span>Infinity Hair</span>
+          <span class="accent">&amp; Beauty Salon</span>
+        </h1>
+        <p class="hero__tag" id="hero-tag">You arrive as you are. You leave transformed.</p>
+        <div class="hero__meta">
+          <span id="hero-hours"></span>
+          <span id="hero-addr"></span>
+        </div>
+      </div>
+    </div>
+    <p class="cue" aria-hidden="true">Scroll</p>
+  </section>
+
+  <div class="hair-feature" id="hair-feature">
+    <!-- ================================================ the gradient band -->
+    <section class="band" id="band" aria-label="Every hairstyle">
+      <p class="band__line rv">Any hairstyle you want &mdash;<em>we have it all.</em></p>
+      <i class="band__shimmer" aria-hidden="true"></i>
+    </section>
+
+    <!-- ========================================================== hair -->
+    <section class="chapter svc" id="hair" aria-labelledby="hair-h">
+    <div class="svc__media styles" id="styles">
+      <img class="styles__img is-on" src="assets/styles/style-braids.jpg"
+           alt="Knotless box braids" decoding="async">
+      <img class="styles__img" src="assets/styles/style-silkpress.jpg"
+           alt="A silk press" loading="lazy" decoding="async">
+      <img class="styles__img" src="assets/styles/style-afro.jpg"
+           alt="Natural curls" loading="lazy" decoding="async">
+      <i class="styles__shimmer" aria-hidden="true"></i>
+      <p class="styles__name" aria-live="polite"></p>
+      <p class="styles__hint" aria-hidden="true">Move across to try a look &middot; hold 5s to keep it</p>
+    </div>
+    <div class="svc__body">
+      <p class="num rv">01</p>
+      <h2 id="hair-h" class="rv">Hair, done properly.</h2>
+      <p class="lede rv" id="hair-body"></p>
+      <hr class="rule rv">
+      <ul class="teaser rv" id="hair-teaser"></ul>
+      <p class="rv"><a class="btn" href="#prices">See the full price list</a></p>
+    </div>
+    </section>
+    <i class="hair-feature__shimmer" aria-hidden="true"></i>
+  </div>
+
+  <!-- =========================================================== nails -->
+  <section class="chapter svc svc--flip svc--dark" id="nails" aria-labelledby="nails-h">
+    <div class="svc__media">
+      <video class="js-vid" data-src="assets/video/nails.mp4" poster="assets/video/nails.jpg"
+             muted loop playsinline preload="none" aria-hidden="true"></video>
+    </div>
+    <div class="svc__body">
+      <p class="num rv">02</p>
+      <h2 id="nails-h" class="rv">Manicure &amp; pedicure.</h2>
+      <p class="lede rv" id="nails-body"></p>
+      <hr class="rule rv">
+      <p class="note rv" id="nails-note"></p>
+      <p class="rv"><a class="btn btn--gold js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask about nail pricing</a></p>
+    </div>
+  </section>
+
+  <!-- ============================================================= spa -->
+  <section class="chapter svc" id="spa" aria-labelledby="spa-h">
+    <div class="svc__media">
+      <video class="js-vid" data-src="assets/video/spa.mp4" poster="assets/video/spa.jpg"
+             muted loop playsinline preload="none" aria-hidden="true"></video>
+    </div>
+    <div class="svc__body">
+      <p class="num rv">03</p>
+      <h2 id="spa-h" class="rv">Somewhere to switch off.</h2>
+      <p class="lede rv" id="spa-body"></p>
+      <hr class="rule rv">
+      <p class="note rv" id="spa-note"></p>
+      <p class="rv"><a class="btn js-wa" href="#" target="_blank" rel="noopener noreferrer">Enquire about treatments</a></p>
+    </div>
+  </section>
+
+  <!-- ======================================================== boutique -->
+  <section class="chapter svc svc--flip svc--dark" id="boutique" aria-labelledby="bq-h">
+    <div class="svc__media">
+      <video class="js-vid" data-src="assets/video/boutique.mp4" poster="assets/video/boutique.jpg"
+             muted loop playsinline preload="none" aria-hidden="true"></video>
+    </div>
+    <div class="svc__body">
+      <p class="num rv">04</p>
+      <h2 id="bq-h" class="rv">The boutique.</h2>
+      <p class="lede rv" id="bq-body"></p>
+      <hr class="rule rv">
+      <ul class="prods rv" id="bq-prods"></ul>
+    </div>
+  </section>
+
+  <!-- ============================================================ shop -->
+  <section class="shop flow" id="shop" aria-labelledby="shop-h">
+    <div class="shop__head">
+      <p class="kicker rv">Take it home</p>
+      <h2 id="shop-h" class="rv">Shop our products.</h2>
+      <p class="lede rv">The edit we use in-chair, available to take away. Message us on
+        WhatsApp and we&rsquo;ll set one aside &mdash; collection from the salon.</p>
+    </div>
+    <div class="shop__rail">
+      <ul class="shop__grid" id="shop-grid"></ul>
+      <i class="shop__rail-cue" aria-hidden="true"></i>
+    </div>
+  </section>
+
+  <!-- ========================================================== prices -->
+  <section class="prices flow" id="prices" aria-labelledby="prices-h">
+    <div class="prices__head">
+      <p class="kicker rv">Price list</p>
+      <h2 id="prices-h" class="rv">Clear pricing, every time.</h2>
+      <p class="lede rv">Every published hair service, in the salon&rsquo;s own categories. Nail and spa
+        treatments are quoted on enquiry &mdash; message us and we&rsquo;ll come straight back.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Price categories" id="tablist"></div>
+    <div id="panels"></div>
+  </section>
+
+  <!-- =========================================================== visit -->
+  <section class="visit flow" id="visit" aria-labelledby="visit-h">
+    <div class="visit__grid">
+      <div>
+        <p class="kicker rv">Visit</p>
+        <h2 id="visit-h" class="rv">Come and see us.</h2>
+        <p class="lede rv" style="color:rgba(247,244,239,.72)">Walk-ins welcome when we have the chair,
+          but a booking is safer &mdash; some styles take the better part of a day.</p>
+        <dl class="rv">
+          <dt>Address</dt><dd id="v-addr"></dd>
+          <dt>Opening hours</dt><dd id="v-hours"></dd>
+          <dt>WhatsApp</dt><dd><a class="js-wa" id="v-wa" href="#" target="_blank" rel="noopener noreferrer"></a><small>Fastest way to book &mdash; we reply during opening hours.</small></dd>
+          <dt>Call</dt><dd><a id="v-tel" href="#"></a></dd>
+          <dt>Email</dt><dd><a id="v-mail" href="#"></a></dd>
+          <dt>TikTok</dt><dd><a id="v-tt" href="#" target="_blank" rel="noopener noreferrer"></a></dd>
+        </dl>
+      </div>
+      <div>
+        <p class="kicker rv">Before you book</p>
+        <ul class="policies rv" id="v-policies"></ul>
+        <p class="rv" style="margin-top:30px">
+          <a class="btn btn--gold js-wa" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
+            Book on WhatsApp
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="foot__in">
+    <a class="foot__brand" href="#top">
+      <img src="assets/img/logo-mark.png" alt="">
+      <span>Infinity Hair &amp; Beauty</span>
+    </a>
+    <p class="foot__details" id="f-legal"></p>
+    <div class="foot__actions">
+      <a href="#top">Back to top</a>
+      <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Book now</a>
+    </div>
+  </div>
+</footer>
+
+<a id="wa" class="js-wa" href="#" target="_blank" rel="noopener noreferrer">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
+  <span>Book on WhatsApp</span>
+</a>
+
+<script>
+/* The scraped business record, inlined at build time from data.json so the
+   page works from the filesystem as well as from a server. data.json stays
+   the single source of truth — edit it, then run `node build.js`. */
+const DATA = /*__DATA__*/null;
+</script>
+<script>
+(function(){
+'use strict';
+const $  = s => document.querySelector(s);
+const $$ = s => [].slice.call(document.querySelectorAll(s));
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const COARSE = matchMedia('(hover: none)').matches;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ------------------------------------------------------------ the copy */
+function fill(){
+  const B = DATA.business, C = DATA.contact;
+  const pillar = n => (DATA.pillars.find(p => p.n === n) || {}).body || '';
+
+  $$('.js-wa').forEach(a => { a.href = C.whatsapp.url; });
+  $('#hero-tag').textContent   = B.tagline;
+  $('#hero-hours').textContent = B.hours.line;
+  $('#hero-addr').textContent  = B.address.street + ', ' + B.address.area;
+
+  $('#hair-body').textContent  = pillar('01');
+  $('#nails-body').textContent = pillar('02');
+  $('#spa-body').textContent   = pillar('03');
+  $('#bq-body').textContent    = pillar('04');
+
+  /* Nails and spa carry no published numbers, so the page says so rather
+     than inventing a table. */
+  const gap = 'We quote these in person or on WhatsApp — it depends on length, ' +
+              'condition and the finish you want, and a made-up number helps nobody.';
+  $('#nails-note').textContent = gap;
+  $('#spa-note').textContent   = gap;
+
+  /* four signature hair prices as a teaser, the full list lives below */
+  const pick = [
+    ['box-braids','Single Plait Knotless, Bra Length'],
+    ['weaves-wigs','Frontal with Weave & Style'],
+    ['twists','Kinky Twist, Shoulder Length'],
+    ['wash-treatments','Treatment']
+  ];
+  $('#hair-teaser').innerHTML = pick.map(([cat,name]) => {
+    const c = DATA.pricing.categories.find(x => x.id === cat);
+    const it = c && c.items.find(i => i.name === name);
+    return it ? '<li><span>' + esc(it.name) + '</span><b>' + esc(it.price) + '</b></li>' : '';
+  }).join('');
+
+  $('#bq-prods').innerHTML = DATA.products.map(p =>
+    '<li>' + esc(p.name) + '<span>' + esc(p.price) + '</span></li>').join('');
+
+  $('#v-addr').textContent  = B.address.line;
+  $('#v-hours').textContent = B.hours.line;
+  const wa = $('#v-wa'); wa.textContent = C.whatsapp.display;
+  const tel = $('#v-tel'); tel.textContent = C.phone.display; tel.href = C.phone.href;
+  const mail = $('#v-mail'); mail.textContent = C.email; mail.href = 'mailto:' + C.email;
+  const tt = $('#v-tt'); tt.textContent = C.tiktok.handle; tt.href = C.tiktok.url;
+  $('#v-policies').innerHTML = DATA.policies.map(t => '<li>' + esc(t) + '</li>').join('');
+  $('#f-legal').textContent = B.name + ' · ' + B.address.line + ' · ' + B.hours.line;
+
+  /* --- the shop -----------------------------------------------------
+     Every Buy opens WhatsApp with the item already named, so the salon reads
+     one message and knows exactly what to set aside. No basket, no card
+     capture — this is a shop of six lines run off a phone. */
+  const grid = $('#shop-grid');
+  if (grid) grid.innerHTML = DATA.products.map(p => {
+    const msg = "Hi Infinity Salon! I'd like to buy: " + p.name + " (" + p.price + ").";
+    const href = 'https://wa.me/' + C.whatsapp.e164 + '?text=' + encodeURIComponent(msg);
+    return '<li>' +
+      '<div class="shop__shot"><img src="' + esc(p.img) + '" alt="' + esc(p.name) +
+        '" loading="lazy" decoding="async"></div>' +
+      '<h3>' + esc(p.name) + '</h3>' +
+      '<p>' + esc(p.body) + '</p>' +
+      '<p class="shop__price">' + esc(p.price) + '</p>' +
+      '<a class="shop__buy" href="' + href + '" target="_blank" rel="noopener noreferrer">' +
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2z"/></svg>' +
+        'Buy on WhatsApp<span class="vh"> — ' + esc(p.name) + '</span></a>' +
+    '</li>';
+  }).join('');
+}
+
+/* -------------------------------------------------------- hero showcase */
+function heroShowcase(){
+  const hero = $('#hero');
+  const clips = $$('[data-hero-clip]');
+  if (!hero || clips.length < 2) return;
+
+  /* Both elements use the one hero film. The inactive one is a preloaded
+     re-entry buffer, which lets the established mannequin sequence fade in
+     while the outgoing end frame fades away. */
+  const LOOP_FROM = 2.5;
+  const fadeSeconds = 1.75;
+
+  let active = 0;
+  let shown = false;
+  let switching = false;
+  let raf = 0;
+
+  const load = clip => {
+    if (!clip.src) clip.src = clip.dataset.src;
+  };
+  const play = clip => {
+    load(clip);
+    clip.play().catch(()=>{});
+  };
+  const pauseAll = () => clips.forEach(clip => clip.pause());
+
+  const handoff = () => {
+    if (switching) return;
+    switching = true;
+    const from = clips[active];
+    const next = (active + 1) % clips.length;
+    const to = clips[next];
+
+    hero.classList.add('is-transitioning');
+    load(to);
+    try { to.currentTime = LOOP_FROM; } catch(e) {}
+    play(to);
+    to.classList.add('is-active', 'is-entering');
+    from.classList.add('is-leaving');
+
+    setTimeout(() => {
+      from.pause();
+      try { from.currentTime = LOOP_FROM; } catch(e) {}
+      from.classList.remove('is-active', 'is-leaving', 'is-entering');
+      to.classList.remove('is-entering');
+      hero.classList.remove('is-transitioning');
+      active = next;
+      switching = false;
+      if (shown) play(clips[active]);
+    }, 1800);
+  };
+
+  const tick = () => {
+    if (!shown) return;
+    const current = clips[active];
+    if (current.duration && current.duration - current.currentTime <= fadeSeconds) handoff();
+    raf = requestAnimationFrame(tick);
+  };
+
+  clips.forEach((clip, index) => {
+    load(clip);
+    clip.loop = false;
+    clip.addEventListener('ended', handoff);
+    if (index === 0) clip.classList.add('is-active');
+  });
+
+  if (REDUCE) {
+    clips.slice(1).forEach(clip => clip.remove());
+    const clip = clips[0];
+    clip.controls = true;
+    clip.removeAttribute('aria-hidden');
+    clip.setAttribute('aria-label', 'Hero salon video');
+    return;
+  }
+
+  const enter = () => {
+    shown = true;
+    play(clips[active]);
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(tick);
+  };
+  const leave = () => {
+    shown = false;
+    cancelAnimationFrame(raf);
+    pauseAll();
+  };
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => {
+      es.forEach(e => e.isIntersecting ? enter() : leave());
+    }, { threshold: .32 });
+    io.observe(hero);
+  } else {
+    enter();
+  }
+
+  document.addEventListener('visibilitychange', () => document.hidden ? leave() : enter());
+}
+/* ------------------------------------------------------ the price tabs */
+function tabs(){
+  const list = $('#tablist'), panels = $('#panels');
+  const cats = DATA.pricing.categories;
+  list.innerHTML = cats.map((c,i) =>
+    '<button class="tab" role="tab" id="tab-'+c.id+'" aria-controls="p-'+c.id+'" ' +
+    'aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'">'+esc(c.label)+'</button>').join('');
+  panels.innerHTML = cats.map((c,i) =>
+    '<div class="panel" role="tabpanel" id="p-'+c.id+'" aria-labelledby="tab-'+c.id+'" tabindex="0"' +
+    (i===0?'':' hidden')+'><ul class="plist">' +
+    c.items.map(it => '<li><span class="n">'+esc(it.name) +
+      (it.note ? '<i>'+esc(it.note)+'</i>' : '') + '</span><b>'+esc(it.price)+'</b></li>').join('') +
+    '</ul></div>').join('');
+
+  const btns = $$('.tab');
+  const select = (i, focus) => {
+    btns.forEach((b,k) => {
+      const on = k === i;
+      b.setAttribute('aria-selected', on);
+      b.tabIndex = on ? 0 : -1;
+      document.getElementById(b.getAttribute('aria-controls')).hidden = !on;
+    });
+    if (focus) btns[i].focus();
+  };
+  btns.forEach((b,i) => {
+    b.addEventListener('click', () => select(i));
+    b.addEventListener('keydown', e => {
+      const last = btns.length - 1;
+      let n = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') n = i === last ? 0 : i + 1;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = i === 0 ? last : i - 1;
+      else if (e.key === 'Home') n = 0;
+      else if (e.key === 'End') n = last;
+      if (n !== null){ e.preventDefault(); select(n, true); }
+    });
+  });
+}
+
+/* -------------------------------------------------- video on entry only
+   Never scrubbed. Each clip is a short loop that starts when its section is
+   actually on screen and pauses the moment it leaves — which is why nothing
+   here can go blurry the way a scroll-scrubbed video does, and why four
+   clips cost almost nothing to play. */
+function video(){
+  const vids = $$('.js-vid');
+
+  /* Reduced motion means no looping footage playing at someone. The poster
+     frame stays as the image, and the clip becomes an ordinary video the
+     visitor can start themselves — so it is offered, not imposed. */
+  if (REDUCE) {
+    vids.forEach(v => {
+      v.src = v.dataset.src;
+      v.controls = true;
+      v.loop = false;
+      v.removeAttribute('aria-hidden');
+      v.setAttribute('aria-label', 'Short clip of the salon');
+    });
+    return;
+  }
+
+  if (!('IntersectionObserver' in window)) {
+    vids.forEach(v => { v.src = v.dataset.src; v.play().catch(()=>{}); });
+    return;
+  }
+  /* load a clip slightly before it is needed, so it is decoded on arrival */
+  const loader = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const v = e.target;
+      if (!v.src) v.src = v.dataset.src;
+      loader.unobserve(v);
+    });
+  }, { rootMargin: '120% 0px' });
+
+  /* Which clips are currently on screen. Tracked rather than recomputed,
+     because coming back to the tab has to restart exactly those — an
+     IntersectionObserver does not re-fire for something that never stopped
+     intersecting, so without this a visitor who switches away and returns
+     finds the chapter they are looking at frozen on a still. */
+  const onScreen = new Set();
+
+  const player = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      const v = e.target;
+      if (e.isIntersecting) {
+        if (!v.src) v.src = v.dataset.src;
+        onScreen.add(v);
+        if (!document.hidden) v.play().catch(()=>{});
+      } else {
+        onScreen.delete(v);
+        v.pause();
+      }
+    });
+  }, { threshold: 0.35 });
+
+  vids.forEach(v => { loader.observe(v); player.observe(v); });
+
+  /* a backgrounded tab should not keep four clips decoding */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) vids.forEach(v => v.pause());
+    else onScreen.forEach(v => v.play().catch(()=>{}));
+  });
+}
+
+/* ------------------------------------------------ the hairstyle swapper
+   A light crosses the joined statement and portrait before revealing the next
+   look. The sequence advances automatically while the portrait is on screen. */
+function styleSwap(){
+  const box = $('#styles');
+  if (!box) return;
+  const band = $('#band');
+  const feature = $('#hair-feature');
+  const surfaces = [box, band].filter(Boolean);
+  const imgs = $$('#styles .styles__img');
+  const name = box.querySelector('.styles__name');
+  const hint = box.querySelector('.styles__hint');
+  const bar  = box.querySelector('.styles__shimmer');
+  const bandBar = band && band.querySelector('.band__shimmer');
+  const featureBar = feature && feature.querySelector('.hair-feature__shimmer');
+  if (imgs.length < 2) return;
+
+  const LABELS = imgs.map(i => i.alt);
+  const SPAN = 4000;                 /* four seconds for the full pass */
+  const SWEEP_END = 1.25;            /* lets the light leave the frame */
+  let base = 0;                      /* the kept look          */
+  let next = 1;                      /* the one coming through */
+  let p = 0;                         /* 0 … SWEEP_END          */
+  let hovering = false, raf = null, last = 0, resumeTimer = null;
+
+  const setActive = active => {
+    surfaces.forEach(surface => surface.classList.toggle('is-active', active));
+    if (feature) feature.classList.toggle('is-active', active);
+  };
+  const setKept = kept => {
+    surfaces.forEach(surface => surface.classList.toggle('is-kept', kept));
+    if (feature) feature.classList.toggle('is-kept', kept);
+  };
+  const setWiping = wiping => {
+    surfaces.forEach(surface => surface.classList.toggle('is-wiping', wiping));
+    if (feature) feature.classList.toggle('is-wiping', wiping);
+  };
+  const syncSweepHeight = () => {
+    if (feature && band) feature.style.setProperty('--sweep-height', (band.offsetHeight + box.offsetHeight) + 'px');
+  };
+
+  const layout = () => {
+    imgs.forEach((im, i) => {
+      im.classList.toggle('is-base', i === base);
+      im.classList.toggle('is-next', i === next);
+    });
+  };
+  const paint = () => {
+    const inc = imgs[next];
+    /* a soft-edged wipe: solid up to a, transparent past b */
+    const imageP = Math.min(1, p);
+    const a = (imageP * 118 - 14).toFixed(2) + '%';
+    const b = (imageP * 118 + 6).toFixed(2) + '%';
+    inc.style.setProperty('--a', a);
+    inc.style.setProperty('--b', b);
+    const sweepLeft = (p * 128 - 40).toFixed(2) + '%';
+    if (bar) bar.style.left = sweepLeft;
+    if (bandBar) bandBar.style.left = sweepLeft;
+    if (featureBar) featureBar.style.left = sweepLeft;
+    setWiping(p > 0.001 && p < SWEEP_END);
+  };
+  const commit = () => {
+    base = next;
+    next = (next + 1) % imgs.length;
+    p = 0;
+    layout(); paint();
+    setKept(true);
+    if (name) name.textContent = LABELS[base];
+    if (hint) hint.textContent = 'New looks, on repeat';
+  };
+
+  const tick = (now) => {
+    const dt = Math.min(64, now - (last || now)); last = now;
+    const dir = hovering ? 1 : -1;
+    p = Math.min(SWEEP_END, Math.max(0, p + dir * (dt * SWEEP_END / SPAN)));
+    paint();
+    if (p >= SWEEP_END) {
+      commit(); raf = null;
+      if (hovering) resumeTimer = setTimeout(() => { if (hovering) start(); }, 1100);
+      return;
+    }
+    if (p <= 0 && !hovering) { raf = null; setWiping(false); return; }
+    raf = requestAnimationFrame(tick);
+  };
+  const start = () => { last = 0; if (!raf) raf = requestAnimationFrame(tick); };
+
+  layout(); syncSweepHeight(); paint();
+  addEventListener('resize', syncSweepHeight, { passive:true });
+  if (name) name.textContent = LABELS[base];
+  if (hint) hint.textContent = 'New looks, on repeat';
+  if (REDUCE) return;
+
+  const setAutoplay = playing => {
+    hovering = playing;
+    setActive(playing);
+    if (!playing && resumeTimer) { clearTimeout(resumeTimer); resumeTimer = null; }
+    start();
+  };
+  if (!('IntersectionObserver' in window)) { setAutoplay(true); return; }
+
+  const autoplay = new IntersectionObserver(entries => {
+    setAutoplay(entries[0].isIntersecting);
+  }, { threshold:.18, rootMargin:'0px 0px -8% 0px' });
+  autoplay.observe(box);
+}
+
+/* ----------------------------------------------------------- reveals */
+function reveals(){
+  const items = $$('.rv');
+  if (REDUCE || !('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('in')); return; }
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const sibs = [].slice.call(e.target.parentNode.children).filter(n => n.classList.contains('rv'));
+      e.target.style.transitionDelay = (Math.max(0, sibs.indexOf(e.target)) * 70) + 'ms';
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { threshold: .18, rootMargin: '0px 0px -6% 0px' });
+
+  /* Anything already on screen at load is shown immediately rather than
+     waiting for an observer callback. The headline is the largest paint on
+     the page and must never be sitting at opacity 0 while a callback is
+     queued — which is exactly what happens in a throttled or backgrounded
+     tab, where the first frame can arrive seconds late. */
+  items.forEach(el => {
+    const r = el.getBoundingClientRect();
+    /* Anything touching the first screen at all is shown now. The test has to
+       be the full viewport, not a fraction of it: the observer below trims 6%
+       off its bottom edge and wants 18% of the element visible, so an element
+       sitting in the last slice of the opening screen satisfies neither this
+       check nor that one, and would stay invisible until a scroll that never
+       brings it back. The hero's address line landed in exactly that gap. */
+    if (r.top < innerHeight && r.bottom > 0) el.classList.add('in');
+    else io.observe(el);
+  });
+}
+
+/* ------------------------------------------------ header & floating CTA */
+function chrome(){
+  const hdr = $('#hdr'), wa = $('#wa'), footer = $('footer');
+  const darks = $$('.hero, .band, .svc--dark, .visit, footer');
+  const onScroll = () => {
+    const y = window.scrollY || 0;
+    hdr.classList.toggle('solid', y > 40);
+    wa.classList.toggle('in', y > window.innerHeight * .5);
+    wa.classList.toggle('footer-near', !!footer && footer.getBoundingClientRect().top < innerHeight - 80);
+    /* the header inverts over any dark chapter it happens to be sitting on */
+    const probe = hdr.getBoundingClientRect().bottom - 8;
+    const dark = darks.some(d => { const r = d.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; });
+    hdr.classList.toggle('on-dark', dark);
+  };
+  addEventListener('scroll', onScroll, { passive:true });
+  addEventListener('resize', onScroll, { passive:true });
+  onScroll();
+}
+
+/* ------------------------------------------------------- mobile menu */
+function mobileMenu(){
+  const toggle = $('#menu-toggle');
+  const menu = $('#mobile-menu');
+  if (!toggle || !menu) return;
+
+  const setOpen = open => {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.querySelector('.vh').textContent = open ? 'Close navigation' : 'Open navigation';
+    menu.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+  };
+
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  $$('#mobile-menu a').forEach(link => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+  addEventListener('resize', () => { if (innerWidth > 820) setOpen(false); }, { passive:true });
+}
+
+/* --------------------------------------------------------- film grain
+   A single fullscreen quad of animated noise, multiplied over the page at
+   very low opacity. It is what keeps large flat areas of ivory from looking
+   like untouched CSS, and it costs one draw call. */
+function grain(){
+  const c = $('#grain');
+  if (REDUCE) { c.remove(); return; }
+  const gl = c.getContext('webgl', { alpha:true, antialias:false, depth:false });
+  if (!gl) { c.remove(); return; }
+
+  const vs = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const fs =
+    'precision mediump float;uniform vec2 uR;uniform float uT;' +
+    'float h(vec2 v){return fract(sin(dot(v,vec2(12.9898,78.233)))*43758.5453);}' +
+    'void main(){' +
+    ' vec2 uv=gl_FragCoord.xy/uR;' +
+    ' float g=h(gl_FragCoord.xy+vec2(uT*57.0,uT*31.0));' +
+    ' float d=length(uv-0.5);' +
+    ' float v=smoothstep(1.05,0.35,d);' +               /* a whisper of vignette */
+    ' float a=(1.0-g)*0.055 + (1.0-v)*0.05;' +
+    ' gl_FragColor=vec4(0.09,0.075,0.06,a);' +
+    '}';
+  const sh = (t,s) => { const o=gl.createShader(t); gl.shaderSource(o,s); gl.compileShader(o); return o; };
+  const pr = gl.createProgram();
+  gl.attachShader(pr, sh(gl.VERTEX_SHADER, vs));
+  gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { c.remove(); return; }
+  gl.useProgram(pr);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(pr,'p');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+  const uR = gl.getUniformLocation(pr,'uR'), uT = gl.getUniformLocation(pr,'uT');
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  const size = () => {
+    const d = Math.min(devicePixelRatio || 1, 1.5);
+    c.width = Math.floor(innerWidth * d); c.height = Math.floor(innerHeight * d);
+    gl.viewport(0,0,c.width,c.height);
+    gl.uniform2f(uR, c.width, c.height);
+  };
+  size();
+  addEventListener('resize', size, { passive:true });
+
+  /* 12fps is plenty for grain and leaves the main thread alone */
+  let last = 0;
+  (function loop(t){
+    requestAnimationFrame(loop);
+    if (document.hidden || t - last < 83) return;
+    last = t;
+    gl.uniform1f(uT, t * .001);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  })(0);
+}
+
+/* ---------------------------------------------------------------- boot */
+function boot(){
+  if (!DATA) { console.error('[infinity] no data'); return; }
+  fill(); heroShowcase(); tabs(); video(); styleSwap(); reveals(); chrome(); mobileMenu(); grain();
+}
+if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot); else boot();
+})();
+</script>
+</body>
+</html>

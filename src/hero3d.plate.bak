@@ -1,0 +1,399 @@
+/* ============================================================ the 3D hero
+   A real Three.js scene, not a video, so moving the pointer left and right
+   genuinely changes the camera angle.
+
+   The composition borrows Kage's depth: the building sits well back through
+   fog, and the wordmark stands close to the lens. That separation is the
+   whole illusion — parallax between near type and far facade is what the eye
+   reads as three dimensions, and it is the one thing a flat clip cannot fake.
+
+   The facade itself is the original photograph on a plane rather than modelled
+   geometry. Modelling it procedurally was tried and looked like a render; the
+   photograph is the building. Because the camera only swings a few degrees
+   either side, a flat plate holds up, and dark returns down its edges stop it
+   reading as a card standing in a void.
+
+   Everything else — ground, type, fog, fireflies — is real geometry. */
+
+(function () {
+'use strict';
+
+const host = document.getElementById('hero3d');
+if (!host) return;
+
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const COARSE = matchMedia('(hover: none)').matches;
+
+/* No WebGL, no Three, or a visitor who asked for less motion: the poster
+   image underneath is already in the DOM and simply stays. */
+if (REDUCE || !window.THREE) { host.classList.add('is-static'); return; }
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' });
+} catch (e) { host.classList.add('is-static'); return; }
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x05070d);
+scene.fog = new THREE.FogExp2(0x070a12, 0.026);
+
+const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 260);
+const CAM_BASE = new THREE.Vector3(0, 2.05, 15.5);
+const LOOK = new THREE.Vector3(0, 2.35, -6);
+
+renderer.setClearColor(0x05070d, 1);
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.98;
+host.appendChild(renderer.domElement);
+
+/* ---------------------------------------------------------- environment
+   A night street, painted into a small gradient and run through PMREM. This
+   is the single most important thing in the scene: the wordmark is metal and
+   the ground is wet, and both are defined entirely by what they reflect. With
+   no environment the gold reads as grey card and the pavement as a black
+   hole — which is exactly how the first pass looked. */
+function envTexture() {
+  const c = document.createElement('canvas');
+  c.width = 64; c.height = 256;
+  const x = c.getContext('2d');
+  const g = x.createLinearGradient(0, 0, 0, 256);
+  g.addColorStop(0.00, '#05070f');   /* sky above the rooflines */
+  g.addColorStop(0.42, '#0d1426');
+  g.addColorStop(0.62, '#3a3350');
+  g.addColorStop(0.78, '#9c6a3c');   /* the shopfront band     */
+  g.addColorStop(0.90, '#e0a25c');
+  g.addColorStop(1.00, '#2a1a10');   /* dark pavement          */
+  x.fillStyle = g; x.fillRect(0, 0, 64, 256);
+  /* a couple of warm lamp blooms so reflections have something to catch */
+  [[0.22, 0.74], [0.78, 0.74]].forEach(p => {
+    const rg = x.createRadialGradient(p[0] * 64, p[1] * 256, 0, p[0] * 64, p[1] * 256, 26);
+    rg.addColorStop(0, 'rgba(255,206,140,.95)');
+    rg.addColorStop(1, 'rgba(255,206,140,0)');
+    x.fillStyle = rg; x.fillRect(0, 0, 64, 256);
+  });
+  return c;
+}
+{
+  const pm = new THREE.PMREMGenerator(renderer);
+  pm.compileEquirectangularShader();
+  const t = new THREE.CanvasTexture(envTexture());
+  t.mapping = THREE.EquirectangularReflectionMapping;
+  t.encoding = THREE.sRGBEncoding;
+  t.needsUpdate = true;
+  scene.environment = pm.fromEquirectangular(t).texture;
+  t.dispose(); pm.dispose();
+}
+
+/* ------------------------------------------------------------- lighting */
+scene.add(new THREE.HemisphereLight(0x223049, 0x04050a, 0.32));
+/* the warm spill the shopfront throws onto the plaza — this is what puts a
+   glossy highlight down the front of the letters */
+/* 34 was absurd — it flooded the whole plaza white. This is a shopfront
+   throwing light a few metres onto wet stone, not a floodlight. */
+const spill = new THREE.PointLight(0xffb066, 5.4, 30, 2);
+spill.position.set(0, 5.0, -8);
+scene.add(spill);
+/* a cool rim from behind camera-left, so the type separates from the fog */
+const rim = new THREE.DirectionalLight(0x86a6ff, 0.62);
+rim.position.set(-9, 7, 12);
+scene.add(rim);
+const key = new THREE.SpotLight(0xffd9b0, 2.4, 40, 0.85, 0.7, 1.4);
+key.position.set(2.5, 8.5, 12);
+key.target.position.copy(LOOK);
+scene.add(key, key.target);
+
+/* ------------------------------------------------------------- the plate */
+const loader = new THREE.TextureLoader();
+const PLATE_W = 13.8, PLATE_H = PLATE_W * (1168 / 912); /* the source ratio */
+const PLATE_Z = -30;                                    /* well back, Kage-style */
+
+const plateMat = new THREE.MeshBasicMaterial({ color: 0xffffff, fog: true });
+loader.load(host.dataset.plate, t => {
+  t.encoding = THREE.sRGBEncoding;
+  t.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  plateMat.map = t; plateMat.needsUpdate = true;
+});
+const plate = new THREE.Mesh(new THREE.PlaneGeometry(PLATE_W, PLATE_H), plateMat);
+plate.position.set(0, PLATE_H / 2 - 0.4, PLATE_Z);
+scene.add(plate);
+
+/* Dark returns down each edge and across the top. Without them the plate is a
+   postcard hanging in fog; with them the building reads as having sides. */
+/* near-black, and matte, so they read as the building turning a corner
+   into the dark rather than as lit walls flanking a card */
+const returnMat = new THREE.MeshStandardMaterial({ color: 0x03040a, roughness: 1, metalness: 0, envMapIntensity: 0 });
+[-1, 1].forEach(sx => {
+  const w = new THREE.Mesh(new THREE.PlaneGeometry(9, PLATE_H), returnMat);
+  w.position.set(sx * PLATE_W / 2, PLATE_H / 2 - 0.4, PLATE_Z + 4.5);
+  w.rotation.y = sx * Math.PI / 2 * -1;
+  scene.add(w);
+});
+
+/* --------------------------------------------------------- glossy ground */
+/* Wet stone. The plate is mirrored into it as a second, flipped, dimmed copy
+   rather than a render target — one extra draw call instead of a whole second
+   pass, and at this angle nobody can tell the difference. */
+const groundMat = new THREE.MeshStandardMaterial({
+  /* Wet, not chrome. At envMapIntensity 1.5 the pavement mirrored the warm
+     band of the environment across the whole lower frame and read as milk. */
+  color: 0x05070d, roughness: 0.34, metalness: 0.26, envMapIntensity: 0.28
+});
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(150, 150), groundMat);
+ground.rotation.x = -Math.PI / 2;
+scene.add(ground);
+
+const mirrorMat = new THREE.MeshBasicMaterial({
+  color: 0x7f8496, transparent: true, opacity: 0.17, depthWrite: false, fog: true
+});
+loader.load(host.dataset.plate, t => {
+  t.encoding = THREE.sRGBEncoding;
+  mirrorMat.map = t; mirrorMat.needsUpdate = true;
+});
+const mirror = new THREE.Mesh(new THREE.PlaneGeometry(PLATE_W, PLATE_H), mirrorMat);
+mirror.position.set(0, -(PLATE_H / 2 - 0.4), PLATE_Z);
+mirror.scale.y = -1;                                  /* flip it under the kerb */
+scene.add(mirror);
+
+/* ------------------------------------------------------------- the type */
+/* Extruded by stacking slices of a canvas-rendered wordmark along z. A real
+   TextGeometry would need a font loader and a typeface file for a serif we do
+   not have; twenty slices of the actual letterforms rotate correctly, catch
+   the lights down their sides, and cost one texture. */
+function wordmarkTexture(text, px, weight, tracking) {
+  const pad = 40, W = 2048;
+  const c = document.createElement('canvas');
+  const x = c.getContext('2d');
+  const font = weight + ' ' + px + 'px "Cormorant Garamond", Georgia, serif';
+  x.font = font;
+  x.letterSpacing = tracking;
+  const w = Math.ceil(x.measureText(text).width) + pad * 2;
+  c.width = Math.min(W, w); c.height = px * 1.6;
+  const g = c.getContext('2d');
+  g.font = font; g.letterSpacing = tracking;
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = '#ffffff';
+  g.fillText(text, c.width / 2, c.height / 2);
+  return { canvas: c, aspect: c.width / c.height };
+}
+
+function extrudedWord(text, px, weight, tracking, height, depth, slices, faceCol, sideCol) {
+  const grp = new THREE.Group();
+  const wm = wordmarkTexture(text, px, weight, tracking);
+  const tex = new THREE.CanvasTexture(wm.canvas);
+  tex.encoding = THREE.sRGBEncoding;
+  tex.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  const w = height * wm.aspect;
+  const geo = new THREE.PlaneGeometry(w, height);
+
+  for (let i = slices - 1; i >= 0; i--) {
+    const t = i / (slices - 1);
+    const isFace = i === 0;
+    const m = new THREE.MeshStandardMaterial({
+      map: tex, transparent: true, alphaTest: 0.42,
+      color: isFace ? faceCol : sideCol,
+      /* the face is polished; the extrusion sides are brushed, so the light
+         rakes down them instead of blowing out */
+      roughness: isFace ? 0.10 : 0.30,
+      metalness: isFace ? 0.80 : 0.92,
+      envMapIntensity: isFace ? 1.5 : 2.1,
+      emissive: isFace ? 0x0a1024 : 0x000000,
+      emissiveIntensity: isFace ? 0.5 : 0
+    });
+    const mesh = new THREE.Mesh(geo, m);
+    mesh.position.z = -t * depth;
+    grp.add(mesh);
+  }
+  grp.userData.width = w;
+  return grp;
+}
+
+const GOLD = 0xd8b26a, NAVY = 0x16233f;
+const big = extrudedWord('INFINITY', 190, '500', '10px', 2.15, 0.42, 22, NAVY, GOLD);
+big.position.set(0, 2.5, 4.2);
+scene.add(big);
+
+const small = extrudedWord('HAIR AND BEAUTY SALON', 96, '400', '26px', 0.42, 0.16, 12, GOLD, 0x6d5427);
+small.position.set(0, 1.42, 4.35);
+scene.add(small);
+
+const TYPE = new THREE.Group();
+scene.add(TYPE);
+
+/* ---------------------------------------------------------- fireflies */
+/* Sparse, low, and they keep out of the pointer's way. Each one carries its
+   own drift and blink phase so the field never pulses in unison, and the
+   repulsion is applied in world space against the cursor projected onto the
+   ground — pushing them around in screen space would look like a 2D overlay,
+   which is the opposite of the point. */
+const FLY_N = COARSE ? 34 : 62;
+const flyPos = new Float32Array(FLY_N * 3);
+const flyHome = new Float32Array(FLY_N * 3);
+const flyPhase = new Float32Array(FLY_N);
+const flySpeed = new Float32Array(FLY_N);
+
+for (let i = 0; i < FLY_N; i++) {
+  const x = (Math.random() - 0.5) * 30;
+  const y = 0.15 + Math.pow(Math.random(), 1.7) * 3.1;   /* biased low */
+  const z = -6 + Math.random() * 19;
+  flyHome[i * 3] = x; flyHome[i * 3 + 1] = y; flyHome[i * 3 + 2] = z;
+  flyPos[i * 3] = x; flyPos[i * 3 + 1] = y; flyPos[i * 3 + 2] = z;
+  flyPhase[i] = Math.random() * Math.PI * 2;
+  flySpeed[i] = 0.5 + Math.random() * 0.9;
+}
+
+const flyGeo = new THREE.BufferGeometry();
+flyGeo.setAttribute('position', new THREE.BufferAttribute(flyPos, 3));
+flyGeo.setAttribute('aPhase', new THREE.BufferAttribute(flyPhase, 1));
+
+const flyMat = new THREE.ShaderMaterial({
+  uniforms: { uTime: { value: 0 }, uPx: { value: 165 } },
+  transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  vertexShader: [
+    'attribute float aPhase;',
+    'uniform float uTime; uniform float uPx;',
+    'varying float vGlow;',
+    'void main(){',
+    '  vec4 mv = modelViewMatrix * vec4(position,1.0);',
+    /* a slow uneven blink, never fully out */
+    '  float b = 0.45 + 0.55 * pow(0.5 + 0.5*sin(uTime*1.7 + aPhase*3.1), 2.2);',
+    '  vGlow = b;',
+    '  gl_PointSize = (0.55 + 1.15*b) * (uPx / -mv.z);',
+    '  gl_Position = projectionMatrix * mv;',
+    '}'
+  ].join('\n'),
+  fragmentShader: [
+    'varying float vGlow;',
+    'void main(){',
+    '  vec2 d = gl_PointCoord - 0.5;',
+    '  float r = length(d);',
+    '  if (r > 0.5) discard;',
+    /* hot core, wide soft halo */
+    '  float core = smoothstep(0.14, 0.0, r);',
+    '  float halo = smoothstep(0.5, 0.0, r);',
+    '  vec3 col = mix(vec3(1.0,0.72,0.28), vec3(1.0,0.95,0.72), core);',
+    '  gl_FragColor = vec4(col, (core*0.95 + halo*0.22) * vGlow);',
+    '}'
+  ].join('\n')
+});
+const flies = new THREE.Points(flyGeo, flyMat);
+scene.add(flies);
+
+/* ------------------------------------------------------------- pointer */
+const ptr = { x: 0, y: 0, tx: 0, ty: 0, has: false };
+const cursorWorld = new THREE.Vector3(0, 1.2, 6);
+const ray = new THREE.Raycaster();
+const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+const ndc = new THREE.Vector2();
+
+if (!COARSE) {
+  host.addEventListener('pointermove', e => {
+    const r = host.getBoundingClientRect();
+    ptr.tx = ((e.clientX - r.left) / r.width) * 2 - 1;
+    ptr.ty = ((e.clientY - r.top) / r.height) * 2 - 1;
+    ptr.has = true;
+    ndc.set(ptr.tx, -ptr.ty);
+    ray.setFromCamera(ndc, camera);
+    ray.ray.intersectPlane(groundPlane, cursorWorld);
+  }, { passive: true });
+  host.addEventListener('pointerleave', () => { ptr.tx = 0; ptr.ty = 0; ptr.has = false; }, { passive: true });
+}
+
+/* ---------------------------------------------------------------- loop */
+/* The camera swings on an arc about the look-at point, so the facade is seen
+   from a genuinely different angle rather than merely sliding sideways.
+
+   This is called at start-up as well as every frame. The render loop pauses
+   whenever the hero is off screen or the tab is hidden, and without an initial
+   placement the camera would still be sitting at the origin the first time
+   anything drew — which is exactly what happened. */
+function placeCamera() {
+  const az = ptr.x * 0.30;                    /* ≈ ±17° */
+  const el = -ptr.y * 0.10;
+  const r = CAM_BASE.z - LOOK.z;
+  camera.position.set(
+    LOOK.x + Math.sin(az) * r,
+    CAM_BASE.y + el * 5.5,
+    LOOK.z + Math.cos(az) * r
+  );
+  camera.lookAt(LOOK);
+  /* the type counter-rotates a fraction, which reads as it standing on the
+     ground rather than being pinned to the lens */
+  big.rotation.y = az * 0.34;
+  small.rotation.y = az * 0.34;
+}
+
+const lerp = (a, b, t) => a + (b - a) * t;
+const damp = (c, t, r, dt) => lerp(c, t, 1 - Math.exp(-r * dt));
+let last = 0, running = true, clock = 0;
+
+function resize() {
+  const w = host.clientWidth, h = host.clientHeight;
+  if (!w || !h) return;
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.9));
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  /* keep the wordmark inside a narrow viewport instead of letting it crop */
+  const fit = Math.min(1, (w / h) / 1.5);
+  camera.fov = 38 / Math.max(0.62, fit);
+  camera.updateProjectionMatrix();
+  /* fixed, not tied to viewport height: scaling the point size with the
+     canvas made them read as huge bokeh blobs on a large screen */
+  flyMat.uniforms.uPx.value = 165;
+}
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (!running) return;
+  const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+  last = now; clock += dt;
+
+  ptr.x = damp(ptr.x, ptr.tx, 3.2, dt);
+  ptr.y = damp(ptr.y, ptr.ty, 3.2, dt);
+
+  placeCamera();
+
+  /* fireflies: drift, then get pushed out of a radius around the cursor */
+  const p = flyGeo.attributes.position.array;
+  for (let i = 0; i < FLY_N; i++) {
+    const j = i * 3;
+    const s = flySpeed[i], ph = flyPhase[i];
+    let x = flyHome[j] + Math.sin(clock * 0.32 * s + ph) * 1.25;
+    let y = flyHome[j + 1] + Math.sin(clock * 0.52 * s + ph * 1.7) * 0.42;
+    let z = flyHome[j + 2] + Math.cos(clock * 0.27 * s + ph * 0.8) * 1.05;
+
+    if (ptr.has) {
+      const dx = x - cursorWorld.x, dz = z - cursorWorld.z;
+      const d2 = dx * dx + dz * dz;
+      const R = 4.6;
+      if (d2 < R * R) {
+        const d = Math.max(0.35, Math.sqrt(d2));
+        const push = (1 - d / R) * 3.4;
+        x += (dx / d) * push;
+        z += (dz / d) * push;
+        y += (1 - d / R) * 0.5;
+      }
+    }
+    p[j] = x; p[j + 1] = y; p[j + 2] = z;
+  }
+  flyGeo.attributes.position.needsUpdate = true;
+  flyMat.uniforms.uTime.value = clock;
+
+  renderer.render(scene, camera);
+}
+
+/* only run while it is actually on screen */
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(es => { running = es[0].isIntersecting; }, { threshold: 0.02 })
+    .observe(host);
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) running = false; });
+
+addEventListener('resize', resize, { passive: true });
+resize();
+placeCamera();
+host.classList.add('is-live');
+requestAnimationFrame(frame);
+
+window.__hero3d = { scene, camera, renderer, big, small, flies };
+})();

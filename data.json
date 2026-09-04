@@ -1,0 +1,275 @@
+{
+  "_meta": {
+    "source": "https://infinitysalon-flame.vercel.app/",
+    "sourceBuild": "index-Bcsrex7I.js / index-HDBxO7D5.css (deployed bundle hash verified identical to local source tree)",
+    "extractedAt": "2026-09-02",
+    "note": "All values are the salon's real live data. Pricing and contact details come from the salon's own source of truth, not a third-party listing."
+  },
+
+  "business": {
+    "name": "Infinity Hair and Beauty Salon",
+    "shortName": "Infinity Salon",
+    "tagline": "You arrive as you are. You leave feeling transformed.",
+    "description": "Expert hair braiding, silk presses, gel nails, spa massage and curated fashion pieces — one elevated beauty experience in London.",
+    "address": {
+      "street": "40/42 Powis Street",
+      "area": "Woolwich",
+      "city": "London",
+      "postcode": "SE18 6QS",
+      "line": "40/42 Powis Street, Woolwich, London SE18 6QS"
+    },
+    "hours": {
+      "days": "Monday – Sunday",
+      "open": "9am",
+      "close": "9pm",
+      "line": "Monday – Sunday, 9am – 9pm"
+    }
+  },
+
+  "contact": {
+    "whatsapp": {
+      "e164": "447464053505",
+      "display": "07464 053505",
+      "prefilledMessage": "Hi Infinity Salon! I'd like to book an appointment.",
+      "url": "https://wa.me/447464053505?text=Hi%20Infinity%20Salon!%20I'd%20like%20to%20book%20an%20appointment.",
+      "label": "Book via WhatsApp",
+      "note": "Fastest way to book — we reply during opening hours."
+    },
+    "phone": { "display": "07464 053505", "href": "tel:+447464053505" },
+    "email": "cedarevent@yahoo.com",
+    "tiktok": { "handle": "@harannawoolwichhair", "url": "https://www.tiktok.com/@harannawoolwichhair" }
+  },
+
+  "brand": {
+    "colors": {
+      "ivory": "#f8f7f4",
+      "ink": "#14213d",
+      "slate": "#5b6472",
+      "navy": "#101b30",
+      "navySoft": "#2a3b57",
+      "gold": "#d1a431",
+      "goldSoft": "#ecd9a0",
+      "blue": "#2f5c8a",
+      "blueSoft": "#b9cbdd",
+      "themeColor": "#14213D"
+    },
+    "logo": {
+      "mark": {
+        "path": "assets/brand/logo-mark.png",
+        "src": "https://infinitysalon-flame.vercel.app/logo-mark.png",
+        "w": 311,
+        "h": 220,
+        "format": "PNG RGBA",
+        "use": "fixed navigation bar"
+      },
+      "full": {
+        "path": "assets/brand/logo-full.png",
+        "w": 1536,
+        "h": 1024,
+        "format": "PNG RGBA",
+        "use": "facade signage texture / preloader"
+      },
+      "favicon": {
+        "path": "assets/brand/favicon.svg",
+        "src": "https://infinitysalon-flame.vercel.app/favicon.svg"
+      },
+      "ogImage": {
+        "path": "assets/brand/og-image.jpg",
+        "src": "https://infinitysalon-flame.vercel.app/og-image.jpg",
+        "w": 1200,
+        "h": 630
+      }
+    }
+  },
+
+  "pillars": [
+    { "n": "01", "name": "Hair Styling & Care", "body": "Braiding, extensions, silk presses, precision cuts, barbering and custom wig craft." },
+    { "n": "02", "name": "Nail Care & Aesthetics", "body": "Manicures, gel finishes, bespoke nail art, pedicures and restorative foot care." },
+    { "n": "03", "name": "Spa & Body Treatments", "body": "Massage therapy and therapeutic spa care, paced to let you actually switch off." },
+    { "n": "04", "name": "Boutique & Fashion", "body": "Statement clothing, fabrics and accessories, selected to match how you want to be seen." }
+  ],
+
+  "pricing": {
+    "currency": "GBP",
+    "categories": [
+      {
+        "id": "wash-treatments",
+        "label": "Wash & Treatments",
+        "items": [
+          { "name": "Hair Washing", "price": "£20" },
+          { "name": "Dreadlock Washing", "price": "£30 – £40" },
+          { "name": "Relaxer", "price": "£40" },
+          { "name": "Treatment", "price": "£45" },
+          { "name": "Dye", "price": "£30" },
+          { "name": "Bleach & Dye", "price": "£50" }
+        ]
+      },
+      {
+        "id": "weaves-wigs",
+        "label": "Weaves & Wigs",
+        "items": [
+          { "name": "Weave on Wash & Revamp", "price": "£60" },
+          { "name": "Weave on Wash", "price": "£30" },
+          { "name": "Weave with Closure", "price": "£80" },
+          { "name": "Weave with 360", "price": "£90" },
+          { "name": "Frontal with Weave & Style", "price": "£120" },
+          { "name": "Weave (27 Pieces) Short Hair & Style", "price": "£90" },
+          { "name": "Weave Tong / Straightening", "price": "£30" },
+          { "name": "Weave Spiral Curls", "price": "£60" },
+          { "name": "Weave Tinted / Colour", "price": "£50" }
+        ]
+      },
+      {
+        "id": "box-braids",
+        "label": "Box Braids & Knotless",
+        "items": [
+          { "name": "Loose of Cornrow for Wig", "price": "£10" },
+          { "name": "Loose of Cornrow, Small Size", "price": "£20" },
+          { "name": "Loose of Single Plait", "price": "£30" },
+          { "name": "Loose of Single Plait, Tiny", "price": "£50 – £60" },
+          { "name": "Single Plait Box Braid, Bra Length", "price": "£100" },
+          { "name": "Single Plait Box Braid, Waist Length", "price": "£150" },
+          { "name": "Single Plait Box Braid, Bum Length", "price": "£180" },
+          { "name": "Single Plait Knotless, Shoulder Length", "price": "£100" },
+          { "name": "Single Plait Knotless, Bra Length", "price": "£120" },
+          { "name": "Single Plait Knotless, Waist Length", "price": "£180" },
+          { "name": "Single Plait Knotless, Bum Length", "price": "£200" }
+        ]
+      },
+      {
+        "id": "french-curls",
+        "label": "French Curls & Pick 'n' Drop",
+        "items": [
+          { "name": "French Curls Single Plait, Shoulder Length", "price": "£100" },
+          { "name": "French Curls Single Plait, Bra Length", "price": "£130" },
+          { "name": "French Curls Single Plait, Waist Length", "price": "£180" },
+          { "name": "French Curls Single Plait, Knotless", "price": "+£30", "note": "extra for knotless finish" },
+          { "name": "Pick and Drop with Expression", "price": "£100" },
+          { "name": "Pick and Drop with Human Hair", "price": "£120" }
+        ]
+      },
+      {
+        "id": "crochet",
+        "label": "Crochet",
+        "items": [
+          { "name": "Crochet with Cornrow", "price": "£80" },
+          { "name": "Crochet with Single", "price": "£130" },
+          { "name": "Crochet with Cornrow in the Front", "price": "£90" },
+          { "name": "Weave with Hair Leave-out / Closure", "price": "£70" }
+        ]
+      },
+      {
+        "id": "twists",
+        "label": "Twists",
+        "items": [
+          { "name": "Kinky Twist, Short / Neck Length", "price": "£60" },
+          { "name": "Kinky Twist, Shoulder Length", "price": "£100" },
+          { "name": "Kinky Twist, Waist Length", "price": "£180" },
+          { "name": "Kinky Twist, Bra Length", "price": "£130" },
+          { "name": "Twist with Expression, Shoulder Length", "price": "£100" },
+          { "name": "Twist with Expression, Bra Length", "price": "£120" },
+          { "name": "Twist with Expression, Waist Length", "price": "£200" }
+        ]
+      },
+      {
+        "id": "cornrows-men",
+        "label": "Cornrows & Men's Grooming",
+        "items": [
+          { "name": "Braid Stitch to the Back", "price": "£80" },
+          { "name": "Cornrow Pony, Big Sizes", "price": "£80" },
+          { "name": "Cornrow Feeding to the Back", "price": "£70" },
+          { "name": "Design Cornrow for Men", "price": "£60" },
+          { "name": "Cornrow, Ordinary for Men", "price": "£40" },
+          { "name": "Twist / Plait for Men, Half Head", "price": "£60" },
+          { "name": "Twist / Plait for Men, Full Head", "price": "£80" }
+        ]
+      },
+      {
+        "id": "locs",
+        "label": "Locs & Dreadlocks",
+        "items": [
+          { "name": "Relocking, Half Head", "price": "£60" },
+          { "name": "Relocking, Full Head", "price": "£80" },
+          { "name": "Relocking, Tiny Locs", "price": "£100" },
+          { "name": "Dreadlock Starter, Half Head", "price": "£150" },
+          { "name": "Dreadlock, Full Head", "price": "£200" }
+        ]
+      },
+      {
+        "id": "kids-teens",
+        "label": "Kids & Teens",
+        "items": [
+          { "name": "Children's Single Plait Box Braid", "price": "£70" },
+          { "name": "Teenager's Single Plait", "price": "£100" },
+          { "name": "Children's Cornrow", "price": "£40" }
+        ]
+      }
+    ]
+  },
+
+  "products": [
+    { "name": "Hair Oils & Serums", "price": "From £12", "img": "assets/shop/hair-oils.jpg", "body": "Nourishing oils to keep every style glossy and healthy between visits." },
+    { "name": "Nail Care & Polish", "price": "From £8", "img": "assets/shop/nail-polish.jpg", "body": "Salon-grade polishes and treatments in shades for every mood." },
+    { "name": "Spa & Skincare Tools", "price": "From £15", "img": "assets/shop/spa-tools.jpg", "body": "Gua sha, rollers, and rituals to bring the spa experience home." },
+    { "name": "Makeup & Beauty", "price": "From £10", "img": "assets/shop/makeup.jpg", "body": "Curated brushes and cosmetics for a polished, everyday finish." },
+    { "name": "Bath & Body", "price": "From £14", "img": "assets/shop/bath-body.jpg", "body": "Botanical bath and body treats for a little everyday indulgence." },
+    { "name": "Signature Gift Sets", "price": "From £35", "img": "assets/shop/gift-sets.jpg", "body": "Beautifully packaged sets, ready to gift or treat yourself." }
+  ],
+
+  "policies": [
+    "Appointments run 20 minutes – 4 hours, depending on service",
+    "20% deposit required to secure your booking",
+    "Please book at least 24 hours in advance",
+    "Free cancellation within 24 hours of your deposit, reschedule anytime"
+  ],
+
+  "venuePhotos": [
+    { "src": "assets/venue/salon-1.jpg", "alt": "Inside Infinity Salon on Powis Street, Woolwich" },
+    { "src": "assets/venue/salon-2.jpg", "alt": "Styling chairs and mirrors on the salon floor" },
+    { "src": "assets/venue/salon-3.jpg", "alt": "The salon interior" },
+    { "src": "assets/venue/salon-4.jpg", "alt": "Treatment area at Infinity Salon" },
+    { "src": "assets/venue/salon-5.jpg", "alt": "The salon floor and workstations" }
+  ],
+
+  "floors": [
+    {
+      "level": 0,
+      "id": "facade",
+      "signage": "INFINITY SALON",
+      "title": "Storefront",
+      "reference": "exterior.jpg",
+      "uiCards": ["business.name", "business.tagline", "business.address.line", "business.hours.line"]
+    },
+    {
+      "level": 1,
+      "id": "salon",
+      "signage": "INFINITY SALON",
+      "title": "Hair Salon",
+      "reference": "salon.jpg",
+      "pillars": ["01", "02"],
+      "priceCategories": [
+        "wash-treatments", "weaves-wigs", "box-braids", "french-curls",
+        "crochet", "twists", "cornrows-men", "locs", "kids-teens"
+      ]
+    },
+    {
+      "level": 2,
+      "id": "boutique",
+      "signage": "INFINITY BOUTIQUE",
+      "title": "Clothing Store / Boutique",
+      "reference": "boutique.jpg",
+      "pillars": ["04"],
+      "productIndexes": [0, 1, 2, 3, 4, 5]
+    },
+    {
+      "level": 3,
+      "id": "spa",
+      "signage": "INFINITY SPA",
+      "title": "Manicure, Pedicure & Massage",
+      "reference": "spa.jpg",
+      "pillars": ["02", "03"],
+      "priceCategories": [],
+      "note": "The live site publishes no numeric price list for nails or spa treatments — only the two service pillars. Floor 3 therefore shows the Nail Care and Spa & Body pillars plus the booking policies; ask the salon for spa numbers if a price table is wanted here."
+    }
+  ]
+}
