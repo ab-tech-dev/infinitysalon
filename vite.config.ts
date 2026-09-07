@@ -13,7 +13,7 @@ export default defineConfig({
     {
       name: 'copy-runtime-assets',
       closeBundle() {
-        for (const directory of ['video', 'shop']) {
+        for (const directory of ['video', 'shop', 'latest']) {
           cpSync(
             resolve(root, 'assets', directory),
             resolve(root, 'dist', 'assets', directory),

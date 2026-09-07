@@ -4,14 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Infinity Hair and Beauty Salon — Woolwich, London</title>
-<meta name="description" content="Hair braiding, silk presses, gel nails, spa massage and a fashion boutique on Powis Street, Woolwich. Open every day, 9am–9pm. Book on WhatsApp.">
+<meta name="description" content="Hair styling, makeup, gele, facials, lashes, threading, nails and boutique shopping on Powis Street, Woolwich. Open every day, 9am–9pm. Book on WhatsApp.">
 <meta name="theme-color" content="#14213D">
 <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+<link rel="canonical" href="https://infinitysalon-flame.vercel.app/">
+<meta property="og:url" content="https://infinitysalon-flame.vercel.app/">
+<meta name="twitter:image" content="https://infinitysalon-flame.vercel.app/assets/img/og-image.jpg">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infinity Salon">
-<meta property="og:title" content="Infinity Hair and Beauty Salon">
-<meta property="og:description" content="Hair, nails, spa and boutique on Powis Street, Woolwich.">
+<meta property="og:title" content="Infinity Hair and Beauty Salon — Woolwich, London">
+<meta property="og:description" content="Hair, nails, spa, makeup, gele, facials, lashes and boutique on Powis Street, Woolwich. Open daily 9am–9pm.">
 <meta property="og:image" content="assets/img/og-image.jpg">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Infinity Hair and Beauty Salon — Woolwich, London">
+<meta name="twitter:description" content="Nine services under one roof on Powis Street, Woolwich. Open daily 9am–9pm. Book on WhatsApp.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -22,12 +29,25 @@
 :root{
   --paper:#f7f4ef; --paper-2:#efe9e0;
   --ink:#17130f; --navy:#14213d; --slate:#5f5851;
-  --gold:#a8874a; --gold-lift:#c9a961;
+  /* Three golds, because one cannot do three jobs. --gold is the brand
+     colour and it is used for rules, marks and anything decorative.
+     Against the ivory it measures 3.07:1, which is under AA for text — so
+     every small gold *word* on a light ground uses --gold-ink (4.5:1), and
+     on the dark chapters, where --gold is comfortably clear, --gold-lift
+     carries the same accents brighter. */
+  --gold:#a8874a; --gold-ink:#8a6a2f; --gold-lift:#c9a961;
   --rule:rgba(23,19,15,.14); --rule-dark:rgba(247,244,239,.16);
   --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --pad:clamp(20px,5vw,72px);
+  /* every full-width reading section stands off the page by the same
+     amount, so the scroll has one rhythm rather than a per-section one */
+  --section-pad:clamp(80px,13vh,150px);
+  --measure-wide:1180px;
   --measure:64ch;
+  /* the fixed masthead's own height. Anchor targets subtract it so a jump
+     from the nav lands on the heading rather than behind the header. */
+  --hdr:79px;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;overflow-x:hidden}
@@ -49,10 +69,22 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
 .flow{scroll-snap-align:start}
 @media (prefers-reduced-motion:reduce){html{scroll-snap-type:none;scroll-behavior:auto}}
 
+/* ------------------------------------------------------- anchor landing
+   The masthead is fixed, so an anchor jump would otherwise scroll the
+   section's heading underneath it — every nav link on an 18-section page
+   landing on a headline the reader cannot see. Reading sections and the
+   sub-anchors inside them reserve the header's height; the full-bleed
+   chapters do not, because their copy is vertically centred and was never
+   behind the bar. */
+.flow,[id^="prices-"]{scroll-margin-top:calc(var(--hdr) + 8px)}
+/* arriving on a section by link marks it, briefly, so the eye knows where
+   the jump landed */
+:target{scroll-margin-top:calc(var(--hdr) + 8px)}
+
 /* ------------------------------------------------------------ utilities */
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
     clip:rect(0 0 0 0);white-space:nowrap;border:0}
-.kicker{margin:0 0 18px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+.kicker{margin:0 0 18px;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold-ink)}
 .lede{font-size:clamp(16px,1.5vw,19px);color:var(--slate);max-width:46ch;margin:0}
 .rule{height:1px;background:var(--rule);border:0;margin:0}
 
@@ -69,17 +101,41 @@ header{
 }
 header.is-at-top{background:transparent;border-bottom-color:transparent;transition:none}
 header.on-dark{color:var(--paper)}
-header.solid{background:rgba(247,244,239,.92);backdrop-filter:blur(10px);border-bottom-color:var(--rule)}
-header.solid.on-dark{background:rgba(18,16,14,.86);border-bottom-color:var(--rule-dark)}
+/* Nearly opaque, not half. A translucent bar sitting over a chapter that is
+   near-black down one side and a lit photograph down the other showed that
+   seam straight through itself, and put ivory nav text over the bright half. */
+header.solid{background:rgba(247,244,239,.975);backdrop-filter:blur(12px);border-bottom-color:var(--rule)}
+header.solid.on-dark{background:rgba(16,14,12,.96);border-bottom-color:var(--rule-dark)}
 .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+/* The mark is never recoloured. The wordmark beside it and the nav invert
+   over a dark chapter; the logo itself stays navy and gold everywhere, on
+   every background, which is a brand decision and not an oversight — do not
+   "fix" it back to a silhouette. */
 .brand img{width:38px;height:auto}
 .brand b{font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:.18em}
-.brand span{display:block;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-top:2px}
-nav.main{margin-left:auto;display:flex;gap:30px}
-nav.main a{font-size:11px;letter-spacing:.22em;text-transform:uppercase;text-decoration:none;
-  opacity:.72;transition:opacity .2s,color .2s}
-nav.main a:hover,nav.main a:focus-visible{opacity:1;color:var(--gold)}
+.brand span{display:block;font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--gold-ink);margin-top:2px}
+header.on-dark .brand span{color:var(--gold-lift)}
+nav.main{margin-left:auto;display:flex;gap:4px}
+nav.main a{position:relative;padding:8px 10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;opacity:.72;transition:opacity .2s,color .2s}
+nav.main a:after{content:"";position:absolute;left:10px;right:10px;bottom:2px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+nav.main a:hover,nav.main a:focus-visible{opacity:1;color:var(--gold-ink)}
+nav.main a:hover:after,nav.main a:focus-visible:after{transform:scaleX(1)}
+/* which of eighteen sections you are actually in. Without it the nav is a
+   list of places you might go and never a map of where you are. */
+nav.main a[aria-current="true"]{opacity:1;color:var(--gold-ink)}
+nav.main a[aria-current="true"]:after{transform:scaleX(1)}
+header.on-dark nav.main a[aria-current="true"],
+header.on-dark nav.main a:hover{color:var(--gold-lift)}
 @media(max-width:820px){nav.main{display:none}}
+
+/* how far through a very long page you are — one hairline, no chrome */
+#progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;transform-origin:left;
+  transform:scaleX(var(--p,0));background:var(--gold);opacity:.85;pointer-events:none;
+  transition:transform .1s linear}
+header.is-at-top #progress{opacity:0}
+header.on-dark #progress{background:var(--gold-lift)}
 .menu-toggle{display:none}
 .mobile-menu{display:none}
 .btn{
@@ -91,8 +147,14 @@ nav.main a:hover,nav.main a:focus-visible{opacity:1;color:var(--gold)}
 .btn:hover,.btn:focus-visible{background:transparent;color:var(--ink);border-color:var(--ink)}
 header.on-dark .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 header.on-dark .btn:hover{background:transparent;color:var(--paper)}
-.btn--gold{background:var(--gold);border-color:var(--gold);color:#fff}
-.btn--gold:hover,.btn--gold:focus-visible{background:transparent;color:var(--gold);border-color:var(--gold)}
+.btn--gold{background:var(--gold-ink);border-color:var(--gold-ink);color:#fff}
+.btn--gold:hover,.btn--gold:focus-visible{background:transparent;color:var(--gold-ink);border-color:var(--gold-ink)}
+/* on a photograph or a dark chapter, where neither the ink nor the paper
+   button has anything to sit against */
+.btn--ghost{background:transparent;color:var(--paper);border-color:rgba(247,244,239,.55)}
+.btn--ghost:hover,.btn--ghost:focus-visible{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.svc--dark .btn--gold:hover,.svc--dark .btn--gold:focus-visible{color:var(--gold-lift);border-color:var(--gold-lift)}
+.btn--lg{padding:16px 30px;font-size:12.5px}
 .btn svg{width:15px;height:15px;fill:currentColor;flex:none}
 @media(max-width:820px){
   .menu-toggle{position:relative;display:grid;place-items:center;width:42px;height:42px;padding:0;
@@ -105,11 +167,15 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   .menu-toggle[aria-expanded="true"] .menu-toggle__icon:before{transform:rotate(45deg)}
   .menu-toggle[aria-expanded="true"] .menu-toggle__icon:after{transform:rotate(-45deg)}
   .mobile-menu{position:fixed;inset:67px 0 auto;z-index:19;display:grid;padding:10px var(--pad) 18px;
+    max-height:calc(100dvh - 67px);overflow-y:auto;
     background:rgba(18,16,14,.96);border-bottom:1px solid var(--rule-dark);backdrop-filter:blur(14px);
     opacity:0;pointer-events:none;transform:translateY(-12px);transition:opacity .24s ease,transform .24s ease}
   .mobile-menu.is-open{opacity:1;pointer-events:auto;transform:none}
-  .mobile-menu a{padding:18px 0;border-bottom:1px solid var(--rule-dark);color:var(--paper);text-decoration:none;
-    font-size:19px;line-height:1.2}
+  /* the menu lists every section, so on a short screen it has to be able to
+     scroll rather than run off the bottom of the panel */
+  .mobile-menu{max-height:calc(100svh - 67px);overflow-y:auto;overscroll-behavior:contain}
+  .mobile-menu a{padding:15px 0;border-bottom:1px solid var(--rule-dark);color:var(--paper);text-decoration:none;
+    font-size:18px;line-height:1.2}
   .mobile-menu a:last-child{border-bottom:0}
   body.menu-open{overflow:hidden}
 }
@@ -119,22 +185,10 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   padding:112px var(--pad) clamp(74px,10vh,122px);
   background:#12100e;color:var(--paper);overflow:hidden}
 .stage{position:absolute;inset:0;z-index:0}
+/* the <picture> is a format switch, not a box — it must not sit between the
+   stage and the image's height:100% */
+.stage picture{display:contents}
 .stage video,.stage img{width:100%;height:100%;object-fit:cover}
-.hero-reel__clip{position:absolute;inset:0;opacity:0;filter:blur(0) saturate(1.04) contrast(1.03);
-  transform:scale(1.035);transition:opacity 1.55s ease,filter 1.55s ease,transform 7.5s ease}
-.hero-reel__clip.is-active{opacity:1;transform:scale(1)}
-.hero-reel__clip.is-leaving{opacity:0;filter:blur(12px) saturate(1.16) contrast(1.08);transform:scale(1.075)}
-.hero-reel__clip.is-entering{opacity:1;filter:blur(0) saturate(1.06) contrast(1.04)}
-.hero-reel__veil{position:absolute;inset:-12%;z-index:1;pointer-events:none;opacity:0;
-  background:linear-gradient(108deg,transparent 0%,rgba(247,244,239,.04) 28%,
-    rgba(226,192,122,.52) 47%,rgba(255,246,226,.34) 54%,transparent 74%);
-  filter:blur(18px);transform:translateX(-34%) skewX(-10deg);mix-blend-mode:screen}
-.hero.is-transitioning .hero-reel__veil{animation:heroVeil 2.05s cubic-bezier(.16,1,.3,1)}
-@keyframes heroVeil{
-  0%{opacity:0;transform:translateX(-42%) skewX(-10deg)}
-  28%{opacity:.92}
-  100%{opacity:0;transform:translateX(42%) skewX(-10deg)}
-}
 /* This clip runs from a near-white logo intro into a warm, light salon
    interior — unlike the night footage the previous scrims were tuned for, it
    is never dark on its own. The gradient here carries much more of its own
@@ -146,9 +200,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
     linear-gradient(90deg,rgba(9,8,7,.78) 0%,transparent 44%,rgba(9,8,7,.34) 100%)}
 .hero__in{position:relative;z-index:2;max-width:1180px;width:100%;display:grid}
 .hero__copy{max-width:650px;display:grid;gap:14px;text-align:left;justify-self:start;
-  text-shadow:0 2px 28px rgba(5,4,3,.85),0 1px 4px rgba(5,4,3,.9);
-  transition:opacity .36s ease,transform .36s ease}
-.hero__copy.is-changing{opacity:0;transform:translateY(14px)}
+  text-shadow:0 2px 28px rgba(5,4,3,.85),0 1px 4px rgba(5,4,3,.9)}
 .hero__eyebrow{margin:0;color:var(--gold-lift);font-size:12px;font-weight:600;
   line-height:1.35;text-transform:uppercase;letter-spacing:0}
 .hero__title{font-size:4.45rem;line-height:.94;letter-spacing:0;max-width:9.6ch;color:#fffaf1}
@@ -159,9 +211,14 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .hero__meta{margin-top:4px;display:flex;flex-wrap:wrap;gap:9px 20px;
   font-size:12px;font-weight:600;line-height:1.35;text-transform:uppercase;letter-spacing:0;
   color:rgba(247,244,239,.88)}
-.hero[data-copy-pos="right"] .hero__meta{justify-content:flex-end}
 .hero__meta span{display:inline-flex;align-items:center;gap:12px}
 .hero__meta span + span:before{content:"";width:34px;height:1px;background:rgba(201,169,97,.74)}
+/* The page has one job — get an enquiry into WhatsApp — and until now the
+   only way to do it above the fold was a 60px button in the masthead. The
+   primary action belongs where the eye already is. */
+.hero__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+.hero__cta .btn{text-shadow:none}
+.hero__note{margin:2px 0 0;font-size:12px;letter-spacing:.02em;color:rgba(247,244,239,.7)}
 .cue{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;z-index:2;font-size:10px;letter-spacing:.3em;
   text-transform:uppercase;color:rgba(247,244,239,.6);text-shadow:0 1px 10px rgba(10,8,6,.9)}
 @media(max-width:900px){
@@ -171,15 +228,10 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 }
 @media(max-width:640px){
   .hero{padding-bottom:78px}
-  .hero[data-copy-pos] .hero__copy{justify-self:start;text-align:left}
   .hero__title{font-size:2.92rem;line-height:.98;max-width:10.6ch}
   .hero__tag{font-size:1.28rem;max-width:20rem;margin-inline:0}
   .hero__meta{display:grid;gap:8px;font-size:11px}
   .hero__meta span + span:before{display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  .hero-reel__clip,.hero__copy{transition:none}
-  .hero.is-transitioning .hero-reel__veil{animation:none}
 }
 
 /* ------------------------------------------------------- the gradient band
@@ -255,13 +307,60 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .styles.is-kept:after{border-color:rgba(216,178,106,.7)}
 @media (prefers-reduced-motion:reduce){
   .styles__img{transition:none}
-  .styles.is-sweeping .styles__shimmer{animation:none}
+}
+
+/* ---------------------------------------------------- the service index
+   Nine service lines is more than a scroll can introduce. This is the
+   directory: every line the salon runs, what it costs or that it is quoted,
+   and a jump straight to it. Each card is one link — the whole tile is the
+   target, so it works the same under a thumb as under a cursor. */
+.dir{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
+/* three across, because there are nine of them — auto-fit gave four and left
+   the last row holding a single card on its own */
+.dir__grid{list-style:none;margin:38px 0 0;padding:0;display:grid;gap:1px;
+  background:var(--rule);border:1px solid var(--rule);
+  grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.dir__grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.dir__grid{grid-template-columns:1fr}}
+.dir__grid li{background:var(--paper)}
+.dir__grid a{position:relative;display:grid;gap:9px;align-content:start;height:100%;padding:26px 24px 24px;
+  text-decoration:none;transition:background .22s ease,color .22s ease}
+.dir__grid a:hover,.dir__grid a:focus-visible{background:var(--paper-2)}
+/* a hairline that draws itself along the top of the card being pointed at —
+   nine flat tiles otherwise give no feedback that they are one target each */
+.dir__grid a:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.dir__grid a:hover:before,.dir__grid a:focus-visible:before{transform:scaleX(1)}
+/* what it costs, before what it is called: the first thing anyone comparing
+   nine services wants to know is which of them carry a published number.
+   Seven of the nine are quoted, so gold on all nine said nothing — the
+   published prices keep the gold, the quoted lines step back to grey. */
+.dir__tag{font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-ink)}
+.dir__tag--quoted{color:var(--slate);opacity:.9}
+.dir__name{font-family:var(--serif);font-size:25px;line-height:1.05;letter-spacing:-.01em}
+.dir__body{font-size:13.5px;line-height:1.55;color:var(--slate);margin:0}
+.dir__go{margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);transition:color .2s ease,transform .25s ease}
+.dir__grid a:hover .dir__go,.dir__grid a:focus-visible .dir__go{color:var(--ink);transform:translateX(4px)}
+.dir__foot{margin:26px 0 0;font-size:14px;color:var(--slate)}
+.dir__foot a{color:var(--ink)}
+@media(max-width:560px){
+  /* Nine stacked cards ran to nearly two thousand pixels on a phone. As
+     rows — name and price on one line, the description under it, a chevron
+     for the target — the same nine fit in about half that and scan like a
+     menu rather than a stack of posters. */
+  .dir__grid a{grid-template-columns:1fr auto;align-items:baseline;gap:4px 14px;padding:16px 34px 16px 16px}
+  .dir__name{grid-column:1;grid-row:1;font-size:19px}
+  .dir__tag{grid-column:2;grid-row:1;justify-self:end;text-align:right;font-size:9.5px;letter-spacing:.14em}
+  .dir__body{grid-column:1/-1;grid-row:2;font-size:13px}
+  .dir__go{position:absolute;right:14px;top:50%;margin:0;width:8px;height:8px;overflow:hidden;
+    text-indent:-99em;border-top:1.5px solid var(--slate);border-right:1.5px solid var(--slate);
+    transform:translateY(-50%) rotate(45deg)}
+  .dir__grid a:hover .dir__go,.dir__grid a:focus-visible .dir__go{transform:translateY(-50%) rotate(45deg)}
 }
 
 /* ---------------------------------------------------------------- shop */
-.shop{padding:clamp(80px,13vh,150px) var(--pad);max-width:1180px;margin:0 auto}
-.shop__head{max-width:var(--measure);margin-bottom:44px}
-.shop h2{font-size:clamp(32px,4.4vw,58px);font-weight:300;margin-bottom:16px}
+.shop{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
 .shop__grid{list-style:none;margin:0;padding:0;display:grid;gap:34px 26px;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
 .shop__grid li{display:flex;flex-direction:column}
@@ -270,7 +369,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .shop__grid li:hover .shop__shot img{transform:scale(1.045)}
 .shop__grid h3{font-size:19px;margin-bottom:6px}
 .shop__grid p{font-size:14px;color:var(--slate);margin:0 0 12px;flex:1}
-.shop__price{font-size:13px;letter-spacing:.1em;color:var(--gold);margin-bottom:14px!important}
+.shop__price{font-size:13px;letter-spacing:.1em;color:var(--gold-ink);margin-bottom:14px!important}
 .shop__buy{
   display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
   padding:10px 18px;border:1px solid var(--ink);border-radius:2px;text-decoration:none;
@@ -285,7 +384,6 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .svc__media{position:relative;overflow:hidden;background:var(--paper-2);min-height:100svh}
 .svc__media video,.svc__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .svc__body{display:flex;flex-direction:column;justify-content:center;padding:clamp(48px,8vh,110px) var(--pad);gap:22px}
-.svc h2{font-size:clamp(34px,4.6vw,62px);font-weight:300}
 .svc--dark{background:#12100e;color:var(--paper)}
 .svc--dark .lede{color:rgba(247,244,239,.72)}
 .svc--dark .rule{background:var(--rule-dark)}
@@ -304,7 +402,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   html{scroll-snap-type:none}
 }
 .num{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:22px;
-  letter-spacing:.16em;color:var(--gold);font-style:italic}
+  letter-spacing:.16em;color:var(--gold-ink);font-style:italic}
 .num:after{content:"";height:1px;width:52px;background:currentColor;opacity:.5}
 
 /* a compact price teaser inside a chapter */
@@ -313,7 +411,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   border-bottom:1px solid var(--rule);font-size:14.5px}
 .svc--dark .teaser li{border-bottom-color:var(--rule-dark)}
 .teaser li:last-child{border-bottom:0}
-.teaser b{font-weight:500;color:var(--gold);font-variant-numeric:tabular-nums;white-space:nowrap}
+.teaser b{font-weight:500;color:var(--gold-ink);font-variant-numeric:tabular-nums;white-space:nowrap}
 .note{font-size:13px;color:var(--slate);max-width:44ch}
 .svc--dark .note{color:rgba(247,244,239,.6)}
 
@@ -324,9 +422,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 @media(max-width:560px){.prods{grid-template-columns:1fr}}
 
 /* ============================================================== prices */
-.prices{padding:clamp(80px,13vh,150px) var(--pad);max-width:1180px;margin:0 auto}
-.prices__head{max-width:var(--measure);margin-bottom:44px}
-.prices h2{font-size:clamp(32px,4.4vw,58px);font-weight:300;margin-bottom:16px}
+.prices{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;border-bottom:1px solid var(--rule);padding-bottom:18px}
 .tab{
   appearance:none;background:transparent;border:1px solid var(--rule);border-radius:2px;
@@ -336,20 +432,127 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .tab:hover{color:var(--ink);border-color:var(--ink)}
 .tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
 .panel[hidden]{display:none}
+/* Categories run from three services to eleven, so switching tabs used to
+   drop the page out from under the reader. The panel holds the height of
+   the tallest one, measured once after render. */
+#panels{min-height:var(--panel-h,auto)}
 .plist{margin:0;padding:0;list-style:none;columns:2;column-gap:56px}
 @media(max-width:760px){.plist{columns:1}}
-.plist li{break-inside:avoid;display:flex;justify-content:space-between;align-items:baseline;gap:22px;
-  padding:12px 0;border-bottom:1px solid var(--rule)}
+.plist li{break-inside:avoid;display:grid;grid-template-columns:minmax(0,1fr) auto auto;
+  align-items:baseline;gap:0 18px;padding:12px 0;border-bottom:1px solid var(--rule);
+  transition:background .18s ease}
+@media (hover:hover){.plist li:hover{background:var(--paper-2)}}
 .plist .n{font-size:15px}
 .plist .n i{display:block;font-style:normal;font-size:12.5px;color:var(--slate);margin-top:2px}
 .plist b{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:15px}
+/* Every row in the search results could be booked from where it stood, but
+   the same service reached through a tab could not — the visitor had to
+   read a price here and go and find the button somewhere else. */
+.plist__book{text-decoration:none;white-space:nowrap;font-size:10px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);
+  padding:4px 0 4px 16px;transition:color .2s ease,opacity .2s ease}
+/* Quiet, but never hidden. Revealing it on hover kept the row tidy and
+   made the action undiscoverable to anyone reading with a thumb, while
+   still reserving its width — so the price sat off the edge for no visible
+   reason. Quiet at rest — but grey, not faded: an opacity that reads as
+   "secondary" also reads as 2:1 against the paper. */
+.plist__book{color:var(--slate)}
+.plist li:hover .plist__book,.plist__book:hover,.plist__book:focus-visible{color:var(--gold-ink)}
+@media(max-width:560px){.plist__book{padding-left:12px;font-size:9.5px}}
+
+/* ------------------------------------------------------- the finder
+   Sixty-odd services behind nine tabs is a filing cabinet: fine if you know
+   which drawer, useless if you only know the word "knotless". The field
+   searches every category at once and each hit books itself, so a visitor
+   who arrives with a style in mind never has to guess our filing. */
+.finder{margin:0 0 30px;display:grid;gap:12px}
+.finder__field{position:relative;display:flex;align-items:center}
+.finder__field svg{position:absolute;left:15px;width:16px;height:16px;
+  fill:none;stroke:var(--slate);stroke-width:1.7;pointer-events:none}
+.finder input{
+  width:100%;appearance:none;font:inherit;font-size:15px;color:var(--ink);
+  padding:14px 46px 14px 42px;border:1px solid var(--rule);border-radius:2px;
+  background:#fff;transition:border-color .2s ease;
+}
+.finder input::placeholder{color:var(--slate);opacity:.75}
+.finder input:focus{outline:none;border-color:var(--ink)}
+.finder__clear{
+  position:absolute;right:8px;appearance:none;background:transparent;border:0;cursor:pointer;
+  padding:8px 10px;font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);
+}
+.finder__clear:hover{color:var(--ink)}
+.finder__clear[hidden]{display:none}
+.finder__count{margin:0;font-size:12.5px;letter-spacing:.02em;color:var(--slate)}
+.finder__results{list-style:none;margin:0;padding:0;display:grid}
+/* display:grid above outranks the browser's own [hidden] rule, which would
+   otherwise leave the last set of results on screen after a search that
+   matches nothing */
+.finder__results[hidden]{display:none}
+.finder__results li{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;
+  padding:13px 0;border-bottom:1px solid var(--rule)}
+.finder__results .n{font-size:15px;flex:1 1 15rem}
+.finder__results .cat{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold-ink);margin-top:4px}
+.finder__results mark{background:rgba(201,169,97,.28);color:inherit;padding:0 1px}
+.finder__results b{font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap;font-size:15px}
+.finder__book{
+  text-decoration:none;font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--slate);border:1px solid var(--rule);border-radius:2px;padding:7px 12px;
+  transition:color .2s,border-color .2s,background .2s;
+}
+.finder__book:hover,.finder__book:focus-visible{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.finder__empty{margin:0;padding:20px 0;font-size:15px;color:var(--slate)}
+.finder__empty a{color:var(--ink)}
+.prices.is-searching .tabs,.prices.is-searching #panels{display:none}
+
+/* ================================================================== faq
+   The questions the salon answers on WhatsApp a dozen times a week, on the
+   page instead. Native details/summary: it opens without JavaScript, it is
+   keyboard-operable for free, and the browser's find-in-page can reach the
+   answers. */
+.faq{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
+.faq__list{margin:38px 0 0;border-top:1px solid var(--rule)}
+.faq details{border-bottom:1px solid var(--rule)}
+.faq summary{
+  list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:20px;
+  padding:20px 0;font-family:var(--serif);font-size:clamp(19px,2.1vw,24px);line-height:1.25;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:focus-visible{outline:2px solid var(--gold-ink);outline-offset:4px}
+.faq summary:after{
+  content:"";margin-left:auto;flex:none;align-self:center;width:11px;height:11px;
+  border-right:1px solid var(--slate);border-bottom:1px solid var(--slate);
+  transform:rotate(45deg) translate(-2px,-2px);transition:transform .25s ease;
+}
+.faq details[open] summary:after{transform:rotate(225deg) translate(-2px,-2px)}
+.faq summary:hover{color:var(--gold-ink)}
+.faq__a{margin:0;padding:0 0 24px;max-width:var(--measure);font-size:15.5px;color:var(--slate)}
+.faq__a a{color:var(--ink)}
+.faq__foot{margin:30px 0 0;font-size:15px;color:var(--slate)}
+@media (prefers-reduced-motion:reduce){.faq summary:after{transition:none}}
 
 /* ================================================================ visit */
-.visit{background:#12100e;color:var(--paper);padding:clamp(80px,13vh,150px) var(--pad)}
-.visit__grid{max-width:1180px;margin:0 auto;display:grid;gap:clamp(36px,5vw,72px);
-  grid-template-columns:1.1fr .9fr}
+.visit{background:#12100e;color:var(--paper);padding:var(--section-pad) var(--pad)}
+.visit__grid{max-width:var(--measure-wide);margin:0 auto;display:grid;gap:clamp(36px,5vw,72px);
+  grid-template-columns:1.1fr .9fr;align-items:start}
 @media(max-width:880px){.visit__grid{grid-template-columns:1fr}}
-.visit h2{font-size:clamp(32px,4.4vw,58px);font-weight:300;margin-bottom:20px}
+.visit h2{margin-bottom:20px}
+/* The booking terms and the button used to float in an otherwise empty
+   half of a dark section. Given an edge they read as one panel — the thing
+   you act on — against the contact details, which are the thing you read. */
+.visit__panel{border:1px solid var(--rule-dark);padding:clamp(26px,3vw,38px);
+  background:rgba(247,244,239,.035)}
+.visit__panel .kicker{margin-bottom:14px}
+.visit__alt{margin:18px 0 0;font-size:13px;color:rgba(247,244,239,.62)}
+.visit__alt a{color:var(--gold-lift)}
+.visit__aside{margin-top:-10px!important}
+/* two classes, so it outranks .text-link wherever that happens to be
+   declared in the sheet rather than depending on source order */
+.text-link.text-link--light{color:var(--gold-lift);border-bottom-color:rgba(216,178,106,.45)}
+.text-link.text-link--light:hover,.text-link.text-link--light:focus-visible{color:var(--paper);border-bottom-color:var(--paper)}
+.visit .lede{color:rgba(247,244,239,.72)}
+.visit__cta{margin-top:30px}
 .visit dl{margin:34px 0 0;display:grid;gap:0}
 .visit dt{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold);
   padding-top:18px;border-top:1px solid var(--rule-dark)}
@@ -363,10 +566,13 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .policies li:before{content:"";position:absolute;left:0;top:21px;width:9px;height:1px;background:var(--gold)}
 
 /* =============================================================== footer */
-footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);font-size:12.5px}
-.foot__in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+/* .5 put the address at about 4.4:1 against the footer's near-black, which
+   is under AA for 12.5px body text */
+footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);font-size:12.5px}
+.foot__in{max-width:var(--measure-wide);margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;
   align-items:center;gap:24px 38px}
 .foot__brand{display:inline-flex;align-items:center;gap:10px;color:var(--paper);font-family:var(--serif);font-size:18px;text-decoration:none}
+/* unrecoloured, like the masthead's — see the note on .brand img */
 .foot__brand img{width:28px;height:auto}
 .foot__details{margin:0;max-width:58ch;line-height:1.55}
 .foot__actions{display:flex;align-items:center;gap:22px}
@@ -393,7 +599,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
    from a purposefully compact reading rhythm: a smaller masthead, one-column
    editorial sections, and a swipeable price-category row. */
 @media(max-width:640px){
-  :root{--pad:20px}
+  :root{--pad:20px;--section-pad:72px}
 
   header{gap:12px;padding:12px var(--pad)}
   .brand{gap:8px;min-width:0}
@@ -405,6 +611,10 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
   .hero{min-height:100svh;padding:96px var(--pad) 64px}
   .stage video,.stage img{object-position:52% center}
   .hero__copy{gap:11px;max-width:19rem}
+  /* two actions of different lengths, stacked, read as a main one and an
+     afterthought; matched, they read as a choice */
+  .hero__cta{display:grid;grid-template-columns:1fr;gap:10px}
+  .hero__cta .btn{justify-content:center}
   .hero__eyebrow{font-size:10px}
   .hero__title{font-size:2.75rem;max-width:9.8ch}
   .hero__tag{font-size:1.2rem;max-width:17rem}
@@ -434,17 +644,16 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
   #hair .styles__img{object-position:center top}
   #hair .styles.is-active:after,#hair .styles.is-kept:after{inset:0 14px 14px;border-color:rgba(216,178,106,.7);border-top:0}
   .svc__body{padding:46px var(--pad) 54px;gap:18px}
-  .svc h2{font-size:2.35rem}
   .num{gap:10px;font-size:20px}
   .num:after{width:38px}
   .teaser li{gap:12px;font-size:14px}
   .teaser b{font-size:13px}
 
-  .shop,.prices,.visit{padding:72px var(--pad)}
+  .svc h2,.editorial h2,.shop h2,.prices h2,.visit h2{font-size:2.35rem}
+
   .shop{padding-right:0}
-  .shop__head,.prices__head{margin-bottom:30px}
-  .shop__head{padding-right:var(--pad)}
-  .shop h2,.prices h2,.visit h2{font-size:2.35rem}
+  .sec-head{margin-bottom:30px}
+  .shop .sec-head{padding-right:var(--pad)}
   .shop__rail{position:relative}
   .shop__grid{display:grid;min-width:0;max-width:100%;contain:inline-size;grid-auto-flow:column;
     grid-auto-columns:minmax(280px,84vw);grid-template-columns:none;overflow-x:auto;
@@ -490,9 +699,124 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none}}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+:focus-visible{outline:2px solid var(--gold-ink);outline-offset:3px}
 .svc--dark :focus-visible,.visit :focus-visible,.hero :focus-visible{outline-color:var(--gold-lift)}
+
+/* --------------------------------------------- the gold, on the dark half
+   --gold-ink is mixed to clear 4.5:1 against the ivory; against a near-black
+   chapter it is the one that goes muddy. The dark sections take the lift. */
+.svc--dark .kicker,.svc--dark .num,.svc--dark .teaser b,
+.visit .kicker,.visit dt,.hero .kicker{color:var(--gold-lift)}
+.svc--dark .text-link{color:var(--gold-lift);border-bottom-color:rgba(216,178,106,.45)}
+.svc--dark .text-link:hover,.svc--dark .text-link:focus-visible{color:var(--paper);border-bottom-color:var(--paper)}
+.svc--dark .num:after{opacity:.6}
+
+/* ============================================================== editorial
+   About is the one reading section left between the media chapters; beauty,
+   latest styles and careers are chapters of their own now. It shares the one
+   section rhythm the shop and price list use — same padding, same measure,
+   same head block — so the page reads as a single publication. */
+.editorial{padding:var(--section-pad) var(--pad)}
+.editorial__in{max-width:var(--measure-wide);margin:0 auto}
+.editorial p{line-height:1.7}
+
+/* one head block for every full-width section: kicker, headline, lede.
+   Above 900px the headline and its lede sit side by side: stacked, they left
+   a 1180px section opening with half its width empty and pushed the grid
+   below it a screen further down than it needed to be. */
+.sec-head{max-width:var(--measure);margin-bottom:44px}
+.sec-head h2{margin-bottom:16px}
+@media(min-width:900px){
+  /* first baselines aligned, not boxes: the headline and its lede are set
+     at very different sizes, and any other alignment leaves one of them
+     floating in a gap that reads as a mistake */
+  .sec-head:not(.sec-head--stack){max-width:none;display:grid;align-items:baseline;
+    gap:0 clamp(40px,6vw,88px);grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr)}
+  .sec-head:not(.sec-head--stack) .kicker{grid-column:1/-1}
+  .sec-head:not(.sec-head--stack) h2{margin-bottom:0}
+  .sec-head:not(.sec-head--stack) .lede{max-width:44ch}
+}
+
+/* ------------------------------------------------------- about, as a spread
+   The wide photograph stacked over the copy pushed every word of the
+   introduction below the fold and left the section a screen and a half tall
+   for two paragraphs. Side by side it reads in one view. */
+.about__grid{display:grid;gap:clamp(30px,4vw,64px)}
+.about__copy{display:grid;align-content:center;gap:22px}
+.about__copy .sec-head{margin-bottom:0}
+/* the grid already spaces its rows; .text-link's own top margin stacked on
+   top of that gap and stranded the link half a paragraph below the facts */
+.about__copy .text-link{margin-top:0;justify-self:start}
+@media(min-width:900px){
+  .about__grid{grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);align-items:center}
+  .about__grid .section-visual{margin:0}
+  .about__grid .section-visual img{aspect-ratio:4/5}
+}
+
+/* the four facts anyone weighing a salon checks first, as a compact table
+   rather than another paragraph */
+.facts{margin:4px 0 0;display:grid;gap:0;grid-template-columns:1fr 1fr;
+  border-top:1px solid var(--rule)}
+.facts > div{padding:14px 0;border-bottom:1px solid var(--rule)}
+.facts > div:nth-child(odd){padding-right:20px}
+.facts dt{font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-ink)}
+.facts dd{margin:5px 0 0;font-size:15px;line-height:1.35}
+@media(max-width:480px){.facts{grid-template-columns:1fr}.facts > div:nth-child(odd){padding-right:0}}
+
+/* and one headline scale across the whole page */
+.svc h2,.editorial h2,.shop h2,.prices h2,.visit h2{
+  font-size:clamp(32px,4.4vw,58px);font-weight:300}
+
+/* the wide photograph that opens a section — a fixed ratio rather than a
+   fixed height, so it crops the same way at every width */
+.section-visual{margin:0 0 clamp(30px,4vw,48px)}
+.section-visual img{width:100%;height:auto;aspect-ratio:16/7;object-fit:cover}
+
+/* prose under a section head sits in the same reading measure the ledes
+   use; grids (cards, the style wall) are free to run the full width */
+.editorial__body{max-width:var(--measure)}
+.editorial__body p{margin:0 0 18px}
+.editorial__body p:last-of-type{margin-bottom:0}
+
+/* a quiet link out of a section, styled like the ones in the visit panel */
+.text-link{display:inline-block;margin-top:14px;text-decoration:none;font-size:13px;
+  letter-spacing:.06em;color:var(--gold-ink);padding-bottom:3px;
+  border-bottom:1px solid rgba(168,135,74,.42);transition:color .2s,border-color .2s}
+.text-link:hover,.text-link:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* ------------------------------------------------- body copy in a chapter
+   Careers carries two paragraphs of real prose rather than a price teaser,
+   which is more than .note is sized for and less than a .lede. */
+.copy{margin:0;max-width:46ch;font-size:15px;line-height:1.7;color:var(--slate)}
+.svc--dark .copy{color:rgba(247,244,239,.72)}
+
+/* ------------------------------------- latest styles, inside its chapter
+   Empty until photographs are added to data.json, which is why it collapses
+   rather than leaving a row of holes in the chapter body. */
+.latest-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2vw,24px)}
+.latest-grid:empty{display:none}
+.latest-grid img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;margin-bottom:12px}
+.latest-grid h3{font-family:var(--serif);font-size:19px;font-weight:500;margin-bottom:4px}
+.latest-grid p{margin:0;font-size:13.5px;color:var(--slate)}
+.svc--dark .latest-grid p{color:rgba(247,244,239,.6)}
+
+.hero-photo{width:100%;height:100%;object-fit:cover;object-position:65% center}
+
+@media(max-width:700px){
+  .latest-grid{grid-template-columns:1fr}
+  .section-visual img{aspect-ratio:3/2}
+  /* A phone shows about a third of this frame's width. At 62% that third
+     was a pot plant and two empty chairs; the client whose braids the
+     photograph was taken for sat outside the crop entirely — and the rule
+     never applied anyway, because `.stage img` in the small-screen block
+     outranks a lone `.hero-photo`. */
+  .stage .hero-photo{object-position:86% center}
+}
 </style>
+<!-- The machine-readable version of data.json: the salon, its hours and
+     address, every priced service, and the FAQ. Generated by build.js. -->
+<script type="application/ld+json">{"@context":"https://schema.org","@type":["HairSalon","BeautySalon"],"@id":"https://infinitysalon-flame.vercel.app/#salon","name":"Infinity Hair and Beauty Salon","alternateName":"Infinity Salon","slogan":"Beautifully styled. Confidently you.","description":"Hair, makeup, gele, nails and facial care in the heart of Woolwich. Personal attention for your everyday style and special occasions.","url":"https://infinitysalon-flame.vercel.app","image":"https://infinitysalon-flame.vercel.app/assets/img/og-image.jpg","logo":"https://infinitysalon-flame.vercel.app/assets/img/logo-mark.png","telephone":"+447464053505","email":"cedarevent@yahoo.com","priceRange":"££","currenciesAccepted":"GBP","address":{"@type":"PostalAddress","streetAddress":"40/42 Powis Street","addressLocality":"Woolwich","addressRegion":"London","postalCode":"SE18 6QS","addressCountry":"GB"},"areaServed":[{"@type":"Place","name":"Woolwich"},{"@type":"Place","name":"London"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"09:00","closes":"21:00"}],"sameAs":["https://www.tiktok.com/@harannawoolwichhair"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Infinity Hair and Beauty Salon — services","itemListElement":[{"@type":"OfferCatalog","name":"Wash & Treatments","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Hair Washing","serviceType":"Wash & Treatments"},"availability":"https://schema.org/InStock","price":"20","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dreadlock Washing","serviceType":"Wash & Treatments"},"availability":"https://schema.org/InStock","priceSpecification":{"@type":"PriceSpecification","minPrice":"30","maxPrice":"40","priceCurrency":"GBP"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Relaxer","serviceType":"Wash & Treatments"},"availability":"https://schema.org/InStock","price":"40","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Treatment","serviceType":"Wash & Treatments"},"availability":"https://schema.org/InStock","price":"45","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dye","serviceType":"Wash & Treatments"},"availability":"https://schema.org/InStock","price":"30","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Bleach & Dye","serviceType":"Wash & Treatments"},"availability":"https://schema.org/InStock","price":"50","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Weaves & Wigs","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave on Wash & Revamp","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"60","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave on Wash","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"30","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave with Closure","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"80","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave with 360","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"90","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Frontal with Weave & Style","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"120","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave (27 Pieces) Short Hair & Style","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"90","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave Tong / Straightening","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"30","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave Spiral Curls","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"60","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave Tinted / Colour","serviceType":"Weaves & Wigs"},"availability":"https://schema.org/InStock","price":"50","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Box Braids & Knotless","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Loose of Cornrow for Wig","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"10","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Loose of Cornrow, Small Size","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"20","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Loose of Single Plait","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"30","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Loose of Single Plait, Tiny","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","priceSpecification":{"@type":"PriceSpecification","minPrice":"50","maxPrice":"60","priceCurrency":"GBP"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Box Braid, Bra Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Box Braid, Waist Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"150","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Box Braid, Bum Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"180","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Knotless, Shoulder Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Knotless, Bra Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"120","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Knotless, Waist Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"180","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Single Plait Knotless, Bum Length","serviceType":"Box Braids & Knotless"},"availability":"https://schema.org/InStock","price":"200","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"French Curls & Pick 'n' Drop","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"French Curls Single Plait, Shoulder Length","serviceType":"French Curls & Pick 'n' Drop"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"French Curls Single Plait, Bra Length","serviceType":"French Curls & Pick 'n' Drop"},"availability":"https://schema.org/InStock","price":"130","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"French Curls Single Plait, Waist Length","serviceType":"French Curls & Pick 'n' Drop"},"availability":"https://schema.org/InStock","price":"180","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"French Curls Single Plait, Knotless","serviceType":"French Curls & Pick 'n' Drop"},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Pick and Drop with Expression","serviceType":"French Curls & Pick 'n' Drop"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Pick and Drop with Human Hair","serviceType":"French Curls & Pick 'n' Drop"},"availability":"https://schema.org/InStock","price":"120","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Crochet","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Crochet with Cornrow","serviceType":"Crochet"},"availability":"https://schema.org/InStock","price":"80","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Crochet with Single","serviceType":"Crochet"},"availability":"https://schema.org/InStock","price":"130","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Crochet with Cornrow in the Front","serviceType":"Crochet"},"availability":"https://schema.org/InStock","price":"90","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Weave with Hair Leave-out / Closure","serviceType":"Crochet"},"availability":"https://schema.org/InStock","price":"70","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Twists","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Kinky Twist, Short / Neck Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"60","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Kinky Twist, Shoulder Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Kinky Twist, Waist Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"180","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Kinky Twist, Bra Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"130","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Twist with Expression, Shoulder Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Twist with Expression, Bra Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"120","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Twist with Expression, Waist Length","serviceType":"Twists"},"availability":"https://schema.org/InStock","price":"200","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Cornrows & Men's Grooming","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Braid Stitch to the Back","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"80","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cornrow Pony, Big Sizes","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"80","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cornrow Feeding to the Back","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"70","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Design Cornrow for Men","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"60","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Cornrow, Ordinary for Men","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"40","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Twist / Plait for Men, Half Head","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"60","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Twist / Plait for Men, Full Head","serviceType":"Cornrows & Men's Grooming"},"availability":"https://schema.org/InStock","price":"80","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Locs & Dreadlocks","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Relocking, Half Head","serviceType":"Locs & Dreadlocks"},"availability":"https://schema.org/InStock","price":"60","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Relocking, Full Head","serviceType":"Locs & Dreadlocks"},"availability":"https://schema.org/InStock","price":"80","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Relocking, Tiny Locs","serviceType":"Locs & Dreadlocks"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dreadlock Starter, Half Head","serviceType":"Locs & Dreadlocks"},"availability":"https://schema.org/InStock","price":"150","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Dreadlock, Full Head","serviceType":"Locs & Dreadlocks"},"availability":"https://schema.org/InStock","price":"200","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Kids & Teens","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Children's Single Plait Box Braid","serviceType":"Kids & Teens"},"availability":"https://schema.org/InStock","price":"70","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Teenager's Single Plait","serviceType":"Kids & Teens"},"availability":"https://schema.org/InStock","price":"100","priceCurrency":"GBP"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Children's Cornrow","serviceType":"Kids & Teens"},"availability":"https://schema.org/InStock","price":"40","priceCurrency":"GBP"}]},{"@type":"OfferCatalog","name":"Quoted on enquiry","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Nails","description":"Manicures, pedicures, gel colour and nail art."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Spa & body","description":"Massage and spa care to unwind and reset."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Makeup","description":"Everyday polish through to occasion glamour."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Gele styling","description":"Occasion headwraps tied to your outfit and finish."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Facials","description":"Facial treatments chosen around your skin and routine."},"availability":"https://schema.org/InStock"},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Lashes & threading","description":"Lash services and precise brow and facial threading."},"availability":"https://schema.org/InStock"}]}]}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I book an appointment?","acceptedAnswer":{"@type":"Answer","text":"WhatsApp is the fastest way — message 07464 053505 and we reply during opening hours. You can also call the same number or email cedarevent@yahoo.com. Walk-ins are welcome subject to availability, but booking ahead means we can set aside the right amount of time."}},{"@type":"Question","name":"Is a deposit required?","acceptedAnswer":{"@type":"Answer","text":"Yes. A 20% deposit secures your booking. The balance is settled at the salon on the day."}},{"@type":"Question","name":"How far in advance should I book?","acceptedAnswer":{"@type":"Answer","text":"Please book at least 24 hours in advance so we can plan the day around your service."}},{"@type":"Question","name":"Can I cancel or reschedule?","acceptedAnswer":{"@type":"Answer","text":"Cancellation is free within 24 hours of paying your deposit, and you can reschedule at any time — just let us know."}},{"@type":"Question","name":"How long will my appointment take?","acceptedAnswer":{"@type":"Answer","text":"Between 20 minutes and 4 hours, depending on the service. Longer braiding, knotless and loc work sits at the top of that range, so allow plenty of time."}},{"@type":"Question","name":"Do you have prices for nails, makeup, gele, facials, lashes and threading?","acceptedAnswer":{"@type":"Answer","text":"These are quoted on enquiry rather than listed, because the work is tailored to you. Message us with what you have in mind and we will confirm the price before you book. The full hair price list is published on this page."}},{"@type":"Question","name":"Do you style children’s and teenagers’ hair?","acceptedAnswer":{"@type":"Answer","text":"Yes. Cornrows, single plaits and box braids for children and teenagers are all in the price list, under Kids & Teens."}},{"@type":"Question","name":"Where are you and when are you open?","acceptedAnswer":{"@type":"Answer","text":"We are at 40/42 Powis Street, Woolwich, London SE18 6QS, and we are open Monday – Sunday, 9am – 9pm."}}]}</script>
 </head>
 <body>
 
@@ -504,42 +828,50 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     <span class="vh">Infinity Hair and Beauty Salon — home</span>
     <b aria-hidden="true">INFINITY<span>Hair &amp; Beauty</span></b>
   </a>
-  <nav class="main" aria-label="Sections">
+  <!-- Careers is a link for people who want to work here, not for people
+       deciding where to get their hair done; it sits in the footer, and the
+       slot it held goes to the shop. -->
+  <nav class="main" aria-label="Sections"><a href="#about">About</a>
+    <a href="#services">Services</a>
     <a href="#hair">Hair</a>
-    <a href="#nails">Nails</a>
-    <a href="#spa">Spa</a>
-    <a href="#shop">Shop</a>
     <a href="#prices">Prices</a>
-    <a href="#visit">Visit</a>
-  </nav>
+    <a href="#shop">Shop</a>
+    <a href="#faq">FAQ</a>
+    <a href="#visit">Visit</a></nav>
   <a class="btn js-wa" href="#" target="_blank" rel="noopener noreferrer">Book</a>
+  <i id="progress" aria-hidden="true"></i>
   <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
     <span class="vh">Open navigation</span>
     <span class="menu-toggle__icon" aria-hidden="true"></span>
   </button>
 </header>
-<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile sections">
-  <a href="#hair">Hair</a>
-  <a href="#nails">Nails</a>
-  <a href="#spa">Spa</a>
-  <a href="#shop">Shop</a>
-  <a href="#prices">Prices</a>
-  <a href="#visit">Visit</a>
-</nav>
+<nav class="mobile-menu" id="mobile-menu" aria-label="Mobile sections"><a href="#about">About</a>
+    <a href="#services">All services</a>
+    <a href="#hair">Hair</a>
+    <a href="#beauty">Beauty</a>
+    <a href="#shop">Shop</a>
+    <a href="#latest">Latest styles</a>
+    <a href="#prices">Prices</a>
+    <a href="#faq">FAQ</a>
+    <a href="#careers">Careers</a>
+    <a href="#visit">Visit</a></nav>
 
 <main id="top">
 
   <!-- ============================================================ hero -->
-  <section class="chapter hero" id="hero" data-copy-pos="left">
-    <!-- The salon's own logo animation: the mark morphs into a styled
-         mannequin head as the room resolves around it. Plays on load like
-         every other chapter clip — entry-triggered, never scroll-scrubbed. -->
-    <div class="stage" id="hero-reel">
-      <video class="hero-reel__clip is-active" data-hero-clip data-src="assets/video/hero.mp4"
-             poster="assets/video/hero.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
-      <video class="hero-reel__clip" data-hero-clip data-src="assets/video/hero.mp4"
-             poster="assets/video/hero.jpg" muted playsinline preload="metadata" aria-hidden="true"></video>
-      <div class="hero-reel__veil" aria-hidden="true"></div>
+  <section class="chapter hero" id="hero">
+    <!-- The largest paint on the page, and it was a 1.7 MB PNG — a lossless
+         format carrying a photograph, which is the one thing it is worst at.
+         Re-encoded from the same 1672x941 original: 65 KB of WebP, with a
+         134 KB JPEG behind it for anything that cannot take WebP. The PNG is
+         kept in the repository as the master. -->
+    <div class="stage">
+      <picture>
+        <source srcset="assets/img/salon-hero-v2.webp" type="image/webp">
+        <img class="hero-photo" src="assets/img/salon-hero-v2.jpg"
+             width="1672" height="941"
+             alt="The Infinity Hair and Beauty styling floor" fetchpriority="high">
+      </picture>
     </div>
     <div class="scrim"></div>
     <div class="hero__in">
@@ -549,20 +881,70 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
           <span>Infinity Hair</span>
           <span class="accent">&amp; Beauty Salon</span>
         </h1>
-        <p class="hero__tag" id="hero-tag">You arrive as you are. You leave transformed.</p>
+        <p class="hero__tag" id="hero-tag">Beautifully styled. Confidently you.</p>
         <div class="hero__meta">
           <span id="hero-hours"></span>
           <span id="hero-addr"></span>
         </div>
+        <div class="hero__cta">
+          <a class="btn btn--gold btn--lg js-wa" href="#" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
+            Book on WhatsApp
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#services">See all services</a>
+        </div>
+        <p class="hero__note">Walk-ins welcome &middot; 20% deposit secures your slot</p>
       </div>
     </div>
     <p class="cue" aria-hidden="true">Scroll</p>
   </section>
 
+  <!-- =========================================================== about -->
+  <section class="editorial flow" id="about" aria-labelledby="about-h">
+    <div class="editorial__in about__grid">
+      <figure class="section-visual rv">
+        <img src="assets/img/sections/about.jpg"
+             alt="Salon interior with navy styling chairs and brass mirrors"
+             loading="lazy" decoding="async" width="1536" height="1024">
+      </figure>
+      <div class="about__copy">
+        <div class="sec-head sec-head--stack">
+          <p class="kicker rv">About Infinity</p>
+          <h2 id="about-h" class="rv">Your beauty.<br>Our personal touch.</h2>
+          <p class="lede rv">Hair, beauty and personal style in one place, in the heart of Woolwich. Open seven days a week, and late enough in the evening to fit around work.</p>
+        </div>
+        <div class="editorial__body rv">
+          <p>From braids and protective styles to makeup, gele and relaxing treatments, we bring your beauty routine together in one welcoming space. Whether you are refreshing your everyday look or preparing for a special occasion, tell us what you have in mind and we will help you plan your visit.</p>
+        </div>
+        <dl class="facts rv">
+          <div><dt>Open</dt><dd>7 days, 9am&ndash;9pm</dd></div>
+          <div><dt>Services</dt><dd>9 lines under one roof</dd></div>
+          <div><dt>Hair price list</dt><dd>58 services published</dd></div>
+          <div><dt>Where</dt><dd>Powis Street, Woolwich</dd></div>
+        </dl>
+        <a class="text-link rv" href="#visit">Find us on Powis Street &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================ the service index
+       The salon runs nine service lines. Scrolling introduces them one
+       chapter at a time, which is the right way to meet them and the wrong
+       way to find one — so this is the directory: everything on offer, what
+       it costs or that it is quoted, and a jump straight to it. -->
+  <section class="dir flow" id="services" aria-labelledby="services-h">
+    <div class="sec-head">
+      <p class="kicker rv">Everything we do</p>
+      <h2 id="services-h" class="rv">One salon.<br>Nine ways in.</h2>
+      <p class="lede rv">Hair, nails, spa, makeup, gele, facials, lashes and the boutique, all under one roof on Powis Street. Choose where to start.</p>
+    </div>
+    <ul class="dir__grid rv" id="dir-grid"></ul>
+    <p class="dir__foot rv">Looking for something else? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &middot; <a href="#latest">See our latest styles</a> &middot; <a href="#faq">Read the FAQ</a></p>
+  </section>
   <div class="hair-feature" id="hair-feature">
     <!-- ================================================ the gradient band -->
     <section class="band" id="band" aria-label="Every hairstyle">
-      <p class="band__line rv">Any hairstyle you want &mdash;<em>we have it all.</em></p>
+      <p class="band__line rv">Your style. Our expertise.<em>Beautiful possibilities.</em></p>
       <i class="band__shimmer" aria-hidden="true"></i>
     </section>
 
@@ -581,7 +963,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     </div>
     <div class="svc__body">
       <p class="num rv">01</p>
-      <h2 id="hair-h" class="rv">Hair, done properly.</h2>
+      <h2 id="hair-h" class="rv">Beautiful hair. Personal care.</h2>
       <p class="lede rv" id="hair-body"></p>
       <hr class="rule rv">
       <ul class="teaser rv" id="hair-teaser"></ul>
@@ -602,8 +984,8 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
       <h2 id="nails-h" class="rv">Manicure &amp; pedicure.</h2>
       <p class="lede rv" id="nails-body"></p>
       <hr class="rule rv">
-      <p class="note rv" id="nails-note"></p>
-      <p class="rv"><a class="btn btn--gold js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask about nail pricing</a></p>
+      <p class="note js-quote rv"></p>
+      <p class="rv"><a class="btn btn--gold js-wa" href="#" data-wa="nails" target="_blank" rel="noopener noreferrer">Ask about nail pricing</a></p>
     </div>
   </section>
 
@@ -615,11 +997,11 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     </div>
     <div class="svc__body">
       <p class="num rv">03</p>
-      <h2 id="spa-h" class="rv">Somewhere to switch off.</h2>
+      <h2 id="spa-h" class="rv">Make time for yourself.</h2>
       <p class="lede rv" id="spa-body"></p>
       <hr class="rule rv">
-      <p class="note rv" id="spa-note"></p>
-      <p class="rv"><a class="btn js-wa" href="#" target="_blank" rel="noopener noreferrer">Enquire about treatments</a></p>
+      <p class="note js-quote rv"></p>
+      <p class="rv"><a class="btn js-wa" href="#" data-wa="a spa or massage treatment" target="_blank" rel="noopener noreferrer">Enquire about treatments</a></p>
     </div>
   </section>
 
@@ -631,20 +1013,88 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     </div>
     <div class="svc__body">
       <p class="num rv">04</p>
-      <h2 id="bq-h" class="rv">The boutique.</h2>
+      <h2 id="bq-h" class="rv">Complete your look.</h2>
       <p class="lede rv" id="bq-body"></p>
       <hr class="rule rv">
       <ul class="prods rv" id="bq-prods"></ul>
+      <p class="rv"><a class="btn btn--ghost" href="#shop">Browse the shop</a></p>
+    </div>
+  </section>
+
+  <!-- ========================================================= makeup -->
+  <section class="chapter svc" id="beauty" aria-labelledby="makeup-h">
+    <div class="svc__media">
+      <img src="assets/img/sections/makeup.jpg"
+           alt="Soft-glam makeup with warm eyeshadow and a polished finish"
+           width="1024" height="1280" loading="lazy" decoding="async">
+    </div>
+    <div class="svc__body">
+      <p class="num rv">05</p>
+      <h2 id="makeup-h" class="rv">A look that feels like you.</h2>
+      <p class="lede rv">A soft daytime finish, or full glamour for an occasion. Bring a picture of the look you have in mind and we will match it to your skin tone.</p>
+      <hr class="rule rv">
+      <p class="note js-quote rv"></p>
+      <p class="rv"><a class="btn js-wa" href="#" data-wa="makeup" target="_blank" rel="noopener noreferrer">Enquire about makeup</a></p>
+    </div>
+  </section>
+
+  <!-- =========================================================== gele -->
+  <section class="chapter svc svc--flip svc--dark" id="gele" aria-labelledby="gele-h">
+    <div class="svc__media">
+      <img src="assets/img/sections/gele.jpg"
+           alt="A champagne-gold gele headwrap tied for an occasion"
+           width="1024" height="1280" loading="lazy" decoding="async">
+    </div>
+    <div class="svc__body">
+      <p class="num rv">06</p>
+      <h2 id="gele-h" class="rv">Elegance, beautifully tied.</h2>
+      <p class="lede rv">The headwrap that finishes a wedding, a naming ceremony or a birthday. Bring your fabric and your outfit, and we will tie a shape that sits with both.</p>
+      <hr class="rule rv">
+      <p class="note js-quote rv"></p>
+      <p class="rv"><a class="btn btn--gold js-wa" href="#" data-wa="gele styling" target="_blank" rel="noopener noreferrer">Enquire about gele styling</a></p>
+    </div>
+  </section>
+
+  <!-- ======================================================== facials -->
+  <section class="chapter svc" id="facials" aria-labelledby="facials-h">
+    <div class="svc__media">
+      <img src="assets/img/sections/facial.jpg"
+           alt="A relaxing facial treatment"
+           width="1024" height="1280" loading="lazy" decoding="async">
+    </div>
+    <div class="svc__body">
+      <p class="num rv">07</p>
+      <h2 id="facials-h" class="rv">A moment to refresh.</h2>
+      <p class="lede rv">Cleansing, exfoliation and massage, chosen around your skin rather than picked off a fixed menu. Tell us how it behaves and we will build the treatment around it.</p>
+      <hr class="rule rv">
+      <p class="note js-quote rv"></p>
+      <p class="rv"><a class="btn js-wa" href="#" data-wa="a facial" target="_blank" rel="noopener noreferrer">Enquire about facials</a></p>
+    </div>
+  </section>
+
+  <!-- ============================================ lashes & threading -->
+  <section class="chapter svc svc--flip svc--dark" id="lashes" aria-labelledby="lashes-h">
+    <div class="svc__media">
+      <img src="assets/img/sections/lashes.jpg"
+           alt="Defined eyelashes and a shaped brow"
+           width="1024" height="1280" loading="lazy" decoding="async">
+    </div>
+    <div class="svc__body">
+      <p class="num rv">08</p>
+      <h2 id="lashes-h" class="rv">Definition in every detail.</h2>
+      <p class="lede rv">Lashes to frame the eye, and threading for brows and face. Slow, exact work &mdash; the whole difference is in a millimetre either way.</p>
+      <hr class="rule rv">
+      <p class="note js-quote rv"></p>
+      <p class="rv"><a class="btn btn--gold js-wa" href="#" data-wa="lashes or threading" target="_blank" rel="noopener noreferrer">Enquire about lashes &amp; threading</a></p>
     </div>
   </section>
 
   <!-- ============================================================ shop -->
   <section class="shop flow" id="shop" aria-labelledby="shop-h">
-    <div class="shop__head">
+    <div class="sec-head">
       <p class="kicker rv">Take it home</p>
       <h2 id="shop-h" class="rv">Shop our products.</h2>
-      <p class="lede rv">The edit we use in-chair, available to take away. Message us on
-        WhatsApp and we&rsquo;ll set one aside &mdash; collection from the salon.</p>
+      <p class="lede rv">Discover beauty essentials for your everyday routine. Message us on WhatsApp to check availability and arrange collection from the salon.</p>
     </div>
     <div class="shop__rail">
       <ul class="shop__grid" id="shop-grid"></ul>
@@ -652,16 +1102,77 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     </div>
   </section>
 
+  <!-- ================================================== latest styles -->
+  <section class="chapter svc svc--flip svc--dark" id="latest" aria-labelledby="latest-h">
+    <div class="svc__media">
+      <img src="assets/img/sections/inspiration.jpg"
+           alt="Long knotless braids"
+           width="1536" height="1024" loading="lazy" decoding="async">
+    </div>
+    <div class="svc__body">
+      <p class="num rv">09</p>
+      <h2 id="latest-h" class="rv">Find your next look.</h2>
+      <p class="lede rv">Explore our latest style videos on TikTok, then share your favourite with us when you book.</p>
+      <hr class="rule rv">
+      <div class="latest-grid rv" id="latest-grid"></div>
+      <p class="rv"><a class="btn btn--gold" id="latest-social" target="_blank" rel="noopener noreferrer">See our latest styles on TikTok</a></p>
+    </div>
+  </section>
+
   <!-- ========================================================== prices -->
   <section class="prices flow" id="prices" aria-labelledby="prices-h">
-    <div class="prices__head">
+    <div class="sec-head">
       <p class="kicker rv">Price list</p>
       <h2 id="prices-h" class="rv">Clear pricing, every time.</h2>
-      <p class="lede rv">Every published hair service, in the salon&rsquo;s own categories. Nail and spa
-        treatments are quoted on enquiry &mdash; message us and we&rsquo;ll come straight back.</p>
+      <p class="lede rv">Explore our hair services below. For nails, makeup, gele, facials, lashes and threading, contact us for a personalised quote before booking.</p>
     </div>
+
+    <!-- search across every category at once — see .finder in the styles -->
+    <div class="finder rv">
+      <label class="vh" for="finder">Search all services and prices</label>
+      <div class="finder__field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+        <input id="finder" type="search" autocomplete="off" spellcheck="false"
+               placeholder="Search a style or service &mdash; knotless, weave, locs, kids&hellip;">
+        <button class="finder__clear" id="finder-clear" type="button" hidden>Clear</button>
+      </div>
+      <p class="finder__count" id="finder-count" role="status" aria-live="polite"></p>
+    </div>
+
     <div class="tabs" role="tablist" aria-label="Price categories" id="tablist"></div>
     <div id="panels"></div>
+    <ul class="finder__results" id="finder-results" hidden></ul>
+    <p class="finder__empty" id="finder-empty" hidden></p>
+  </section>
+
+  <!-- ============================================================= faq -->
+  <section class="faq flow" id="faq" aria-labelledby="faq-h">
+    <div class="sec-head">
+      <p class="kicker rv">Good to know</p>
+      <h2 id="faq-h" class="rv">Before you book.</h2>
+      <p class="lede rv">The questions we answer most often. If yours is not here, message us and we will tell you straight away.</p>
+    </div>
+    <div class="faq__list rv" id="faq-list"></div>
+    <p class="faq__foot rv">Still deciding? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &mdash; we reply during opening hours.</p>
+  </section>
+
+  <!-- ========================================================= careers -->
+  <section class="chapter svc" id="careers" aria-labelledby="careers-h">
+    <div class="svc__media">
+      <img src="assets/img/sections/careers.jpg"
+           alt="Two hair professionals discussing styles in the salon"
+           width="1536" height="1024" loading="lazy" decoding="async">
+    </div>
+    <div class="svc__body">
+      <p class="num rv">10</p>
+      <h2 id="careers-h" class="rv">Bring your talent.<br>Grow with us.</h2>
+      <p class="lede rv">Passionate about hair, beauty and making people feel welcome? We would love to hear from you.</p>
+      <hr class="rule rv">
+      <p class="copy rv">To enquire about opportunities, email your CV, the role you are interested in, your relevant experience and your availability. You can include a portfolio link or examples of your work.</p>
+      <p class="copy rv">Our team will review your enquiry and contact you if there is a suitable opportunity.</p>
+      <p class="rv"><a class="btn" id="careers-email">Apply by email</a></p>
+      <p class="note rv">This opens your email app. Attach your CV before sending, or email <a id="careers-address"></a> directly.</p>
+    </div>
   </section>
 
   <!-- =========================================================== visit -->
@@ -670,26 +1181,29 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
       <div>
         <p class="kicker rv">Visit</p>
         <h2 id="visit-h" class="rv">Come and see us.</h2>
-        <p class="lede rv" style="color:rgba(247,244,239,.72)">Walk-ins welcome when we have the chair,
-          but a booking is safer &mdash; some styles take the better part of a day.</p>
+        <p class="lede rv">We welcome walk-ins subject to availability. Book ahead so we can set aside the time and care your chosen service deserves.</p>
         <dl class="rv">
-          <dt>Address</dt><dd id="v-addr"></dd>
+          <dt>Address</dt>
+          <dd id="v-addr"></dd>
+          <dd class="visit__aside"><a class="text-link text-link--light" id="v-map" href="#" target="_blank" rel="noopener noreferrer">Get directions &rarr;</a></dd>
           <dt>Opening hours</dt><dd id="v-hours"></dd>
-          <dt>WhatsApp</dt><dd><a class="js-wa" id="v-wa" href="#" target="_blank" rel="noopener noreferrer"></a><small>Fastest way to book &mdash; we reply during opening hours.</small></dd>
-          <dt>Call</dt><dd><a id="v-tel" href="#"></a></dd>
+          <dt>WhatsApp &amp; phone</dt>
+          <dd><a class="js-wa" id="v-wa" href="#" target="_blank" rel="noopener noreferrer"></a>
+            <small>Fastest way to book &mdash; we reply during opening hours. Prefer to talk? <a id="v-tel" href="#">Call the same number</a>.</small></dd>
           <dt>Email</dt><dd><a id="v-mail" href="#"></a></dd>
           <dt>TikTok</dt><dd><a id="v-tt" href="#" target="_blank" rel="noopener noreferrer"></a></dd>
         </dl>
       </div>
-      <div>
-        <p class="kicker rv">Before you book</p>
-        <ul class="policies rv" id="v-policies"></ul>
-        <p class="rv" style="margin-top:30px">
+      <div class="visit__panel rv">
+        <p class="kicker">Before you book</p>
+        <ul class="policies" id="v-policies"></ul>
+        <p class="visit__cta">
           <a class="btn btn--gold js-wa" href="#" target="_blank" rel="noopener noreferrer">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
             Book on WhatsApp
           </a>
         </p>
+        <p class="visit__alt">Or <a id="v-tel-2" href="#">call 07464 053505</a> &middot; walk-ins welcome, subject to availability.</p>
       </div>
     </div>
   </section>
@@ -703,6 +1217,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
     </a>
     <p class="foot__details" id="f-legal"></p>
     <div class="foot__actions">
+      <a href="#careers">Careers</a>
       <a href="#top">Back to top</a>
       <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Book now</a>
     </div>
@@ -718,7 +1233,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.5);fon
 /* The scraped business record, inlined at build time from data.json so the
    page works from the filesystem as well as from a server. data.json stays
    the single source of truth — edit it, then run `node build.js`. */
-const DATA = {"business":{"name":"Infinity Hair and Beauty Salon","shortName":"Infinity Salon","tagline":"You arrive as you are. You leave feeling transformed.","description":"Expert hair braiding, silk presses, gel nails, spa massage and curated fashion pieces — one elevated beauty experience in London.","address":{"street":"40/42 Powis Street","area":"Woolwich","city":"London","postcode":"SE18 6QS","line":"40/42 Powis Street, Woolwich, London SE18 6QS"},"hours":{"days":"Monday – Sunday","open":"9am","close":"9pm","line":"Monday – Sunday, 9am – 9pm"}},"contact":{"whatsapp":{"e164":"447464053505","display":"07464 053505","prefilledMessage":"Hi Infinity Salon! I'd like to book an appointment.","url":"https://wa.me/447464053505?text=Hi%20Infinity%20Salon!%20I'd%20like%20to%20book%20an%20appointment.","label":"Book via WhatsApp","note":"Fastest way to book — we reply during opening hours."},"phone":{"display":"07464 053505","href":"tel:+447464053505"},"email":"cedarevent@yahoo.com","tiktok":{"handle":"@harannawoolwichhair","url":"https://www.tiktok.com/@harannawoolwichhair"}},"pillars":[{"n":"01","name":"Hair Styling & Care","body":"Braiding, extensions, silk presses, precision cuts, barbering and custom wig craft."},{"n":"02","name":"Nail Care & Aesthetics","body":"Manicures, gel finishes, bespoke nail art, pedicures and restorative foot care."},{"n":"03","name":"Spa & Body Treatments","body":"Massage therapy and therapeutic spa care, paced to let you actually switch off."},{"n":"04","name":"Boutique & Fashion","body":"Statement clothing, fabrics and accessories, selected to match how you want to be seen."}],"pricing":{"currency":"GBP","categories":[{"id":"wash-treatments","label":"Wash & Treatments","items":[{"name":"Hair Washing","price":"£20"},{"name":"Dreadlock Washing","price":"£30 – £40"},{"name":"Relaxer","price":"£40"},{"name":"Treatment","price":"£45"},{"name":"Dye","price":"£30"},{"name":"Bleach & Dye","price":"£50"}]},{"id":"weaves-wigs","label":"Weaves & Wigs","items":[{"name":"Weave on Wash & Revamp","price":"£60"},{"name":"Weave on Wash","price":"£30"},{"name":"Weave with Closure","price":"£80"},{"name":"Weave with 360","price":"£90"},{"name":"Frontal with Weave & Style","price":"£120"},{"name":"Weave (27 Pieces) Short Hair & Style","price":"£90"},{"name":"Weave Tong / Straightening","price":"£30"},{"name":"Weave Spiral Curls","price":"£60"},{"name":"Weave Tinted / Colour","price":"£50"}]},{"id":"box-braids","label":"Box Braids & Knotless","items":[{"name":"Loose of Cornrow for Wig","price":"£10"},{"name":"Loose of Cornrow, Small Size","price":"£20"},{"name":"Loose of Single Plait","price":"£30"},{"name":"Loose of Single Plait, Tiny","price":"£50 – £60"},{"name":"Single Plait Box Braid, Bra Length","price":"£100"},{"name":"Single Plait Box Braid, Waist Length","price":"£150"},{"name":"Single Plait Box Braid, Bum Length","price":"£180"},{"name":"Single Plait Knotless, Shoulder Length","price":"£100"},{"name":"Single Plait Knotless, Bra Length","price":"£120"},{"name":"Single Plait Knotless, Waist Length","price":"£180"},{"name":"Single Plait Knotless, Bum Length","price":"£200"}]},{"id":"french-curls","label":"French Curls & Pick 'n' Drop","items":[{"name":"French Curls Single Plait, Shoulder Length","price":"£100"},{"name":"French Curls Single Plait, Bra Length","price":"£130"},{"name":"French Curls Single Plait, Waist Length","price":"£180"},{"name":"French Curls Single Plait, Knotless","price":"+£30","note":"extra for knotless finish"},{"name":"Pick and Drop with Expression","price":"£100"},{"name":"Pick and Drop with Human Hair","price":"£120"}]},{"id":"crochet","label":"Crochet","items":[{"name":"Crochet with Cornrow","price":"£80"},{"name":"Crochet with Single","price":"£130"},{"name":"Crochet with Cornrow in the Front","price":"£90"},{"name":"Weave with Hair Leave-out / Closure","price":"£70"}]},{"id":"twists","label":"Twists","items":[{"name":"Kinky Twist, Short / Neck Length","price":"£60"},{"name":"Kinky Twist, Shoulder Length","price":"£100"},{"name":"Kinky Twist, Waist Length","price":"£180"},{"name":"Kinky Twist, Bra Length","price":"£130"},{"name":"Twist with Expression, Shoulder Length","price":"£100"},{"name":"Twist with Expression, Bra Length","price":"£120"},{"name":"Twist with Expression, Waist Length","price":"£200"}]},{"id":"cornrows-men","label":"Cornrows & Men's Grooming","items":[{"name":"Braid Stitch to the Back","price":"£80"},{"name":"Cornrow Pony, Big Sizes","price":"£80"},{"name":"Cornrow Feeding to the Back","price":"£70"},{"name":"Design Cornrow for Men","price":"£60"},{"name":"Cornrow, Ordinary for Men","price":"£40"},{"name":"Twist / Plait for Men, Half Head","price":"£60"},{"name":"Twist / Plait for Men, Full Head","price":"£80"}]},{"id":"locs","label":"Locs & Dreadlocks","items":[{"name":"Relocking, Half Head","price":"£60"},{"name":"Relocking, Full Head","price":"£80"},{"name":"Relocking, Tiny Locs","price":"£100"},{"name":"Dreadlock Starter, Half Head","price":"£150"},{"name":"Dreadlock, Full Head","price":"£200"}]},{"id":"kids-teens","label":"Kids & Teens","items":[{"name":"Children's Single Plait Box Braid","price":"£70"},{"name":"Teenager's Single Plait","price":"£100"},{"name":"Children's Cornrow","price":"£40"}]}]},"products":[{"name":"Hair Oils & Serums","price":"From £12","body":"Nourishing oils to keep every style glossy and healthy between visits.","img":"assets/shop/hair-oils.jpg"},{"name":"Nail Care & Polish","price":"From £8","body":"Salon-grade polishes and treatments in shades for every mood.","img":"assets/shop/nail-polish.jpg"},{"name":"Spa & Skincare Tools","price":"From £15","body":"Gua sha, rollers, and rituals to bring the spa experience home.","img":"assets/shop/spa-tools.jpg"},{"name":"Makeup & Beauty","price":"From £10","body":"Curated brushes and cosmetics for a polished, everyday finish.","img":"assets/shop/makeup.jpg"},{"name":"Bath & Body","price":"From £14","body":"Botanical bath and body treats for a little everyday indulgence.","img":"assets/shop/bath-body.jpg"},{"name":"Signature Gift Sets","price":"From £35","body":"Beautifully packaged sets, ready to gift or treat yourself.","img":"assets/shop/gift-sets.jpg"}],"policies":["Appointments run 20 minutes – 4 hours, depending on service","20% deposit required to secure your booking","Please book at least 24 hours in advance","Free cancellation within 24 hours of your deposit, reschedule anytime"]};
+const DATA = {"business":{"name":"Infinity Hair and Beauty Salon","shortName":"Infinity Salon","tagline":"Beautifully styled. Confidently you.","description":"Hair, makeup, gele, nails and facial care in the heart of Woolwich. Personal attention for your everyday style and special occasions.","address":{"street":"40/42 Powis Street","area":"Woolwich","city":"London","postcode":"SE18 6QS","line":"40/42 Powis Street, Woolwich, London SE18 6QS"},"hours":{"days":"Monday – Sunday","open":"9am","close":"9pm","line":"Monday – Sunday, 9am – 9pm"}},"contact":{"whatsapp":{"e164":"447464053505","display":"07464 053505","prefilledMessage":"Hi Infinity Salon! I'd like to book an appointment.","url":"https://wa.me/447464053505?text=Hi%20Infinity%20Salon!%20I'd%20like%20to%20book%20an%20appointment.","label":"Book via WhatsApp","note":"Fastest way to book — we reply during opening hours."},"phone":{"display":"07464 053505","href":"tel:+447464053505"},"email":"cedarevent@yahoo.com","tiktok":{"handle":"@harannawoolwichhair","url":"https://www.tiktok.com/@harannawoolwichhair"}},"pillars":[{"n":"01","name":"Hair Styling & Care","body":"From braids and extensions to silk presses, cuts and wig styling, discover a look that complements you and your routine."},{"n":"02","name":"Nail Care & Aesthetics","body":"Beautifully finished manicures, pedicures, gel colour and nail art, tailored to your personal style."},{"n":"03","name":"Spa & Body Treatments","body":"Massage and body treatments to unwind and reset — a short session between appointments, or a longer one at the end of a long week."},{"n":"04","name":"Boutique & Fashion","body":"Discover clothing, fabrics and accessories to complement your style, from everyday favourites to special-occasion pieces."}],"pricing":{"currency":"GBP","categories":[{"id":"wash-treatments","label":"Wash & Treatments","items":[{"name":"Hair Washing","price":"£20"},{"name":"Dreadlock Washing","price":"£30 – £40"},{"name":"Relaxer","price":"£40"},{"name":"Treatment","price":"£45"},{"name":"Dye","price":"£30"},{"name":"Bleach & Dye","price":"£50"}]},{"id":"weaves-wigs","label":"Weaves & Wigs","items":[{"name":"Weave on Wash & Revamp","price":"£60"},{"name":"Weave on Wash","price":"£30"},{"name":"Weave with Closure","price":"£80"},{"name":"Weave with 360","price":"£90"},{"name":"Frontal with Weave & Style","price":"£120"},{"name":"Weave (27 Pieces) Short Hair & Style","price":"£90"},{"name":"Weave Tong / Straightening","price":"£30"},{"name":"Weave Spiral Curls","price":"£60"},{"name":"Weave Tinted / Colour","price":"£50"}]},{"id":"box-braids","label":"Box Braids & Knotless","items":[{"name":"Loose of Cornrow for Wig","price":"£10"},{"name":"Loose of Cornrow, Small Size","price":"£20"},{"name":"Loose of Single Plait","price":"£30"},{"name":"Loose of Single Plait, Tiny","price":"£50 – £60"},{"name":"Single Plait Box Braid, Bra Length","price":"£100"},{"name":"Single Plait Box Braid, Waist Length","price":"£150"},{"name":"Single Plait Box Braid, Bum Length","price":"£180"},{"name":"Single Plait Knotless, Shoulder Length","price":"£100"},{"name":"Single Plait Knotless, Bra Length","price":"£120"},{"name":"Single Plait Knotless, Waist Length","price":"£180"},{"name":"Single Plait Knotless, Bum Length","price":"£200"}]},{"id":"french-curls","label":"French Curls & Pick 'n' Drop","items":[{"name":"French Curls Single Plait, Shoulder Length","price":"£100"},{"name":"French Curls Single Plait, Bra Length","price":"£130"},{"name":"French Curls Single Plait, Waist Length","price":"£180"},{"name":"French Curls Single Plait, Knotless","price":"+£30","note":"extra for knotless finish"},{"name":"Pick and Drop with Expression","price":"£100"},{"name":"Pick and Drop with Human Hair","price":"£120"}]},{"id":"crochet","label":"Crochet","items":[{"name":"Crochet with Cornrow","price":"£80"},{"name":"Crochet with Single","price":"£130"},{"name":"Crochet with Cornrow in the Front","price":"£90"},{"name":"Weave with Hair Leave-out / Closure","price":"£70"}]},{"id":"twists","label":"Twists","items":[{"name":"Kinky Twist, Short / Neck Length","price":"£60"},{"name":"Kinky Twist, Shoulder Length","price":"£100"},{"name":"Kinky Twist, Waist Length","price":"£180"},{"name":"Kinky Twist, Bra Length","price":"£130"},{"name":"Twist with Expression, Shoulder Length","price":"£100"},{"name":"Twist with Expression, Bra Length","price":"£120"},{"name":"Twist with Expression, Waist Length","price":"£200"}]},{"id":"cornrows-men","label":"Cornrows & Men's Grooming","items":[{"name":"Braid Stitch to the Back","price":"£80"},{"name":"Cornrow Pony, Big Sizes","price":"£80"},{"name":"Cornrow Feeding to the Back","price":"£70"},{"name":"Design Cornrow for Men","price":"£60"},{"name":"Cornrow, Ordinary for Men","price":"£40"},{"name":"Twist / Plait for Men, Half Head","price":"£60"},{"name":"Twist / Plait for Men, Full Head","price":"£80"}]},{"id":"locs","label":"Locs & Dreadlocks","items":[{"name":"Relocking, Half Head","price":"£60"},{"name":"Relocking, Full Head","price":"£80"},{"name":"Relocking, Tiny Locs","price":"£100"},{"name":"Dreadlock Starter, Half Head","price":"£150"},{"name":"Dreadlock, Full Head","price":"£200"}]},{"id":"kids-teens","label":"Kids & Teens","items":[{"name":"Children's Single Plait Box Braid","price":"£70"},{"name":"Teenager's Single Plait","price":"£100"},{"name":"Children's Cornrow","price":"£40"}]}]},"products":[{"name":"Hair Oils & Serums","price":"From £12","body":"Nourishing oils to keep every style glossy and healthy between visits.","img":"assets/shop/hair-oils.jpg"},{"name":"Nail Care & Polish","price":"From £8","body":"Salon-grade polishes and treatments in shades for every mood.","img":"assets/shop/nail-polish.jpg"},{"name":"Spa & Skincare Tools","price":"From £15","body":"Gua sha, rollers, and rituals to bring the spa experience home.","img":"assets/shop/spa-tools.jpg"},{"name":"Makeup & Beauty","price":"From £10","body":"Curated brushes and cosmetics for a polished, everyday finish.","img":"assets/shop/makeup.jpg"},{"name":"Bath & Body","price":"From £14","body":"Botanical bath and body treats for a little everyday indulgence.","img":"assets/shop/bath-body.jpg"},{"name":"Signature Gift Sets","price":"From £35","body":"Beautifully packaged sets, ready to gift or treat yourself.","img":"assets/shop/gift-sets.jpg"}],"latestStyles":[],"policies":["Appointments run 20 minutes – 4 hours, depending on service","20% deposit required to secure your booking","Please book at least 24 hours in advance","Free cancellation within 24 hours of your deposit, reschedule anytime"],"serviceIndex":[{"id":"hair","name":"Hair styling & care","href":"#hair","tag":"Full price list","body":"Braids, knotless, weaves, wigs, twists, locs, cornrows, relaxers and treatments."},{"id":"nails","name":"Nails","href":"#nails","tag":"Quoted on enquiry","body":"Manicures, pedicures, gel colour and nail art."},{"id":"spa","name":"Spa & body","href":"#spa","tag":"Quoted on enquiry","body":"Massage and spa care to unwind and reset."},{"id":"makeup","name":"Makeup","href":"#beauty","tag":"Quoted on enquiry","body":"Everyday polish through to occasion glamour."},{"id":"gele","name":"Gele styling","href":"#gele","tag":"Quoted on enquiry","body":"Occasion headwraps tied to your outfit and finish."},{"id":"facials","name":"Facials","href":"#facials","tag":"Quoted on enquiry","body":"Facial treatments chosen around your skin and routine."},{"id":"lashes","name":"Lashes & threading","href":"#lashes","tag":"Quoted on enquiry","body":"Lash services and precise brow and facial threading."},{"id":"boutique","name":"Boutique & shop","href":"#shop","tag":"From £8","body":"Clothing, fabrics and accessories, plus beauty essentials to take home."},{"id":"kids","name":"Children's & teens","href":"#prices-kids-teens","tag":"From £40","body":"Cornrows, single plaits and box braids for younger clients."}],"faqs":[{"q":"How do I book an appointment?","a":"WhatsApp is the fastest way — message 07464 053505 and we reply during opening hours. You can also call the same number or email cedarevent@yahoo.com. Walk-ins are welcome subject to availability, but booking ahead means we can set aside the right amount of time."},{"q":"Is a deposit required?","a":"Yes. A 20% deposit secures your booking. The balance is settled at the salon on the day."},{"q":"How far in advance should I book?","a":"Please book at least 24 hours in advance so we can plan the day around your service."},{"q":"Can I cancel or reschedule?","a":"Cancellation is free within 24 hours of paying your deposit, and you can reschedule at any time — just let us know."},{"q":"How long will my appointment take?","a":"Between 20 minutes and 4 hours, depending on the service. Longer braiding, knotless and loc work sits at the top of that range, so allow plenty of time."},{"q":"Do you have prices for nails, makeup, gele, facials, lashes and threading?","a":"These are quoted on enquiry rather than listed, because the work is tailored to you. Message us with what you have in mind and we will confirm the price before you book. The full hair price list is published on this page."},{"q":"Do you style children’s and teenagers’ hair?","a":"Yes. Cornrows, single plaits and box braids for children and teenagers are all in the price list, under Kids & Teens."},{"q":"Where are you and when are you open?","a":"We are at 40/42 Powis Street, Woolwich, London SE18 6QS, and we are open Monday – Sunday, 9am – 9pm."}]};
 </script>
 <script>
 (function(){
@@ -734,7 +1249,16 @@ function fill(){
   const B = DATA.business, C = DATA.contact;
   const pillar = n => (DATA.pillars.find(p => p.n === n) || {}).body || '';
 
-  $$('.js-wa').forEach(a => { a.href = C.whatsapp.url; });
+  /* Every enquiry button says what it is enquiring about, so the message
+     that opens already names the service — the salon reads one line instead
+     of asking which of nine things this is. Same idea as the shop's Buy. */
+  $$('.js-wa').forEach(a => {
+    const about = a.getAttribute('data-wa');
+    a.href = about
+      ? 'https://wa.me/' + C.whatsapp.e164 + '?text=' +
+        encodeURIComponent("Hi Infinity Salon! I'd like to ask about " + about + '.')
+      : C.whatsapp.url;
+  });
   $('#hero-tag').textContent   = B.tagline;
   $('#hero-hours').textContent = B.hours.line;
   $('#hero-addr').textContent  = B.address.street + ', ' + B.address.area;
@@ -745,11 +1269,23 @@ function fill(){
   $('#bq-body').textContent    = pillar('04');
 
   /* Nails and spa carry no published numbers, so the page says so rather
-     than inventing a table. */
-  const gap = 'We quote these in person or on WhatsApp — it depends on length, ' +
-              'condition and the finish you want, and a made-up number helps nobody.';
-  $('#nails-note').textContent = gap;
-  $('#spa-note').textContent   = gap;
+     than inventing a table. One sentence each, written for the service in
+     front of the reader — the same words under six different headings read
+     as boilerplate, and boilerplate is what people skip. */
+  const gaps = {
+    nails: 'Length, shape, colour and art all change the price, so we quote your set before you book — send us a picture of what you have in mind.',
+    'a spa or massage treatment': 'Treatments are booked by length and by what you need on the day. Tell us how long you have and we will confirm the price.',
+    makeup: 'An everyday finish and a full occasion look are different appointments. Tell us which one and when, and we will quote it before you book.',
+    'gele styling': 'Gele is priced by the fabric and the shape you want. Send a picture of the outfit and we will confirm the cost and the time it needs.',
+    'a facial': 'The right treatment depends on your skin and how much time you have. Tell us both and we will quote the facial that suits.',
+    'lashes or threading': 'Lash sets are priced by style and threading by area. Say what you are after and we will confirm it before your appointment.'
+  };
+  const fallback = 'Your treatment is tailored to you. Contact our team to discuss your preferences, availability and pricing before you book.';
+  $$('.js-quote').forEach(el => {
+    const btn = el.parentElement && el.parentElement.querySelector('.js-wa[data-wa]');
+    const key = btn && btn.getAttribute('data-wa');
+    el.textContent = gaps[key] || fallback;
+  });
 
   /* four signature hair prices as a teaser, the full list lives below */
   const pick = [
@@ -767,10 +1303,39 @@ function fill(){
   $('#bq-prods').innerHTML = DATA.products.map(p =>
     '<li>' + esc(p.name) + '<span>' + esc(p.price) + '</span></li>').join('');
 
+  /* --- the service index ---------------------------------------------
+     One card per service line, price signal first. The whole tile is the
+     link, so it is the same target under a thumb as under a cursor. */
+  const dir = $('#dir-grid');
+  if (dir) dir.innerHTML = (DATA.serviceIndex || []).map(s =>
+    '<li><a href="' + esc(s.href) + '">' +
+      '<span class="dir__tag' + (/enquiry/i.test(s.tag) ? ' dir__tag--quoted' : '') + '">' + esc(s.tag) + '</span>' +
+      '<span class="dir__name">' + esc(s.name) + '</span>' +
+      '<span class="dir__body">' + esc(s.body) + '</span>' +
+      '<span class="dir__go" aria-hidden="true">View &rarr;</span>' +
+    '</a></li>').join('');
+
+  /* --- the FAQ -------------------------------------------------------
+     details/summary rather than a scripted accordion: it opens without
+     JavaScript, it is keyboard-operable for free, and find-in-page can
+     reach the answers. The first one is open to show the rest are too. */
+  const faq = $('#faq-list');
+  if (faq) faq.innerHTML = (DATA.faqs || []).map((f, i) =>
+    '<details' + (i === 0 ? ' open' : '') + '>' +
+      '<summary>' + esc(f.q) + '</summary>' +
+      '<p class="faq__a">' + esc(f.a) + '</p>' +
+    '</details>').join('');
+
   $('#v-addr').textContent  = B.address.line;
   $('#v-hours').textContent = B.hours.line;
   const wa = $('#v-wa'); wa.textContent = C.whatsapp.display;
-  const tel = $('#v-tel'); tel.textContent = C.phone.display; tel.href = C.phone.href;
+  /* "40/42 Powis Street" is an address to read; it is a route to walk only
+     once it opens in a map. */
+  $('#v-map').href = 'https://www.google.com/maps/dir/?api=1&destination=' +
+    encodeURIComponent(B.name + ', ' + B.address.line);
+  const tel = $('#v-tel'); tel.href = C.phone.href;
+  const tel2 = $('#v-tel-2'); tel2.href = C.phone.href;
+  tel2.textContent = 'call ' + C.phone.display;
   const mail = $('#v-mail'); mail.textContent = C.email; mail.href = 'mailto:' + C.email;
   const tt = $('#v-tt'); tt.textContent = C.tiktok.handle; tt.href = C.tiktok.url;
   $('#v-policies').innerHTML = DATA.policies.map(t => '<li>' + esc(t) + '</li>').join('');
@@ -780,6 +1345,12 @@ function fill(){
      Every Buy opens WhatsApp with the item already named, so the salon reads
      one message and knows exactly what to set aside. No basket, no card
      capture — this is a shop of six lines run off a phone. */
+  $('#latest-social').href = C.tiktok.url;
+  const application = 'mailto:' + C.email + '?subject=' + encodeURIComponent('Job enquiry — Infinity Salon') + '&body=' + encodeURIComponent('Hello Infinity Salon,\n\nName:\nRole of interest:\nRelevant experience:\nAvailability:\nPortfolio link (optional):\n\nPlease find my CV attached.');
+  $('#careers-email').href = application;
+  $('#careers-address').href = 'mailto:' + C.email;
+  $('#careers-address').textContent = C.email;
+  $('#latest-grid').innerHTML = (DATA.latestStyles || []).map(s => '<article><img src="' + esc(s.img) + '" alt="' + esc(s.alt) + '" loading="lazy"><h3>' + esc(s.title) + '</h3><p>' + esc(s.caption) + '</p></article>').join('');
   const grid = $('#shop-grid');
   if (grid) grid.innerHTML = DATA.products.map(p => {
     const msg = "Hi Infinity Salon! I'd like to buy: " + p.name + " (" + p.price + ").";
@@ -791,110 +1362,14 @@ function fill(){
       '<p>' + esc(p.body) + '</p>' +
       '<p class="shop__price">' + esc(p.price) + '</p>' +
       '<a class="shop__buy" href="' + href + '" target="_blank" rel="noopener noreferrer">' +
-        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2z"/></svg>' +
+        /* the full mark, handset and all — the outline-only path this used
+           to carry rendered at 14px as an indistinct dark blob */
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>' +
         'Buy on WhatsApp<span class="vh"> — ' + esc(p.name) + '</span></a>' +
     '</li>';
   }).join('');
 }
 
-/* -------------------------------------------------------- hero showcase */
-function heroShowcase(){
-  const hero = $('#hero');
-  const clips = $$('[data-hero-clip]');
-  if (!hero || clips.length < 2) return;
-
-  /* Both elements use the one hero film. The inactive one is a preloaded
-     re-entry buffer, which lets the established mannequin sequence fade in
-     while the outgoing end frame fades away. */
-  const LOOP_FROM = 2.5;
-  const fadeSeconds = 1.75;
-
-  let active = 0;
-  let shown = false;
-  let switching = false;
-  let raf = 0;
-
-  const load = clip => {
-    if (!clip.src) clip.src = clip.dataset.src;
-  };
-  const play = clip => {
-    load(clip);
-    clip.play().catch(()=>{});
-  };
-  const pauseAll = () => clips.forEach(clip => clip.pause());
-
-  const handoff = () => {
-    if (switching) return;
-    switching = true;
-    const from = clips[active];
-    const next = (active + 1) % clips.length;
-    const to = clips[next];
-
-    hero.classList.add('is-transitioning');
-    load(to);
-    try { to.currentTime = LOOP_FROM; } catch(e) {}
-    play(to);
-    to.classList.add('is-active', 'is-entering');
-    from.classList.add('is-leaving');
-
-    setTimeout(() => {
-      from.pause();
-      try { from.currentTime = LOOP_FROM; } catch(e) {}
-      from.classList.remove('is-active', 'is-leaving', 'is-entering');
-      to.classList.remove('is-entering');
-      hero.classList.remove('is-transitioning');
-      active = next;
-      switching = false;
-      if (shown) play(clips[active]);
-    }, 1800);
-  };
-
-  const tick = () => {
-    if (!shown) return;
-    const current = clips[active];
-    if (current.duration && current.duration - current.currentTime <= fadeSeconds) handoff();
-    raf = requestAnimationFrame(tick);
-  };
-
-  clips.forEach((clip, index) => {
-    load(clip);
-    clip.loop = false;
-    clip.addEventListener('ended', handoff);
-    if (index === 0) clip.classList.add('is-active');
-  });
-
-  if (REDUCE) {
-    clips.slice(1).forEach(clip => clip.remove());
-    const clip = clips[0];
-    clip.controls = true;
-    clip.removeAttribute('aria-hidden');
-    clip.setAttribute('aria-label', 'Hero salon video');
-    return;
-  }
-
-  const enter = () => {
-    shown = true;
-    play(clips[active]);
-    cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(tick);
-  };
-  const leave = () => {
-    shown = false;
-    cancelAnimationFrame(raf);
-    pauseAll();
-  };
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(es => {
-      es.forEach(e => e.isIntersecting ? enter() : leave());
-    }, { threshold: .32 });
-    io.observe(hero);
-  } else {
-    enter();
-  }
-
-  document.addEventListener('visibilitychange', () => document.hidden ? leave() : enter());
-}
 /* ------------------------------------------------------ the price tabs */
 function tabs(){
   const list = $('#tablist'), panels = $('#panels');
@@ -902,12 +1377,37 @@ function tabs(){
   list.innerHTML = cats.map((c,i) =>
     '<button class="tab" role="tab" id="tab-'+c.id+'" aria-controls="p-'+c.id+'" ' +
     'aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'">'+esc(c.label)+'</button>').join('');
+  /* Each row books itself, with the service and its price already written
+     into the message — the same affordance the search results have always
+     had. Without it a visitor who found their price in a tab had to go and
+     look for a button somewhere else on the page. */
+  const bookHref = (name, price) => 'https://wa.me/' + DATA.contact.whatsapp.e164 + '?text=' +
+    encodeURIComponent("Hi Infinity Salon! I'd like to book: " + name + ' (' + price + ').');
   panels.innerHTML = cats.map((c,i) =>
     '<div class="panel" role="tabpanel" id="p-'+c.id+'" aria-labelledby="tab-'+c.id+'" tabindex="0"' +
     (i===0?'':' hidden')+'><ul class="plist">' +
     c.items.map(it => '<li><span class="n">'+esc(it.name) +
-      (it.note ? '<i>'+esc(it.note)+'</i>' : '') + '</span><b>'+esc(it.price)+'</b></li>').join('') +
+      (it.note ? '<i>'+esc(it.note)+'</i>' : '') + '</span><b>'+esc(it.price)+'</b>' +
+      '<a class="plist__book" href="'+esc(bookHref(it.name, it.price))+'" target="_blank" rel="noopener noreferrer">' +
+      'Book<span class="vh"> ' + esc(it.name) + '</span></a></li>').join('') +
     '</ul></div>').join('');
+
+  /* Hold the height of the tallest category so choosing a tab does not
+     shorten the page under the reader's scroll position. Measured rather
+     than guessed, because the categories run from three rows to eleven. */
+  const holdHeight = () => {
+    let tall = 0;
+    $$('.panel').forEach(p => {
+      const was = p.hidden; p.hidden = false;
+      tall = Math.max(tall, p.offsetHeight);
+      p.hidden = was;
+    });
+    if (tall) panels.style.setProperty('--panel-h', tall + 'px');
+  };
+  holdHeight();
+  addEventListener('resize', holdHeight, { passive:true });
+  /* the serif arrives after first paint and changes every row's height */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(holdHeight);
 
   const btns = $$('.tab');
   const select = (i, focus) => {
@@ -920,7 +1420,7 @@ function tabs(){
     if (focus) btns[i].focus();
   };
   btns.forEach((b,i) => {
-    b.addEventListener('click', () => select(i));
+    b.addEventListener('click', () => { select(i); remember(i); });
     b.addEventListener('keydown', e => {
       const last = btns.length - 1;
       let n = null;
@@ -928,9 +1428,160 @@ function tabs(){
       else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') n = i === 0 ? last : i - 1;
       else if (e.key === 'Home') n = 0;
       else if (e.key === 'End') n = last;
-      if (n !== null){ e.preventDefault(); select(n, true); }
+      if (n !== null){ e.preventDefault(); select(n, true); remember(n); }
     });
   });
+
+  /* --- a link to one category ---------------------------------------
+     "#prices-locs" opens the price list on locs. It costs two lines and it
+     means the salon can answer "how much are locs?" with a link that lands
+     on the answer, rather than a link to a page with the answer somewhere
+     in it. replaceState, not a hash assignment: choosing a tab should not
+     fill the visitor's back button with tab presses. */
+  const remember = i => {
+    if (!history.replaceState) return;
+    history.replaceState(null, '', '#prices-' + cats[i].id);
+  };
+  const fromHash = () => {
+    const m = /^#prices-(.+)$/.exec(location.hash || '');
+    return m ? cats.findIndex(c => c.id === decodeURIComponent(m[1])) : -1;
+  };
+  const open = scroll => {
+    const i = fromHash();
+    if (i < 0) return;
+    document.dispatchEvent(new CustomEvent('finder:clear'));
+    select(i);
+    if (scroll) $('#prices').scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' });
+  };
+  open(false);
+  addEventListener('hashchange', () => open(true));
+}
+
+/* ------------------------------------------------------------ the finder
+   Sixty-odd services behind nine tabs is a filing cabinet: fine if you know
+   which drawer, useless if you only know the word "knotless". This searches
+   every category at once — the quoted-on-enquiry lines included, so a search
+   for "nails" cannot come back empty at a salon that does nails — and each
+   hit books itself with the service already named in the message. */
+function finder(){
+  const input = $('#finder');
+  if (!input) return;
+  const sec = $('#prices'), out = $('#finder-results'), empty = $('#finder-empty'),
+        count = $('#finder-count'), clear = $('#finder-clear');
+  const C = DATA.contact;
+
+  /* flattened once at start-up; filtering seventy rows per keystroke is
+     cheaper than the keystroke that triggered it */
+  const rows = [];
+  DATA.pricing.categories.forEach(c => c.items.forEach(it => rows.push({
+    name: it.name + (it.note ? ' ' + it.note : ''), label: it.name, price: it.price,
+    cat: c.label + (it.note ? ' · ' + it.note : '')
+  })));
+  (DATA.serviceIndex || []).forEach(s => {
+    if (!/enquiry/i.test(s.tag)) return;
+    rows.push({ name: s.name, label: s.name, price: 'On enquiry', cat: 'Quoted on enquiry', extra: s.body });
+  });
+
+  /* What people type is not what a price list is called. "kids" is "Children's",
+     "colour" is "Dye" or "Tinted", "mens" is "for Men". Each alias widens the
+     query rather than replacing it, so nothing that used to match stops. */
+  const ALIAS = {
+    kid: ['children'], kids: ['children'], child: ['children'], children: ['children', 'kids'],
+    men: ['men'], mens: ['men'], man: ['men'], boys: ['men', 'children'],
+    colour: ['dye', 'tinted', 'colour'], color: ['dye', 'tinted', 'colour'], dyeing: ['dye'],
+    braid: ['braid', 'plait'], braids: ['braid', 'plait'], plaits: ['plait'],
+    locs: ['loc', 'dread'], loc: ['loc', 'dread'], dreads: ['dread'], dreadlocks: ['dread'],
+    wigs: ['wig'], curls: ['curl'], curly: ['curl'], twists: ['twist'],
+    wash: ['wash'], nail: ['nail'], nails: ['nail'], massage: ['spa', 'massage'],
+    brows: ['threading', 'lash'], eyebrows: ['threading'], lashes: ['lash']
+  };
+  const norm = s => s.toLowerCase().replace(/[’']/g, '').replace(/\s+/g, ' ').trim();
+  rows.forEach(r => {
+    r.own = norm(r.name + ' ' + (r.extra || ''));
+    r.hay = r.own + ' ' + norm(r.cat);
+  });
+
+  const hit = (hay, term) => hay.indexOf(term) > -1 ||
+    (ALIAS[term] || []).some(a => hay.indexOf(a) > -1);
+
+  /* highlight on the raw string and escape each slice, so a query can never
+     land inside an entity the escaping produced */
+  const mark = (text, terms) => {
+    const low = norm(text), hits = [];
+    terms.forEach(t => {
+      for (let i = low.indexOf(t); i > -1; i = low.indexOf(t, i + t.length)) hits.push([i, i + t.length]);
+    });
+    if (!hits.length) return esc(text);
+    hits.sort((a, b) => a[0] - b[0]);
+    const merged = [];
+    hits.forEach(h => {
+      const last = merged[merged.length - 1];
+      if (last && h[0] <= last[1]) last[1] = Math.max(last[1], h[1]);
+      else merged.push(h.slice());
+    });
+    let html = '', at = 0;
+    merged.forEach(h => {
+      html += esc(text.slice(at, h[0])) + '<mark>' + esc(text.slice(h[0], h[1])) + '</mark>';
+      at = h[1];
+    });
+    return html + esc(text.slice(at));
+  };
+
+  const book = r => 'https://wa.me/' + C.whatsapp.e164 + '?text=' + encodeURIComponent(
+    "Hi Infinity Salon! I'd like to book: " + r.label +
+    (r.price === 'On enquiry' ? '. Could you send me a price?' : ' (' + r.price + ').'));
+
+  const render = q => {
+    const terms = norm(q).split(' ').filter(Boolean);
+    const searching = terms.length > 0;
+    sec.classList.toggle('is-searching', searching);
+    clear.hidden = !searching;
+    if (!searching) {
+      out.hidden = empty.hidden = true;
+      out.innerHTML = '';
+      count.textContent = '';
+      return;
+    }
+    /* A category can be broader than the word that found it — "Box Braids &
+       Knotless" answers to "knotless" for every line in it, including the
+       ones that are not knotless. Nothing is dropped for that, but the
+       services that carry the word in their own name come first, so the
+       specific answer is not buried under its own filing. */
+    const hits = rows
+      .filter(r => terms.every(t => hit(r.hay, t)))
+      .map((r, i) => ({ r: r, i: i, own: terms.every(t => hit(r.own, t)) ? 0 : 1 }))
+      .sort((a, b) => a.own - b.own || a.i - b.i)
+      .map(x => x.r);
+    count.textContent = hits.length
+      ? hits.length + (hits.length === 1 ? ' service matches ' : ' services match ') + '“' + q.trim() + '”.'
+      : 'Nothing matches “' + q.trim() + '”.';
+    out.hidden = !hits.length;
+    empty.hidden = !!hits.length;
+    if (!hits.length) {
+      out.innerHTML = '';
+      empty.innerHTML = 'We may still do it &mdash; the list above covers hair, and nails, ' +
+        'makeup, gele, facials, lashes and threading are quoted on enquiry. ' +
+        '<a href="' + esc(C.whatsapp.url) + '" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a>.';
+      return;
+    }
+    out.innerHTML = hits.map(r =>
+      '<li><span class="n">' + mark(r.label, terms) +
+        '<span class="cat">' + esc(r.cat) + '</span></span>' +
+      '<b>' + esc(r.price) + '</b>' +
+      '<a class="finder__book" href="' + esc(book(r)) + '" target="_blank" rel="noopener noreferrer">' +
+        'Book<span class="vh"> ' + esc(r.label) + ' on WhatsApp</span></a></li>').join('');
+  };
+
+  input.addEventListener('input', () => render(input.value));
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && input.value) { e.preventDefault(); input.value = ''; render(''); }
+  });
+  clear.addEventListener('click', () => { input.value = ''; render(''); input.focus(); });
+  /* a link to one price category has to win over a search left in the field */
+  document.addEventListener('finder:clear', () => { if (input.value) { input.value = ''; render(''); } });
+
+  /* a search typed, then restored by a back-forward navigation, still filters */
+  if (input.value) render(input.value);
 }
 
 /* -------------------------------------------------- video on entry only
@@ -1147,22 +1798,61 @@ function reveals(){
 
 /* ------------------------------------------------ header & floating CTA */
 function chrome(){
-  const hdr = $('#hdr'), wa = $('#wa'), footer = $('footer');
+  const hdr = $('#hdr'), wa = $('#wa'), footer = $('footer'), bar = $('#progress');
   const darks = $$('.hero, .band, .svc--dark, .visit, footer');
+  const visit = $('#visit');
+
+  /* --- where am I? ---------------------------------------------------
+     Eighteen sections deep, a nav that only lists destinations is half a
+     map. Each link is matched to its section and marked while that section
+     holds the reading line — a third of the way down the viewport, which is
+     where the eye actually sits, rather than at the very top where a tall
+     section would claim the nav long after you had left it. */
+  const links = $$('nav.main a[href^="#"]');
+  const targets = links.map(a => ({ a, el: document.getElementById(a.hash.slice(1)) }))
+                       .filter(t => t.el);
+  /* the masthead measures itself, so the anchor offset in the CSS follows
+     the header at whatever size it actually renders */
+  const measure = () => document.documentElement.style
+    .setProperty('--hdr', Math.round(hdr.getBoundingClientRect().height) + 'px');
+
+  let current = null;
+  const markCurrent = () => {
+    const line = innerHeight * .34;
+    let found = null;
+    targets.forEach(t => {
+      const r = t.el.getBoundingClientRect();
+      if (r.top <= line && r.bottom > line) found = t.a;
+    });
+    if (found === current) return;
+    if (current) current.removeAttribute('aria-current');
+    if (found) found.setAttribute('aria-current', 'true');
+    current = found;
+  };
+
   const onScroll = () => {
     const y = window.scrollY || 0;
     const atTop = y <= 2;
     hdr.classList.toggle('is-at-top', atTop);
     hdr.classList.toggle('solid', !atTop && y > 40);
     wa.classList.toggle('in', y > window.innerHeight * .5);
-    wa.classList.toggle('footer-near', !!footer && footer.getBoundingClientRect().top < innerHeight - 80);
+    /* the floating button is a shortcut to the thing the visit panel and
+       the footer already put in front of you — over either, it is in the
+       way rather than useful */
+    const covered = (el, slack) => !!el && el.getBoundingClientRect().top < innerHeight - slack;
+    wa.classList.toggle('footer-near', covered(footer, 80) || covered(visit, 220));
     /* the header inverts over any dark chapter it happens to be sitting on */
     const probe = hdr.getBoundingClientRect().bottom - 8;
     const dark = darks.some(d => { const r = d.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; });
     hdr.classList.toggle('on-dark', atTop || dark);
+
+    const run = document.documentElement.scrollHeight - innerHeight;
+    if (bar) bar.style.setProperty('--p', run > 0 ? Math.min(1, y / run).toFixed(4) : 0);
+    markCurrent();
   };
   addEventListener('scroll', onScroll, { passive:true });
-  addEventListener('resize', onScroll, { passive:true });
+  addEventListener('resize', () => { measure(); onScroll(); }, { passive:true });
+  measure();
   onScroll();
 }
 
@@ -1247,7 +1937,7 @@ function grain(){
 /* ---------------------------------------------------------------- boot */
 function boot(){
   if (!DATA) { console.error('[infinity] no data'); return; }
-  fill(); heroShowcase(); tabs(); video(); styleSwap(); reveals(); chrome(); mobileMenu(); grain();
+  fill(); tabs(); finder(); video(); styleSwap(); reveals(); chrome(); mobileMenu(); grain();
 }
 if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot); else boot();
 })();

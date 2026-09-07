@@ -9,8 +9,8 @@
   "business": {
     "name": "Infinity Hair and Beauty Salon",
     "shortName": "Infinity Salon",
-    "tagline": "You arrive as you are. You leave feeling transformed.",
-    "description": "Expert hair braiding, silk presses, gel nails, spa massage and curated fashion pieces — one elevated beauty experience in London.",
+    "tagline": "Beautifully styled. Confidently you.",
+    "description": "Hair, makeup, gele, nails and facial care in the heart of Woolwich. Personal attention for your everyday style and special occasions.",
     "address": {
       "street": "40/42 Powis Street",
       "area": "Woolwich",
@@ -35,9 +35,15 @@
       "label": "Book via WhatsApp",
       "note": "Fastest way to book — we reply during opening hours."
     },
-    "phone": { "display": "07464 053505", "href": "tel:+447464053505" },
+    "phone": {
+      "display": "07464 053505",
+      "href": "tel:+447464053505"
+    },
     "email": "cedarevent@yahoo.com",
-    "tiktok": { "handle": "@harannawoolwichhair", "url": "https://www.tiktok.com/@harannawoolwichhair" }
+    "tiktok": {
+      "handle": "@harannawoolwichhair",
+      "url": "https://www.tiktok.com/@harannawoolwichhair"
+    }
   },
 
   "brand": {
@@ -83,10 +89,26 @@
   },
 
   "pillars": [
-    { "n": "01", "name": "Hair Styling & Care", "body": "Braiding, extensions, silk presses, precision cuts, barbering and custom wig craft." },
-    { "n": "02", "name": "Nail Care & Aesthetics", "body": "Manicures, gel finishes, bespoke nail art, pedicures and restorative foot care." },
-    { "n": "03", "name": "Spa & Body Treatments", "body": "Massage therapy and therapeutic spa care, paced to let you actually switch off." },
-    { "n": "04", "name": "Boutique & Fashion", "body": "Statement clothing, fabrics and accessories, selected to match how you want to be seen." }
+    {
+      "n": "01",
+      "name": "Hair Styling & Care",
+      "body": "From braids and extensions to silk presses, cuts and wig styling, discover a look that complements you and your routine."
+    },
+    {
+      "n": "02",
+      "name": "Nail Care & Aesthetics",
+      "body": "Beautifully finished manicures, pedicures, gel colour and nail art, tailored to your personal style."
+    },
+    {
+      "n": "03",
+      "name": "Spa & Body Treatments",
+      "body": "Massage and body treatments to unwind and reset — a short session between appointments, or a longer one at the end of a long week."
+    },
+    {
+      "n": "04",
+      "name": "Boutique & Fashion",
+      "body": "Discover clothing, fabrics and accessories to complement your style, from everyday favourites to special-occasion pieces."
+    }
   ],
 
   "pricing": {
@@ -96,124 +118,329 @@
         "id": "wash-treatments",
         "label": "Wash & Treatments",
         "items": [
-          { "name": "Hair Washing", "price": "£20" },
-          { "name": "Dreadlock Washing", "price": "£30 – £40" },
-          { "name": "Relaxer", "price": "£40" },
-          { "name": "Treatment", "price": "£45" },
-          { "name": "Dye", "price": "£30" },
-          { "name": "Bleach & Dye", "price": "£50" }
+          {
+            "name": "Hair Washing",
+            "price": "£20"
+          },
+          {
+            "name": "Dreadlock Washing",
+            "price": "£30 – £40"
+          },
+          {
+            "name": "Relaxer",
+            "price": "£40"
+          },
+          {
+            "name": "Treatment",
+            "price": "£45"
+          },
+          {
+            "name": "Dye",
+            "price": "£30"
+          },
+          {
+            "name": "Bleach & Dye",
+            "price": "£50"
+          }
         ]
       },
       {
         "id": "weaves-wigs",
         "label": "Weaves & Wigs",
         "items": [
-          { "name": "Weave on Wash & Revamp", "price": "£60" },
-          { "name": "Weave on Wash", "price": "£30" },
-          { "name": "Weave with Closure", "price": "£80" },
-          { "name": "Weave with 360", "price": "£90" },
-          { "name": "Frontal with Weave & Style", "price": "£120" },
-          { "name": "Weave (27 Pieces) Short Hair & Style", "price": "£90" },
-          { "name": "Weave Tong / Straightening", "price": "£30" },
-          { "name": "Weave Spiral Curls", "price": "£60" },
-          { "name": "Weave Tinted / Colour", "price": "£50" }
+          {
+            "name": "Weave on Wash & Revamp",
+            "price": "£60"
+          },
+          {
+            "name": "Weave on Wash",
+            "price": "£30"
+          },
+          {
+            "name": "Weave with Closure",
+            "price": "£80"
+          },
+          {
+            "name": "Weave with 360",
+            "price": "£90"
+          },
+          {
+            "name": "Frontal with Weave & Style",
+            "price": "£120"
+          },
+          {
+            "name": "Weave (27 Pieces) Short Hair & Style",
+            "price": "£90"
+          },
+          {
+            "name": "Weave Tong / Straightening",
+            "price": "£30"
+          },
+          {
+            "name": "Weave Spiral Curls",
+            "price": "£60"
+          },
+          {
+            "name": "Weave Tinted / Colour",
+            "price": "£50"
+          }
         ]
       },
       {
         "id": "box-braids",
         "label": "Box Braids & Knotless",
         "items": [
-          { "name": "Loose of Cornrow for Wig", "price": "£10" },
-          { "name": "Loose of Cornrow, Small Size", "price": "£20" },
-          { "name": "Loose of Single Plait", "price": "£30" },
-          { "name": "Loose of Single Plait, Tiny", "price": "£50 – £60" },
-          { "name": "Single Plait Box Braid, Bra Length", "price": "£100" },
-          { "name": "Single Plait Box Braid, Waist Length", "price": "£150" },
-          { "name": "Single Plait Box Braid, Bum Length", "price": "£180" },
-          { "name": "Single Plait Knotless, Shoulder Length", "price": "£100" },
-          { "name": "Single Plait Knotless, Bra Length", "price": "£120" },
-          { "name": "Single Plait Knotless, Waist Length", "price": "£180" },
-          { "name": "Single Plait Knotless, Bum Length", "price": "£200" }
+          {
+            "name": "Loose of Cornrow for Wig",
+            "price": "£10"
+          },
+          {
+            "name": "Loose of Cornrow, Small Size",
+            "price": "£20"
+          },
+          {
+            "name": "Loose of Single Plait",
+            "price": "£30"
+          },
+          {
+            "name": "Loose of Single Plait, Tiny",
+            "price": "£50 – £60"
+          },
+          {
+            "name": "Single Plait Box Braid, Bra Length",
+            "price": "£100"
+          },
+          {
+            "name": "Single Plait Box Braid, Waist Length",
+            "price": "£150"
+          },
+          {
+            "name": "Single Plait Box Braid, Bum Length",
+            "price": "£180"
+          },
+          {
+            "name": "Single Plait Knotless, Shoulder Length",
+            "price": "£100"
+          },
+          {
+            "name": "Single Plait Knotless, Bra Length",
+            "price": "£120"
+          },
+          {
+            "name": "Single Plait Knotless, Waist Length",
+            "price": "£180"
+          },
+          {
+            "name": "Single Plait Knotless, Bum Length",
+            "price": "£200"
+          }
         ]
       },
       {
         "id": "french-curls",
         "label": "French Curls & Pick 'n' Drop",
         "items": [
-          { "name": "French Curls Single Plait, Shoulder Length", "price": "£100" },
-          { "name": "French Curls Single Plait, Bra Length", "price": "£130" },
-          { "name": "French Curls Single Plait, Waist Length", "price": "£180" },
-          { "name": "French Curls Single Plait, Knotless", "price": "+£30", "note": "extra for knotless finish" },
-          { "name": "Pick and Drop with Expression", "price": "£100" },
-          { "name": "Pick and Drop with Human Hair", "price": "£120" }
+          {
+            "name": "French Curls Single Plait, Shoulder Length",
+            "price": "£100"
+          },
+          {
+            "name": "French Curls Single Plait, Bra Length",
+            "price": "£130"
+          },
+          {
+            "name": "French Curls Single Plait, Waist Length",
+            "price": "£180"
+          },
+          {
+            "name": "French Curls Single Plait, Knotless",
+            "price": "+£30",
+            "note": "extra for knotless finish"
+          },
+          {
+            "name": "Pick and Drop with Expression",
+            "price": "£100"
+          },
+          {
+            "name": "Pick and Drop with Human Hair",
+            "price": "£120"
+          }
         ]
       },
       {
         "id": "crochet",
         "label": "Crochet",
         "items": [
-          { "name": "Crochet with Cornrow", "price": "£80" },
-          { "name": "Crochet with Single", "price": "£130" },
-          { "name": "Crochet with Cornrow in the Front", "price": "£90" },
-          { "name": "Weave with Hair Leave-out / Closure", "price": "£70" }
+          {
+            "name": "Crochet with Cornrow",
+            "price": "£80"
+          },
+          {
+            "name": "Crochet with Single",
+            "price": "£130"
+          },
+          {
+            "name": "Crochet with Cornrow in the Front",
+            "price": "£90"
+          },
+          {
+            "name": "Weave with Hair Leave-out / Closure",
+            "price": "£70"
+          }
         ]
       },
       {
         "id": "twists",
         "label": "Twists",
         "items": [
-          { "name": "Kinky Twist, Short / Neck Length", "price": "£60" },
-          { "name": "Kinky Twist, Shoulder Length", "price": "£100" },
-          { "name": "Kinky Twist, Waist Length", "price": "£180" },
-          { "name": "Kinky Twist, Bra Length", "price": "£130" },
-          { "name": "Twist with Expression, Shoulder Length", "price": "£100" },
-          { "name": "Twist with Expression, Bra Length", "price": "£120" },
-          { "name": "Twist with Expression, Waist Length", "price": "£200" }
+          {
+            "name": "Kinky Twist, Short / Neck Length",
+            "price": "£60"
+          },
+          {
+            "name": "Kinky Twist, Shoulder Length",
+            "price": "£100"
+          },
+          {
+            "name": "Kinky Twist, Waist Length",
+            "price": "£180"
+          },
+          {
+            "name": "Kinky Twist, Bra Length",
+            "price": "£130"
+          },
+          {
+            "name": "Twist with Expression, Shoulder Length",
+            "price": "£100"
+          },
+          {
+            "name": "Twist with Expression, Bra Length",
+            "price": "£120"
+          },
+          {
+            "name": "Twist with Expression, Waist Length",
+            "price": "£200"
+          }
         ]
       },
       {
         "id": "cornrows-men",
         "label": "Cornrows & Men's Grooming",
         "items": [
-          { "name": "Braid Stitch to the Back", "price": "£80" },
-          { "name": "Cornrow Pony, Big Sizes", "price": "£80" },
-          { "name": "Cornrow Feeding to the Back", "price": "£70" },
-          { "name": "Design Cornrow for Men", "price": "£60" },
-          { "name": "Cornrow, Ordinary for Men", "price": "£40" },
-          { "name": "Twist / Plait for Men, Half Head", "price": "£60" },
-          { "name": "Twist / Plait for Men, Full Head", "price": "£80" }
+          {
+            "name": "Braid Stitch to the Back",
+            "price": "£80"
+          },
+          {
+            "name": "Cornrow Pony, Big Sizes",
+            "price": "£80"
+          },
+          {
+            "name": "Cornrow Feeding to the Back",
+            "price": "£70"
+          },
+          {
+            "name": "Design Cornrow for Men",
+            "price": "£60"
+          },
+          {
+            "name": "Cornrow, Ordinary for Men",
+            "price": "£40"
+          },
+          {
+            "name": "Twist / Plait for Men, Half Head",
+            "price": "£60"
+          },
+          {
+            "name": "Twist / Plait for Men, Full Head",
+            "price": "£80"
+          }
         ]
       },
       {
         "id": "locs",
         "label": "Locs & Dreadlocks",
         "items": [
-          { "name": "Relocking, Half Head", "price": "£60" },
-          { "name": "Relocking, Full Head", "price": "£80" },
-          { "name": "Relocking, Tiny Locs", "price": "£100" },
-          { "name": "Dreadlock Starter, Half Head", "price": "£150" },
-          { "name": "Dreadlock, Full Head", "price": "£200" }
+          {
+            "name": "Relocking, Half Head",
+            "price": "£60"
+          },
+          {
+            "name": "Relocking, Full Head",
+            "price": "£80"
+          },
+          {
+            "name": "Relocking, Tiny Locs",
+            "price": "£100"
+          },
+          {
+            "name": "Dreadlock Starter, Half Head",
+            "price": "£150"
+          },
+          {
+            "name": "Dreadlock, Full Head",
+            "price": "£200"
+          }
         ]
       },
       {
         "id": "kids-teens",
         "label": "Kids & Teens",
         "items": [
-          { "name": "Children's Single Plait Box Braid", "price": "£70" },
-          { "name": "Teenager's Single Plait", "price": "£100" },
-          { "name": "Children's Cornrow", "price": "£40" }
+          {
+            "name": "Children's Single Plait Box Braid",
+            "price": "£70"
+          },
+          {
+            "name": "Teenager's Single Plait",
+            "price": "£100"
+          },
+          {
+            "name": "Children's Cornrow",
+            "price": "£40"
+          }
         ]
       }
     ]
   },
 
   "products": [
-    { "name": "Hair Oils & Serums", "price": "From £12", "img": "assets/shop/hair-oils.jpg", "body": "Nourishing oils to keep every style glossy and healthy between visits." },
-    { "name": "Nail Care & Polish", "price": "From £8", "img": "assets/shop/nail-polish.jpg", "body": "Salon-grade polishes and treatments in shades for every mood." },
-    { "name": "Spa & Skincare Tools", "price": "From £15", "img": "assets/shop/spa-tools.jpg", "body": "Gua sha, rollers, and rituals to bring the spa experience home." },
-    { "name": "Makeup & Beauty", "price": "From £10", "img": "assets/shop/makeup.jpg", "body": "Curated brushes and cosmetics for a polished, everyday finish." },
-    { "name": "Bath & Body", "price": "From £14", "img": "assets/shop/bath-body.jpg", "body": "Botanical bath and body treats for a little everyday indulgence." },
-    { "name": "Signature Gift Sets", "price": "From £35", "img": "assets/shop/gift-sets.jpg", "body": "Beautifully packaged sets, ready to gift or treat yourself." }
+    {
+      "name": "Hair Oils & Serums",
+      "price": "From £12",
+      "img": "assets/shop/hair-oils.jpg",
+      "body": "Nourishing oils to keep every style glossy and healthy between visits."
+    },
+    {
+      "name": "Nail Care & Polish",
+      "price": "From £8",
+      "img": "assets/shop/nail-polish.jpg",
+      "body": "Salon-grade polishes and treatments in shades for every mood."
+    },
+    {
+      "name": "Spa & Skincare Tools",
+      "price": "From £15",
+      "img": "assets/shop/spa-tools.jpg",
+      "body": "Gua sha, rollers, and rituals to bring the spa experience home."
+    },
+    {
+      "name": "Makeup & Beauty",
+      "price": "From £10",
+      "img": "assets/shop/makeup.jpg",
+      "body": "Curated brushes and cosmetics for a polished, everyday finish."
+    },
+    {
+      "name": "Bath & Body",
+      "price": "From £14",
+      "img": "assets/shop/bath-body.jpg",
+      "body": "Botanical bath and body treats for a little everyday indulgence."
+    },
+    {
+      "name": "Signature Gift Sets",
+      "price": "From £35",
+      "img": "assets/shop/gift-sets.jpg",
+      "body": "Beautifully packaged sets, ready to gift or treat yourself."
+    }
   ],
 
   "policies": [
@@ -224,11 +451,26 @@
   ],
 
   "venuePhotos": [
-    { "src": "assets/venue/salon-1.jpg", "alt": "Inside Infinity Salon on Powis Street, Woolwich" },
-    { "src": "assets/venue/salon-2.jpg", "alt": "Styling chairs and mirrors on the salon floor" },
-    { "src": "assets/venue/salon-3.jpg", "alt": "The salon interior" },
-    { "src": "assets/venue/salon-4.jpg", "alt": "Treatment area at Infinity Salon" },
-    { "src": "assets/venue/salon-5.jpg", "alt": "The salon floor and workstations" }
+    {
+      "src": "assets/venue/salon-1.jpg",
+      "alt": "Inside Infinity Salon on Powis Street, Woolwich"
+    },
+    {
+      "src": "assets/venue/salon-2.jpg",
+      "alt": "Styling chairs and mirrors on the salon floor"
+    },
+    {
+      "src": "assets/venue/salon-3.jpg",
+      "alt": "The salon interior"
+    },
+    {
+      "src": "assets/venue/salon-4.jpg",
+      "alt": "Treatment area at Infinity Salon"
+    },
+    {
+      "src": "assets/venue/salon-5.jpg",
+      "alt": "The salon floor and workstations"
+    }
   ],
 
   "floors": [
@@ -238,7 +480,12 @@
       "signage": "INFINITY SALON",
       "title": "Storefront",
       "reference": "exterior.jpg",
-      "uiCards": ["business.name", "business.tagline", "business.address.line", "business.hours.line"]
+      "uiCards": [
+        "business.name",
+        "business.tagline",
+        "business.address.line",
+        "business.hours.line"
+      ]
     },
     {
       "level": 1,
@@ -246,10 +493,20 @@
       "signage": "INFINITY SALON",
       "title": "Hair Salon",
       "reference": "salon.jpg",
-      "pillars": ["01", "02"],
+      "pillars": [
+        "01",
+        "02"
+      ],
       "priceCategories": [
-        "wash-treatments", "weaves-wigs", "box-braids", "french-curls",
-        "crochet", "twists", "cornrows-men", "locs", "kids-teens"
+        "wash-treatments",
+        "weaves-wigs",
+        "box-braids",
+        "french-curls",
+        "crochet",
+        "twists",
+        "cornrows-men",
+        "locs",
+        "kids-teens"
       ]
     },
     {
@@ -258,8 +515,17 @@
       "signage": "INFINITY BOUTIQUE",
       "title": "Clothing Store / Boutique",
       "reference": "boutique.jpg",
-      "pillars": ["04"],
-      "productIndexes": [0, 1, 2, 3, 4, 5]
+      "pillars": [
+        "04"
+      ],
+      "productIndexes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
     },
     {
       "level": 3,
@@ -267,9 +533,120 @@
       "signage": "INFINITY SPA",
       "title": "Manicure, Pedicure & Massage",
       "reference": "spa.jpg",
-      "pillars": ["02", "03"],
+      "pillars": [
+        "02",
+        "03"
+      ],
       "priceCategories": [],
       "note": "The live site publishes no numeric price list for nails or spa treatments — only the two service pillars. Floor 3 therefore shows the Nail Care and Spa & Body pillars plus the booking policies; ask the salon for spa numbers if a price table is wanted here."
+    }
+  ],
+
+  "latestStyles": [],
+
+  "site": {
+    "url": "https://infinitysalon-flame.vercel.app",
+    "note": "Absolute base for the canonical link, the social preview image and the structured data. Change this to the salon’s own domain when it has one."
+  },
+
+  "serviceIndex": [
+    {
+      "id": "hair",
+      "name": "Hair styling & care",
+      "href": "#hair",
+      "tag": "Full price list",
+      "body": "Braids, knotless, weaves, wigs, twists, locs, cornrows, relaxers and treatments."
+    },
+    {
+      "id": "nails",
+      "name": "Nails",
+      "href": "#nails",
+      "tag": "Quoted on enquiry",
+      "body": "Manicures, pedicures, gel colour and nail art."
+    },
+    {
+      "id": "spa",
+      "name": "Spa & body",
+      "href": "#spa",
+      "tag": "Quoted on enquiry",
+      "body": "Massage and spa care to unwind and reset."
+    },
+    {
+      "id": "makeup",
+      "name": "Makeup",
+      "href": "#beauty",
+      "tag": "Quoted on enquiry",
+      "body": "Everyday polish through to occasion glamour."
+    },
+    {
+      "id": "gele",
+      "name": "Gele styling",
+      "href": "#gele",
+      "tag": "Quoted on enquiry",
+      "body": "Occasion headwraps tied to your outfit and finish."
+    },
+    {
+      "id": "facials",
+      "name": "Facials",
+      "href": "#facials",
+      "tag": "Quoted on enquiry",
+      "body": "Facial treatments chosen around your skin and routine."
+    },
+    {
+      "id": "lashes",
+      "name": "Lashes & threading",
+      "href": "#lashes",
+      "tag": "Quoted on enquiry",
+      "body": "Lash services and precise brow and facial threading."
+    },
+    {
+      "id": "boutique",
+      "name": "Boutique & shop",
+      "href": "#shop",
+      "tag": "From £8",
+      "body": "Clothing, fabrics and accessories, plus beauty essentials to take home."
+    },
+    {
+      "id": "kids",
+      "name": "Children's & teens",
+      "href": "#prices-kids-teens",
+      "tag": "From £40",
+      "body": "Cornrows, single plaits and box braids for younger clients."
+    }
+  ],
+
+  "faqs": [
+    {
+      "q": "How do I book an appointment?",
+      "a": "WhatsApp is the fastest way — message {whatsapp} and we reply during opening hours. You can also call the same number or email {email}. Walk-ins are welcome subject to availability, but booking ahead means we can set aside the right amount of time."
+    },
+    {
+      "q": "Is a deposit required?",
+      "a": "Yes. A 20% deposit secures your booking. The balance is settled at the salon on the day."
+    },
+    {
+      "q": "How far in advance should I book?",
+      "a": "Please book at least 24 hours in advance so we can plan the day around your service."
+    },
+    {
+      "q": "Can I cancel or reschedule?",
+      "a": "Cancellation is free within 24 hours of paying your deposit, and you can reschedule at any time — just let us know."
+    },
+    {
+      "q": "How long will my appointment take?",
+      "a": "Between 20 minutes and 4 hours, depending on the service. Longer braiding, knotless and loc work sits at the top of that range, so allow plenty of time."
+    },
+    {
+      "q": "Do you have prices for nails, makeup, gele, facials, lashes and threading?",
+      "a": "These are quoted on enquiry rather than listed, because the work is tailored to you. Message us with what you have in mind and we will confirm the price before you book. The full hair price list is published on this page."
+    },
+    {
+      "q": "Do you style children’s and teenagers’ hair?",
+      "a": "Yes. Cornrows, single plaits and box braids for children and teenagers are all in the price list, under Kids & Teens."
+    },
+    {
+      "q": "Where are you and when are you open?",
+      "a": "We are at {address}, and we are open {hours}."
     }
   ]
 }

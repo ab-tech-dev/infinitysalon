@@ -9,11 +9,14 @@
  * capture lands. Letting the page hand the encoded frame back to disk gives
  * an honest picture of what the renderer actually produced.
  */
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
+/* ESM, not CommonJS: package.json declares "type": "module", so a require()
+   in a .js file here does not run at all. */
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SHOTS = path.join(ROOT, 'shots');
 const PORT = 4180;
 
@@ -21,7 +24,9 @@ const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8', '.css': 'text/css; charset=utf-8',
   '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
-  '.svg': 'image/svg+xml', '.webp': 'image/webp', '.ico': 'image/x-icon'
+  '.svg': 'image/svg+xml', '.webp': 'image/webp', '.ico': 'image/x-icon',
+  '.txt': 'text/plain; charset=utf-8', '.xml': 'application/xml; charset=utf-8',
+  '.mp4': 'video/mp4', '.webm': 'video/webm'
 };
 
 fs.mkdirSync(SHOTS, { recursive: true });
