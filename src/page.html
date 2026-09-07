@@ -337,9 +337,12 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .dir__tag--quoted{color:var(--slate);opacity:.9}
 .dir__name{font-family:var(--serif);font-size:25px;line-height:1.05;letter-spacing:-.01em}
 .dir__body{font-size:13.5px;line-height:1.55;color:var(--slate);margin:0}
-.dir__go{margin-top:6px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--slate);transition:color .2s ease,transform .25s ease}
-.dir__grid a:hover .dir__go,.dir__grid a:focus-visible .dir__go{color:var(--ink);transform:translateX(4px)}
+/* Nine tiles each ending in an identical "View →" is decoration, not
+   information: the tile is already a link, the heading is already its label,
+   and the gold rule that draws along the top on hover already says so. The
+   cue is kept only on the narrow layout, where the cards become list rows
+   and a chevron is the affordance that tells a thumb the row leads somewhere. */
+.dir__go{display:none}
 .dir__foot{margin:26px 0 0;font-size:14px;color:var(--slate)}
 .dir__foot a{color:var(--ink)}
 @media(max-width:560px){
@@ -351,7 +354,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   .dir__name{grid-column:1;grid-row:1;font-size:19px}
   .dir__tag{grid-column:2;grid-row:1;justify-self:end;text-align:right;font-size:9.5px;letter-spacing:.14em}
   .dir__body{grid-column:1/-1;grid-row:2;font-size:13px}
-  .dir__go{position:absolute;right:14px;top:50%;margin:0;width:8px;height:8px;overflow:hidden;
+  .dir__go{display:block;position:absolute;right:14px;top:50%;margin:0;width:8px;height:8px;overflow:hidden;
     text-indent:-99em;border-top:1.5px solid var(--slate);border-right:1.5px solid var(--slate);
     transform:translateY(-50%) rotate(45deg)}
   .dir__grid a:hover .dir__go,.dir__grid a:focus-visible .dir__go{transform:translateY(-50%) rotate(45deg)}
@@ -399,9 +402,6 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
      them would strand the reader mid-section. The phone scrolls normally. */
   html{scroll-snap-type:none}
 }
-.num{display:flex;align-items:center;gap:14px;font-family:var(--serif);font-size:22px;
-  letter-spacing:.16em;color:var(--gold-ink);font-style:italic}
-.num:after{content:"";height:1px;width:52px;background:currentColor;opacity:.5}
 
 /* a compact price teaser inside a chapter */
 .teaser{margin:0;padding:0;list-style:none;max-width:46ch}
@@ -642,8 +642,6 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   #hair .styles__img{object-position:center top}
   #hair .styles.is-active:after,#hair .styles.is-kept:after{inset:0 14px 14px;border-color:rgba(216,178,106,.7);border-top:0}
   .svc__body{padding:46px var(--pad) 54px;gap:18px}
-  .num{gap:10px;font-size:20px}
-  .num:after{width:38px}
   .teaser li{gap:12px;font-size:14px}
   .teaser b{font-size:13px}
 
@@ -703,11 +701,10 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 /* --------------------------------------------- the gold, on the dark half
    --gold-ink is mixed to clear 4.5:1 against the ivory; against a near-black
    chapter it is the one that goes muddy. The dark sections take the lift. */
-.svc--dark .kicker,.svc--dark .num,.svc--dark .teaser b,
+.svc--dark .kicker,.svc--dark .teaser b,
 .visit .kicker,.visit dt,.hero .kicker{color:var(--gold-lift)}
 .svc--dark .text-link{color:var(--gold-lift);border-bottom-color:rgba(216,178,106,.45)}
 .svc--dark .text-link:hover,.svc--dark .text-link:focus-visible{color:var(--paper);border-bottom-color:var(--paper)}
-.svc--dark .num:after{opacity:.6}
 
 /* ============================================================== editorial
    About is the one reading section left between the media chapters; beauty,
@@ -904,22 +901,21 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
              alt="Salon interior with navy styling chairs and brass mirrors"
              loading="lazy" decoding="async" width="1536" height="1024">
       </figure>
-      <div class="about__copy">
+      <div class="about__copy rv">
         <div class="sec-head sec-head--stack">
-          <p class="kicker rv">About Infinity</p>
-          <h2 id="about-h" class="rv">Your beauty.<br>Our personal touch.</h2>
-          <p class="lede rv">Hair, beauty and personal style in one place, in the heart of Woolwich. Open seven days a week, and late enough in the evening to fit around work.</p>
+          <h2 id="about-h" >Your beauty.<br>Our personal touch.</h2>
+          <p class="lede">Hair, beauty and personal style in one place, in the heart of Woolwich. Open seven days a week, and late enough in the evening to fit around work.</p>
         </div>
-        <div class="editorial__body rv">
+        <div class="editorial__body">
           <p>From braids and protective styles to makeup, gele and relaxing treatments, we bring your beauty routine together in one welcoming space. Whether you are refreshing your everyday look or preparing for a special occasion, tell us what you have in mind and we will help you plan your visit.</p>
         </div>
-        <dl class="facts rv">
+        <dl class="facts">
           <div><dt>Open</dt><dd>7 days, 9am&ndash;9pm</dd></div>
           <div><dt>Services</dt><dd>9 lines under one roof</dd></div>
           <div><dt>Hair price list</dt><dd>58 services published</dd></div>
           <div><dt>Where</dt><dd>Powis Street, Woolwich</dd></div>
         </dl>
-        <a class="text-link rv" href="#visit">Find us on Powis Street &rarr;</a>
+        <a class="text-link" href="#visit">Find us on Powis Street &rarr;</a>
       </div>
     </div>
   </section>
@@ -930,13 +926,13 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
        way to find one — so this is the directory: everything on offer, what
        it costs or that it is quoted, and a jump straight to it. -->
   <section class="dir flow" id="services" aria-labelledby="services-h">
-    <div class="sec-head">
-      <p class="kicker rv">Everything we do</p>
-      <h2 id="services-h" class="rv">One salon.<br>Nine ways in.</h2>
-      <p class="lede rv">Hair, nails, spa, makeup, gele, facials, lashes and the boutique, all under one roof on Powis Street. Choose where to start.</p>
+    <div class="sec-head rv">
+      <p class="kicker">Nine service lines</p>
+      <h2 id="services-h" >One salon.<br>Nine ways in.</h2>
+      <p class="lede">Hair, nails, spa, makeup, gele, facials, lashes and the boutique, all under one roof on Powis Street. Choose where to start.</p>
     </div>
     <ul class="dir__grid rv" id="dir-grid"></ul>
-    <p class="dir__foot rv">Looking for something else? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &middot; <a href="#latest">See our latest styles</a> &middot; <a href="#faq">Read the FAQ</a></p>
+    <p class="dir__foot">Looking for something else? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &middot; <a href="#latest">See our latest styles</a> &middot; <a href="#faq">Read the FAQ</a></p>
   </section>
   <div class="hair-feature" id="hair-feature">
     <!-- ================================================ the gradient band -->
@@ -958,13 +954,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <p class="styles__name" aria-live="polite"></p>
       <p class="styles__hint" aria-hidden="true">Move across to try a look &middot; hold 5s to keep it</p>
     </div>
-    <div class="svc__body">
-      <p class="num rv">01</p>
-      <h2 id="hair-h" class="rv">Beautiful hair. Personal care.</h2>
-      <p class="lede rv" id="hair-body"></p>
-      <hr class="rule rv">
-      <ul class="teaser rv" id="hair-teaser"></ul>
-      <p class="rv"><a class="btn" href="#prices">See the full price list</a></p>
+    <div class="svc__body rv">
+      <h2 id="hair-h" >Beautiful hair. Personal care.</h2>
+      <p class="lede" id="hair-body"></p>
+      <hr class="rule">
+      <ul class="teaser" id="hair-teaser"></ul>
+      <p ><a class="btn" href="#prices">See the full price list</a></p>
     </div>
     </section>
     <i class="hair-feature__shimmer" aria-hidden="true"></i>
@@ -976,13 +971,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <video class="js-vid" data-src="assets/video/nails.mp4" poster="assets/video/nails.jpg"
              muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
-    <div class="svc__body">
-      <p class="num rv">02</p>
-      <h2 id="nails-h" class="rv">Manicure &amp; pedicure.</h2>
-      <p class="lede rv" id="nails-body"></p>
-      <hr class="rule rv">
-      <p class="note js-quote rv"></p>
-      <p class="rv"><a class="btn btn--gold js-wa" href="#" data-wa="nails" target="_blank" rel="noopener noreferrer">Ask about nail pricing</a></p>
+    <div class="svc__body rv">
+      <h2 id="nails-h" >Manicure &amp; pedicure.</h2>
+      <p class="lede" id="nails-body"></p>
+      <hr class="rule">
+      <p class="note js-quote"></p>
+      <p ><a class="btn btn--gold js-wa" href="#" data-wa="nails" target="_blank" rel="noopener noreferrer">Ask about nail pricing</a></p>
     </div>
   </section>
 
@@ -992,13 +986,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <video class="js-vid" data-src="assets/video/spa.mp4" poster="assets/video/spa.jpg"
              muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
-    <div class="svc__body">
-      <p class="num rv">03</p>
-      <h2 id="spa-h" class="rv">Make time for yourself.</h2>
-      <p class="lede rv" id="spa-body"></p>
-      <hr class="rule rv">
-      <p class="note js-quote rv"></p>
-      <p class="rv"><a class="btn js-wa" href="#" data-wa="a spa or massage treatment" target="_blank" rel="noopener noreferrer">Enquire about treatments</a></p>
+    <div class="svc__body rv">
+      <h2 id="spa-h" >Make time for yourself.</h2>
+      <p class="lede" id="spa-body"></p>
+      <hr class="rule">
+      <p class="note js-quote"></p>
+      <p ><a class="btn js-wa" href="#" data-wa="a spa or massage treatment" target="_blank" rel="noopener noreferrer">Enquire about treatments</a></p>
     </div>
   </section>
 
@@ -1008,13 +1001,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <video class="js-vid" data-src="assets/video/boutique.mp4" poster="assets/video/boutique.jpg"
              muted loop playsinline preload="none" aria-hidden="true"></video>
     </div>
-    <div class="svc__body">
-      <p class="num rv">04</p>
-      <h2 id="bq-h" class="rv">Complete your look.</h2>
-      <p class="lede rv" id="bq-body"></p>
-      <hr class="rule rv">
-      <ul class="prods rv" id="bq-prods"></ul>
-      <p class="rv"><a class="btn btn--ghost" href="#shop">Browse the shop</a></p>
+    <div class="svc__body rv">
+      <h2 id="bq-h" >Complete your look.</h2>
+      <p class="lede" id="bq-body"></p>
+      <hr class="rule">
+      <ul class="prods" id="bq-prods"></ul>
+      <p ><a class="btn btn--ghost" href="#shop">Browse the shop</a></p>
     </div>
   </section>
 
@@ -1025,13 +1017,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
            alt="Soft-glam makeup with warm eyeshadow and a polished finish"
            width="1024" height="1280" loading="lazy" decoding="async">
     </div>
-    <div class="svc__body">
-      <p class="num rv">05</p>
-      <h2 id="makeup-h" class="rv">A look that feels like you.</h2>
-      <p class="lede rv">A soft daytime finish, or full glamour for an occasion. Bring a picture of the look you have in mind and we will match it to your skin tone.</p>
-      <hr class="rule rv">
-      <p class="note js-quote rv"></p>
-      <p class="rv"><a class="btn js-wa" href="#" data-wa="makeup" target="_blank" rel="noopener noreferrer">Enquire about makeup</a></p>
+    <div class="svc__body rv">
+      <h2 id="makeup-h" >A look that feels like you.</h2>
+      <p class="lede">A soft daytime finish, or full glamour for an occasion. Bring a picture of the look you have in mind and we will match it to your skin tone.</p>
+      <hr class="rule">
+      <p class="note js-quote"></p>
+      <p ><a class="btn js-wa" href="#" data-wa="makeup" target="_blank" rel="noopener noreferrer">Enquire about makeup</a></p>
     </div>
   </section>
 
@@ -1042,13 +1033,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
            alt="A champagne-gold gele headwrap tied for an occasion"
            width="1024" height="1280" loading="lazy" decoding="async">
     </div>
-    <div class="svc__body">
-      <p class="num rv">06</p>
-      <h2 id="gele-h" class="rv">Elegance, beautifully tied.</h2>
-      <p class="lede rv">The headwrap that finishes a wedding, a naming ceremony or a birthday. Bring your fabric and your outfit, and we will tie a shape that sits with both.</p>
-      <hr class="rule rv">
-      <p class="note js-quote rv"></p>
-      <p class="rv"><a class="btn btn--gold js-wa" href="#" data-wa="gele styling" target="_blank" rel="noopener noreferrer">Enquire about gele styling</a></p>
+    <div class="svc__body rv">
+      <h2 id="gele-h" >Elegance, beautifully tied.</h2>
+      <p class="lede">The headwrap that finishes a wedding, a naming ceremony or a birthday. Bring your fabric and your outfit, and we will tie a shape that sits with both.</p>
+      <hr class="rule">
+      <p class="note js-quote"></p>
+      <p ><a class="btn btn--gold js-wa" href="#" data-wa="gele styling" target="_blank" rel="noopener noreferrer">Enquire about gele styling</a></p>
     </div>
   </section>
 
@@ -1059,13 +1049,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
            alt="A relaxing facial treatment"
            width="1024" height="1280" loading="lazy" decoding="async">
     </div>
-    <div class="svc__body">
-      <p class="num rv">07</p>
-      <h2 id="facials-h" class="rv">A moment to refresh.</h2>
-      <p class="lede rv">Cleansing, exfoliation and massage, chosen around your skin rather than picked off a fixed menu. Tell us how it behaves and we will build the treatment around it.</p>
-      <hr class="rule rv">
-      <p class="note js-quote rv"></p>
-      <p class="rv"><a class="btn js-wa" href="#" data-wa="a facial" target="_blank" rel="noopener noreferrer">Enquire about facials</a></p>
+    <div class="svc__body rv">
+      <h2 id="facials-h" >A moment to refresh.</h2>
+      <p class="lede">Cleansing, exfoliation and massage, chosen around your skin rather than picked off a fixed menu. Tell us how it behaves and we will build the treatment around it.</p>
+      <hr class="rule">
+      <p class="note js-quote"></p>
+      <p ><a class="btn js-wa" href="#" data-wa="a facial" target="_blank" rel="noopener noreferrer">Enquire about facials</a></p>
     </div>
   </section>
 
@@ -1076,24 +1065,23 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
            alt="Defined eyelashes and a shaped brow"
            width="1024" height="1280" loading="lazy" decoding="async">
     </div>
-    <div class="svc__body">
-      <p class="num rv">08</p>
-      <h2 id="lashes-h" class="rv">Definition in every detail.</h2>
-      <p class="lede rv">Lashes to frame the eye, and threading for brows and face. Slow, exact work &mdash; the whole difference is in a millimetre either way.</p>
-      <hr class="rule rv">
-      <p class="note js-quote rv"></p>
-      <p class="rv"><a class="btn btn--gold js-wa" href="#" data-wa="lashes or threading" target="_blank" rel="noopener noreferrer">Enquire about lashes &amp; threading</a></p>
+    <div class="svc__body rv">
+      <h2 id="lashes-h" >Definition in every detail.</h2>
+      <p class="lede">Lashes to frame the eye, and threading for brows and face. Slow, exact work &mdash; the whole difference is in a millimetre either way.</p>
+      <hr class="rule">
+      <p class="note js-quote"></p>
+      <p ><a class="btn btn--gold js-wa" href="#" data-wa="lashes or threading" target="_blank" rel="noopener noreferrer">Enquire about lashes &amp; threading</a></p>
     </div>
   </section>
 
   <!-- ============================================================ shop -->
   <section class="shop flow" id="shop" aria-labelledby="shop-h">
-    <div class="sec-head">
-      <p class="kicker rv">Take it home</p>
-      <h2 id="shop-h" class="rv">Shop our products.</h2>
-      <p class="lede rv">Discover beauty essentials for your everyday routine. Message us on WhatsApp to check availability and arrange collection from the salon.</p>
+    <div class="sec-head rv">
+      <p class="kicker">Collect in salon</p>
+      <h2 id="shop-h" >Shop our products.</h2>
+      <p class="lede">Discover beauty essentials for your everyday routine. Message us on WhatsApp to check availability and arrange collection from the salon.</p>
     </div>
-    <div class="shop__rail">
+    <div class="shop__rail rv">
       <ul class="shop__grid" id="shop-grid"></ul>
       <i class="shop__rail-cue" aria-hidden="true"></i>
     </div>
@@ -1106,22 +1094,21 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
            alt="Long knotless braids"
            width="1536" height="1024" loading="lazy" decoding="async">
     </div>
-    <div class="svc__body">
-      <p class="num rv">09</p>
-      <h2 id="latest-h" class="rv">Find your next look.</h2>
-      <p class="lede rv">Explore our latest style videos on TikTok, then share your favourite with us when you book.</p>
-      <hr class="rule rv">
-      <div class="latest-grid rv" id="latest-grid"></div>
-      <p class="rv"><a class="btn btn--gold" id="latest-social" target="_blank" rel="noopener noreferrer">See our latest styles on TikTok</a></p>
+    <div class="svc__body rv">
+      <h2 id="latest-h" >Find your next look.</h2>
+      <p class="lede">Explore our latest style videos on TikTok, then share your favourite with us when you book.</p>
+      <hr class="rule">
+      <div class="latest-grid" id="latest-grid"></div>
+      <p ><a class="btn btn--gold" id="latest-social" target="_blank" rel="noopener noreferrer">See our latest styles on TikTok</a></p>
     </div>
   </section>
 
   <!-- ========================================================== prices -->
   <section class="prices flow" id="prices" aria-labelledby="prices-h">
-    <div class="sec-head">
-      <p class="kicker rv">Price list</p>
-      <h2 id="prices-h" class="rv">Clear pricing, every time.</h2>
-      <p class="lede rv">Explore our hair services below. For nails, makeup, gele, facials, lashes and threading, contact us for a personalised quote before booking.</p>
+    <div class="sec-head rv">
+      <p class="kicker">58 hair services</p>
+      <h2 id="prices-h" >Clear pricing, every time.</h2>
+      <p class="lede">Explore our hair services below. For nails, makeup, gele, facials, lashes and threading, contact us for a personalised quote before booking.</p>
     </div>
 
     <!-- search across every category at once — see .finder in the styles -->
@@ -1144,13 +1131,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 
   <!-- ============================================================= faq -->
   <section class="faq flow" id="faq" aria-labelledby="faq-h">
-    <div class="sec-head">
-      <p class="kicker rv">Good to know</p>
-      <h2 id="faq-h" class="rv">Before you book.</h2>
-      <p class="lede rv">The questions we answer most often. If yours is not here, message us and we will tell you straight away.</p>
+    <div class="sec-head rv">
+      <h2 id="faq-h" >Before you book.</h2>
+      <p class="lede">The questions we answer most often. If yours is not here, message us and we will tell you straight away.</p>
     </div>
     <div class="faq__list rv" id="faq-list"></div>
-    <p class="faq__foot rv">Still deciding? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &mdash; we reply during opening hours.</p>
+    <p class="faq__foot">Still deciding? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &mdash; we reply during opening hours.</p>
   </section>
 
   <!-- ========================================================= careers -->
@@ -1160,15 +1146,14 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
            alt="Two hair professionals discussing styles in the salon"
            width="1536" height="1024" loading="lazy" decoding="async">
     </div>
-    <div class="svc__body">
-      <p class="num rv">10</p>
-      <h2 id="careers-h" class="rv">Bring your talent.<br>Grow with us.</h2>
-      <p class="lede rv">Passionate about hair, beauty and making people feel welcome? We would love to hear from you.</p>
-      <hr class="rule rv">
-      <p class="copy rv">To enquire about opportunities, email your CV, the role you are interested in, your relevant experience and your availability. You can include a portfolio link or examples of your work.</p>
-      <p class="copy rv">Our team will review your enquiry and contact you if there is a suitable opportunity.</p>
-      <p class="rv"><a class="btn" id="careers-email">Apply by email</a></p>
-      <p class="note rv">This opens your email app. Attach your CV before sending, or email <a id="careers-address"></a> directly.</p>
+    <div class="svc__body rv">
+      <h2 id="careers-h" >Bring your talent.<br>Grow with us.</h2>
+      <p class="lede">Passionate about hair, beauty and making people feel welcome? We would love to hear from you.</p>
+      <hr class="rule">
+      <p class="copy">To enquire about opportunities, email your CV, the role you are interested in, your relevant experience and your availability. You can include a portfolio link or examples of your work.</p>
+      <p class="copy">Our team will review your enquiry and contact you if there is a suitable opportunity.</p>
+      <p ><a class="btn" id="careers-email">Apply by email</a></p>
+      <p class="note">This opens your email app. Attach your CV before sending, or email <a id="careers-address"></a> directly.</p>
     </div>
   </section>
 
@@ -1176,10 +1161,9 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   <section class="visit flow" id="visit" aria-labelledby="visit-h">
     <div class="visit__grid">
       <div>
-        <p class="kicker rv">Visit</p>
-        <h2 id="visit-h" class="rv">Come and see us.</h2>
-        <p class="lede rv">We welcome walk-ins subject to availability. Book ahead so we can set aside the time and care your chosen service deserves.</p>
-        <dl class="rv">
+        <h2 id="visit-h" >Come and see us.</h2>
+        <p class="lede">We welcome walk-ins subject to availability. Book ahead so we can set aside the time and care your chosen service deserves.</p>
+        <dl >
           <dt>Address</dt>
           <dd id="v-addr"></dd>
           <dd class="visit__aside"><a class="text-link text-link--light" id="v-map" href="#" target="_blank" rel="noopener noreferrer">Get directions &rarr;</a></dd>
@@ -1765,15 +1749,19 @@ function styleSwap(){
 function reveals(){
   const items = $$('.rv');
   if (REDUCE || !('IntersectionObserver' in window)) { items.forEach(el => el.classList.add('in')); return; }
+  const show = el => { el.classList.add('in'); io.unobserve(el); };
+
+  /* threshold 0, not a ratio. The reveal targets are now whole blocks — a
+     chapter's copy column is a full viewport tall — and a ratio threshold on
+     an element that size can be stepped straight over: scroll-snap moves the
+     viewport in one jump, and the browser never has to deliver a frame where
+     18% of the block is showing. The section then sits at opacity 0 until the
+     reader happens to scroll back. Any-pixel-intersects cannot be skipped;
+     the negative bottom margin is what holds the trigger back to the point
+     the block is genuinely arriving rather than one pixel in. */
   const io = new IntersectionObserver((es) => {
-    es.forEach(e => {
-      if (!e.isIntersecting) return;
-      const sibs = [].slice.call(e.target.parentNode.children).filter(n => n.classList.contains('rv'));
-      e.target.style.transitionDelay = (Math.max(0, sibs.indexOf(e.target)) * 70) + 'ms';
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    });
-  }, { threshold: .18, rootMargin: '0px 0px -6% 0px' });
+    es.forEach(e => { if (e.isIntersecting) show(e.target); });
+  }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
 
   /* Anything already on screen at load is shown immediately rather than
      waiting for an observer callback. The headline is the largest paint on
@@ -1791,6 +1779,23 @@ function reveals(){
     if (r.top < innerHeight && r.bottom > 0) el.classList.add('in');
     else io.observe(el);
   });
+
+  /* Belt and braces for the snap. Proximity snapping can carry the viewport
+     across a whole chapter in a single move, and a scroll that fast is
+     exactly when an observer callback is most likely to be coalesced away.
+     Once scrolling settles, anything already up the page is shown outright —
+     a reader should never be looking at a section that is still waiting to
+     animate in. */
+  let idle;
+  addEventListener('scroll', () => {
+    clearTimeout(idle);
+    idle = setTimeout(() => {
+      items.forEach(el => {
+        if (el.classList.contains('in')) return;
+        if (el.getBoundingClientRect().top < innerHeight * 0.9) show(el);
+      });
+    }, 140);
+  }, { passive: true });
 }
 
 /* ------------------------------------------------ header & floating CTA */
