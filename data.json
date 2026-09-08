@@ -5,7 +5,6 @@
     "extractedAt": "2026-09-02",
     "note": "All values are the salon's real live data. Pricing and contact details come from the salon's own source of truth, not a third-party listing."
   },
-
   "business": {
     "name": "Infinity Hair and Beauty Salon",
     "shortName": "Infinity Salon",
@@ -25,7 +24,6 @@
       "line": "Monday – Sunday, 9am – 9pm"
     }
   },
-
   "contact": {
     "whatsapp": {
       "e164": "447464053505",
@@ -45,7 +43,6 @@
       "url": "https://www.tiktok.com/@harannawoolwichhair"
     }
   },
-
   "brand": {
     "colors": {
       "ivory": "#f8f7f4",
@@ -87,7 +84,6 @@
       }
     }
   },
-
   "pillars": [
     {
       "n": "01",
@@ -110,7 +106,6 @@
       "body": "Discover clothing, fabrics and accessories to complement your style, from everyday favourites to special-occasion pieces."
     }
   ],
-
   "pricing": {
     "currency": "GBP",
     "categories": [
@@ -403,7 +398,6 @@
       }
     ]
   },
-
   "products": [
     {
       "name": "Hair Oils & Serums",
@@ -442,14 +436,12 @@
       "body": "Beautifully packaged sets, ready to gift or treat yourself."
     }
   ],
-
   "policies": [
     "Appointments run 20 minutes – 4 hours, depending on service",
     "20% deposit required to secure your booking",
     "Please book at least 24 hours in advance",
     "Free cancellation within 24 hours of your deposit, reschedule anytime"
   ],
-
   "venuePhotos": [
     {
       "src": "assets/venue/salon-1.jpg",
@@ -472,7 +464,6 @@
       "alt": "The salon floor and workstations"
     }
   ],
-
   "floors": [
     {
       "level": 0,
@@ -541,80 +532,94 @@
       "note": "The live site publishes no numeric price list for nails or spa treatments — only the two service pillars. Floor 3 therefore shows the Nail Care and Spa & Body pillars plus the booking policies; ask the salon for spa numbers if a price table is wanted here."
     }
   ],
-
   "latestStyles": [],
-
   "site": {
     "url": "https://infinitysalon-flame.vercel.app",
     "note": "Absolute base for the canonical link, the social preview image and the structured data. Change this to the salon’s own domain when it has one."
   },
-
   "serviceIndex": [
     {
       "id": "hair",
       "name": "Hair styling & care",
       "href": "#hair",
       "tag": "Full price list",
-      "body": "Braids, knotless, weaves, wigs, twists, locs, cornrows, relaxers and treatments."
+      "body": "Braids, knotless, weaves, wigs, twists, locs, cornrows, relaxers and treatments.",
+      "img": "assets/styles/style-braids.jpg",
+      "alt": "Long knotless box braids"
     },
     {
       "id": "nails",
       "name": "Nails",
       "href": "#nails",
       "tag": "Quoted on enquiry",
-      "body": "Manicures, pedicures, gel colour and nail art."
+      "body": "Manicures, pedicures, gel colour and nail art.",
+      "img": "assets/video/nails.jpg",
+      "alt": "A manicure being painted"
     },
     {
       "id": "spa",
       "name": "Spa & body",
       "href": "#spa",
       "tag": "Quoted on enquiry",
-      "body": "Massage and spa care to unwind and reset."
+      "body": "Massage and spa care to unwind and reset.",
+      "img": "assets/video/spa.jpg",
+      "alt": "A candlelit treatment room"
     },
     {
       "id": "makeup",
       "name": "Makeup",
       "href": "#beauty",
       "tag": "Quoted on enquiry",
-      "body": "Everyday polish through to occasion glamour."
+      "body": "Everyday polish through to occasion glamour.",
+      "img": "assets/img/sections/makeup.jpg",
+      "alt": "Soft-glam makeup with a polished finish"
     },
     {
       "id": "gele",
       "name": "Gele styling",
       "href": "#gele",
       "tag": "Quoted on enquiry",
-      "body": "Occasion headwraps tied to your outfit and finish."
+      "body": "Occasion headwraps tied to your outfit and finish.",
+      "img": "assets/img/sections/gele.jpg",
+      "alt": "A champagne-gold gele headwrap"
     },
     {
       "id": "facials",
       "name": "Facials",
       "href": "#facials",
       "tag": "Quoted on enquiry",
-      "body": "Facial treatments chosen around your skin and routine."
+      "body": "Facial treatments chosen around your skin and routine.",
+      "img": "assets/img/sections/facial.jpg",
+      "alt": "A facial treatment in progress"
     },
     {
       "id": "lashes",
       "name": "Lashes & threading",
       "href": "#lashes",
       "tag": "Quoted on enquiry",
-      "body": "Lash services and precise brow and facial threading."
+      "body": "Lash services and precise brow and facial threading.",
+      "img": "assets/img/sections/lashes.jpg",
+      "alt": "Defined lashes and a shaped brow"
     },
     {
       "id": "boutique",
       "name": "Boutique & shop",
       "href": "#shop",
       "tag": "From £8",
-      "body": "Clothing, fabrics and accessories, plus beauty essentials to take home."
+      "body": "Clothing, fabrics and accessories, plus beauty essentials to take home.",
+      "img": "assets/video/boutique.jpg",
+      "alt": "The boutique floor on Powis Street"
     },
     {
       "id": "kids",
       "name": "Children's & teens",
       "href": "#prices-kids-teens",
       "tag": "From £40",
-      "body": "Cornrows, single plaits and box braids for younger clients."
+      "body": "Cornrows, single plaits and box braids for younger clients.",
+      "img": "assets/styles/style-afro.jpg",
+      "alt": "Natural curls, styled and defined"
     }
   ],
-
   "faqs": [
     {
       "q": "How do I book an appointment?",
