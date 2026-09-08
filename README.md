@@ -39,13 +39,13 @@ That injects `data.json` into the page and writes `index.html`. `data.json` stay
 single source of truth — change a price there and rebuild; nothing is hard-coded in
 the markup.
 
-```
+```text
 src/page.html    the template (one file: markup, CSS, JS)
 src/hero3d.kage.bak  the retired Three.js hero — see "Earlier hero attempts" below
 data.json        the scraped business record
 build.js         injects the data, writes index.html + robots.txt + sitemap.xml
 public/          robots.txt and sitemap.xml, generated — vite copies them to dist/
-assets/video/    the hero clip plus four chapter clips, and their poster frames
+assets/video/    three chapter clips and their poster frames (hero is a still)
 assets/img/      logo, favicon, og image
 assets/img/sections/  the section photographs
 assets/styles/   the three hairstyle portraits in the hair chapter
@@ -54,7 +54,7 @@ tools/           static server with a frame-capture route, used in development
 
 ## The hero
 
-One photograph of the styling floor, `assets/img/salon-hero-v2.png`, under a two-axis
+One photograph of the styling floor, `assets/img/salon-hero-v2.*`, under a two-axis
 scrim that keeps the overlay copy legible against both the dark left of the frame and
 the lit interior on the right.
 
@@ -82,8 +82,7 @@ applied.
 ## The footage
 
 | Chapter | Clip | Length | Source |
-|---|---|---|---|
-| Hero | logo morphs into a styled mannequin head | 10.0s | your download |
+| --- | --- | --- | --- |
 | Nails | macro manicure | 5.0s | stock |
 | Spa | candlelit treatment room | 4.3s | your footage |
 | Boutique | push-in on the boutique wall | 4.3s | your footage |
@@ -92,9 +91,12 @@ All slowed with `minterpolate`, which synthesises the in-between frames. Simply 
 `playbackRate` in the browser holds each existing frame for longer and judders; this
 stays smooth at 24fps.
 
-The hair chapter no longer carries a clip — it holds the hairstyle swapper instead.
-The previous hair and hero clips are kept at `assets/video/hair.mp4` and
-`hero-salon.mp4`.
+**Neither the hero nor the hair chapter carries a clip any more.** The hero was a 10s
+animation of the mark morphing into a styled mannequin head; the client asked for a
+cleaner representation and it is now a still photograph of the styling floor (see *The
+hero* above). The hair chapter holds the hairstyle swapper instead. All three retired
+files stay in `assets/video/` — `hero.mp4`, `hero-salon.mp4` and `hair.mp4` — and
+nothing on the page references any of them.
 
 ## The hairstyle swapper
 

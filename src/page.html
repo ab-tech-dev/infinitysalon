@@ -75,9 +75,13 @@ html{scroll-snap-type:y proximity;scroll-behavior:smooth}
    chapters do not, because their copy is vertically centred and was never
    behind the bar. */
 .flow,[id^="prices-"]{scroll-margin-top:calc(var(--hdr) + 8px)}
-/* arriving on a section by link marks it, briefly, so the eye knows where
-   the jump landed */
-:target{scroll-margin-top:calc(var(--hdr) + 8px)}
+/* Reading sections reserve the header's height so a jump does not bury the
+   heading. The full-viewport chapters must not: their copy is already
+   centred vertically and was never behind the bar, and reserving 88px there
+   pushes the bottom of a 100svh media panel below the fold - which is where
+   the hairstyle swapper keeps its "new looks, on repeat" hint, so the cue
+   that the portrait is interactive stopped being visible at all. */
+:target:not(.chapter){scroll-margin-top:calc(var(--hdr) + 8px)}
 
 /* ------------------------------------------------------------ utilities */
 .vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
@@ -293,7 +297,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .styles__hint{
   position:absolute;left:0;right:0;bottom:32px;margin:0;text-align:center;z-index:3;
   font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(255,255,255,.7);text-shadow:0 2px 14px rgba(0,0,0,.75);
+  color:rgba(255,255,255,.94);text-shadow:0 1px 3px rgba(0,0,0,.9),0 2px 16px rgba(0,0,0,.8);
   transition:opacity .3s
 }
 .styles.is-kept .styles__hint{color:var(--gold-lift)}
@@ -448,7 +452,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
    read a price here and go and find the button somewhere else. */
 .plist__book{text-decoration:none;white-space:nowrap;font-size:10px;font-weight:600;
   letter-spacing:.14em;text-transform:uppercase;color:var(--gold-ink);
-  padding:4px 0 4px 16px;transition:color .2s ease,opacity .2s ease}
+  padding:8px 0 8px 16px;transition:color .2s ease,opacity .2s ease}
 /* Quiet, but never hidden. Revealing it on hover kept the row tidy and
    made the action undiscoverable to anyone reading with a thumb, while
    still reserving its width — so the price sat off the edge for no visible
@@ -456,7 +460,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
    "secondary" also reads as 2:1 against the paper. */
 .plist__book{color:var(--slate)}
 .plist li:hover .plist__book,.plist__book:hover,.plist__book:focus-visible{color:var(--gold-ink)}
-@media(max-width:560px){.plist__book{padding-left:12px;font-size:9.5px}}
+@media(max-width:560px){.plist__book{padding:8px 0 8px 12px;font-size:9.5px}}
 
 /* ------------------------------------------------------- the finder
    Sixty-odd services behind nine tabs is a filing cabinet: fine if you know
@@ -582,13 +586,13 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 #wa{
   position:fixed;right:var(--pad);bottom:24px;z-index:25;
   display:inline-flex;align-items:center;gap:10px;padding:14px 22px;border-radius:999px;
-  background:#1f9c4d;color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;
+  background:#17803d;color:#fff;text-decoration:none;font-size:12.5px;font-weight:600;
   letter-spacing:.06em;box-shadow:0 10px 30px rgba(0,0,0,.26);
   transform:translateY(90px);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s
 }
 #wa.in{transform:none;opacity:1}
 #wa.footer-near{transform:translateY(90px);opacity:0;pointer-events:none}
-#wa:hover{background:#178a41}
+#wa:hover{background:#125f2c}
 #wa svg{width:19px;height:19px;fill:currentColor;flex:none}
 @media(max-width:560px){#wa span{display:none}#wa{padding:15px}}
 
@@ -1108,7 +1112,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
     <div class="sec-head rv">
       <p class="kicker">58 hair services</p>
       <h2 id="prices-h" >Clear pricing, every time.</h2>
-      <p class="lede">Explore our hair services below. For nails, makeup, gele, facials, lashes and threading, contact us for a personalised quote before booking.</p>
+      <p class="lede">Every hair service we offer, with its price. Nails, makeup, gele, facials, lashes and threading are priced per head on the day &mdash; message us and we will confirm before you book.</p>
     </div>
 
     <!-- search across every category at once — see .finder in the styles -->
