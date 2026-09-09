@@ -311,79 +311,6 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   .styles__img{transition:none}
 }
 
-/* ---------------------------------------------------- the service index
-   Nine service lines is more than a scroll can introduce. This is the
-   directory: every line the salon runs, what it costs or that it is quoted,
-   and a jump straight to it. Each card is one link — the whole tile is the
-   target, so it works the same under a thumb as under a cursor. */
-.dir{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
-/* three across, because there are nine of them — auto-fit gave four and left
-   the last row holding a single card on its own */
-.dir__grid{list-style:none;margin:38px 0 0;padding:0;display:grid;gap:1px;
-  background:var(--rule);border:1px solid var(--rule);
-  grid-template-columns:repeat(3,1fr)}
-@media(max-width:900px){.dir__grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.dir__grid{grid-template-columns:1fr}}
-.dir__grid li{background:var(--paper)}
-.dir__grid a{position:relative;display:grid;gap:0;align-content:start;height:100%;padding:0;
-  text-decoration:none;transition:background .22s ease,color .22s ease}
-.dir__grid a:hover,.dir__grid a:focus-visible{background:var(--paper-2)}
-/* The directory is where a salon is actually chosen, and it was nine text
-   tiles with nothing to look at — the one section of a beauty site that
-   should be selling the work. Each line now carries the photograph of the
-   service it points to. The band is deliberately shallow: this is an index
-   to scan, not a gallery to browse, and a full-height picture per card would
-   turn nine choices into three screens of scrolling. */
-.dir__shot{display:block;overflow:hidden;background:var(--paper-2);aspect-ratio:16/9}
-.dir__shot img{width:100%;height:100%;object-fit:cover;
-  transition:transform .8s cubic-bezier(.2,.8,.2,1)}
-.dir__grid a:hover .dir__shot img,.dir__grid a:focus-visible .dir__shot img{transform:scale(1.045)}
-.dir__txt{display:grid;gap:9px;align-content:start;padding:22px 24px 24px}
-/* a hairline that draws itself along the top of the card being pointed at —
-   nine flat tiles otherwise give no feedback that they are one target each */
-.dir__grid a:before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--gold);
-  transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
-.dir__grid a:hover:before,.dir__grid a:focus-visible:before{transform:scaleX(1)}
-/* what it costs, before what it is called: the first thing anyone comparing
-   nine services wants to know is which of them carry a published number.
-   Seven of the nine are quoted, so gold on all nine said nothing — the
-   published prices keep the gold, the quoted lines step back to grey. */
-.dir__tag{font-size:10.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-ink)}
-.dir__tag--quoted{color:var(--slate);opacity:.9}
-.dir__name{font-family:var(--serif);font-size:25px;line-height:1.05;letter-spacing:-.01em}
-.dir__body{font-size:13.5px;line-height:1.55;color:var(--slate);margin:0}
-/* Nine tiles each ending in an identical "View →" is decoration, not
-   information: the tile is already a link, the heading is already its label,
-   and the gold rule that draws along the top on hover already says so. The
-   cue is kept only on the narrow layout, where the cards become list rows
-   and a chevron is the affordance that tells a thumb the row leads somewhere. */
-.dir__go{display:none}
-.dir__foot{margin:26px 0 0;font-size:14px;color:var(--slate)}
-.dir__foot a{color:var(--ink)}
-@media(max-width:560px){
-  /* Nine stacked cards ran to nearly two thousand pixels on a phone. As
-     rows — name and price on one line, the description under it, a chevron
-     for the target — the same nine fit in about half that and scan like a
-     menu rather than a stack of posters. */
-  /* The photograph becomes a thumbnail on the end of the row rather than a
-     band above it — nine 16/9 pictures stacked would be the wall of posters
-     this layout exists to avoid. */
-  .dir__grid a{grid-template-columns:1fr 76px;align-items:center;gap:0 14px;padding:14px 28px 14px 16px}
-  .dir__shot{grid-column:2;grid-row:1;aspect-ratio:1;width:76px;align-self:center}
-  /* Name and price tag shared a baseline row before the thumbnail existed,
-     when the row was the full width of the screen. With 76px of picture and
-     a chevron taken out of it there is no longer room for both, and every
-     two-word service was wrapping into the tag. Stacked, in the same order
-     the wide layout uses. */
-  .dir__txt{grid-column:1;grid-row:1;padding:0;gap:3px}
-  .dir__tag{font-size:9.5px;letter-spacing:.14em}
-  .dir__name{font-size:18px;line-height:1.15}
-  .dir__body{font-size:12.5px;line-height:1.45}
-  .dir__go{display:block;position:absolute;right:14px;top:50%;margin:0;width:8px;height:8px;overflow:hidden;
-    text-indent:-99em;border-top:1.5px solid var(--slate);border-right:1.5px solid var(--slate);
-    transform:translateY(-50%) rotate(45deg)}
-  .dir__grid a:hover .dir__go,.dir__grid a:focus-visible .dir__go{transform:translateY(-50%) rotate(45deg)}
-}
 
 /* ---------------------------------------------------------------- shop */
 .shop{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
@@ -856,7 +783,6 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
        deciding where to get their hair done; it sits in the footer, and the
        slot it held goes to the shop. -->
   <nav class="main" aria-label="Sections"><a href="#about">About</a>
-    <a href="#services">Services</a>
     <a href="#hair">Hair</a>
     <a href="#prices">Prices</a>
     <a href="#shop">Shop</a>
@@ -870,7 +796,6 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   </button>
 </header>
 <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile sections"><a href="#about">About</a>
-    <a href="#services">All services</a>
     <a href="#hair">Hair</a>
     <a href="#beauty">Beauty</a>
     <a href="#shop">Shop</a>
@@ -915,7 +840,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
             Book on WhatsApp
           </a>
-          <a class="btn btn--ghost btn--lg" href="#services">See all services</a>
+          <a class="btn btn--ghost btn--lg" href="#prices">See the price list</a>
         </div>
         <p class="hero__note">Walk-ins welcome &middot; 20% deposit secures your slot</p>
       </div>
@@ -950,20 +875,6 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
     </div>
   </section>
 
-  <!-- ================================================ the service index
-       The salon runs nine service lines. Scrolling introduces them one
-       chapter at a time, which is the right way to meet them and the wrong
-       way to find one — so this is the directory: everything on offer, what
-       it costs or that it is quoted, and a jump straight to it. -->
-  <section class="dir flow" id="services" aria-labelledby="services-h">
-    <div class="sec-head rv">
-      <p class="kicker">Nine service lines</p>
-      <h2 id="services-h" >One salon.<br>Nine ways in.</h2>
-      <p class="lede">Hair, nails, spa, makeup, gele, facials, lashes and the boutique, all under one roof on Powis Street. Choose where to start.</p>
-    </div>
-    <ul class="dir__grid rv" id="dir-grid"></ul>
-    <p class="dir__foot">Looking for something else? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &middot; <a href="#latest">See our latest styles</a> &middot; <a href="#faq">Read the FAQ</a></p>
-  </section>
   <div class="hair-feature" id="hair-feature">
     <!-- ================================================ the gradient band -->
     <section class="band" id="band" aria-label="Every hairstyle">
@@ -1313,23 +1224,6 @@ function fill(){
   $('#bq-prods').innerHTML = DATA.products.map(p =>
     '<li>' + esc(p.name) + '<span>' + esc(p.price) + '</span></li>').join('');
 
-  /* --- the service index ---------------------------------------------
-     One card per service line, price signal first. The whole tile is the
-     link, so it is the same target under a thumb as under a cursor. */
-  const dir = $('#dir-grid');
-  if (dir) dir.innerHTML = (DATA.serviceIndex || []).map(s =>
-    '<li><a href="' + esc(s.href) + '">' +
-      (s.img
-        ? '<span class="dir__shot"><img src="' + esc(s.img) + '" alt="' + esc(s.alt || '') +
-          '" loading="lazy" decoding="async"></span>'
-        : '') +
-      '<span class="dir__txt">' +
-        '<span class="dir__tag' + (/enquiry/i.test(s.tag) ? ' dir__tag--quoted' : '') + '">' + esc(s.tag) + '</span>' +
-        '<span class="dir__name">' + esc(s.name) + '</span>' +
-        '<span class="dir__body">' + esc(s.body) + '</span>' +
-      '</span>' +
-      '<span class="dir__go" aria-hidden="true">View &rarr;</span>' +
-    '</a></li>').join('');
 
   /* --- the FAQ -------------------------------------------------------
      details/summary rather than a scripted accordion: it opens without
