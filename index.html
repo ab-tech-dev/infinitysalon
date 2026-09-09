@@ -646,7 +646,12 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   .hero__meta{margin-top:2px;font-size:10px}
   .cue{bottom:12px;font-size:9px}
   .kicker,.hero__eyebrow,.hero__meta{letter-spacing:0}
-  .lede{font-size:16px;line-height:1.55}
+  /* The 17px body set for the wide measure is too big for a 350px column:
+     it falls to about 41 characters a line, under the 45 prose wants, and it
+     made every stacked section taller than it needed to be. 16px here, and
+     the lede goes up rather than down so it still reads as the intro. */
+  body{font-size:16px;line-height:1.65}
+  .lede{font-size:17px;line-height:1.5}
 
   /* Let the statement band hand straight into the first hairstyle rather
      than ending on a hard, unrelated colour edge. */
@@ -932,10 +937,10 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <div class="about__copy rv">
         <div class="sec-head sec-head--stack">
           <h2 id="about-h" >Your beauty.<br>Our personal touch.</h2>
-          <p class="lede">Hair, beauty and personal style in one place, in the heart of Woolwich. Open seven days a week, and late enough in the evening to fit around work.</p>
+          <p class="lede">Hair, beauty and personal style in one place, in the heart of Woolwich &mdash; late enough in the evening to fit around work.</p>
         </div>
         <div class="editorial__body">
-          <p>From braids and protective styles to makeup, gele and relaxing treatments, we bring your beauty routine together in one welcoming space. Whether you are refreshing your everyday look or preparing for a special occasion, tell us what you have in mind and we will help you plan your visit.</p>
+          <p>Braids and protective styles, nails, makeup and gele, facials and massage &mdash; the whole routine in one place. Come in with a picture of what you want, or come in undecided. Both work.</p>
         </div>
         <dl class="facts">
           <div><dt>Open</dt><dd>7 days, 9am&ndash;9pm</dd></div>
@@ -1178,8 +1183,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <h2 id="careers-h" >Bring your talent.<br>Grow with us.</h2>
       <p class="lede">Passionate about hair, beauty and making people feel welcome? We would love to hear from you.</p>
       <hr class="rule">
-      <p class="copy">To enquire about opportunities, email your CV, the role you are interested in, your relevant experience and your availability. You can include a portfolio link or examples of your work.</p>
-      <p class="copy">Our team will review your enquiry and contact you if there is a suitable opportunity.</p>
+      <p class="copy">Email your CV with the role you are interested in, your experience and when you are free. A portfolio link or a few photographs of your work help. We reply if there is something suitable.</p>
       <p ><a class="btn" id="careers-email">Apply by email</a></p>
       <p class="note">This opens your email app. Attach your CV before sending, or email <a id="careers-address"></a> directly.</p>
     </div>
