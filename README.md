@@ -45,7 +45,7 @@ src/hero3d.kage.bak  the retired Three.js hero — see "Earlier hero attempts" b
 data.json        the scraped business record
 build.js         injects the data, writes index.html + robots.txt + sitemap.xml
 public/          robots.txt and sitemap.xml, generated — vite copies them to dist/
-assets/video/    three chapter clips and their poster frames (hero is a still)
+assets/video/    one active chapter clip and retired footage (hero, spa and boutique are stills)
 assets/img/      logo, favicon, og image
 assets/img/sections/  the section photographs
 assets/styles/   the three hairstyle portraits in the hair chapter
@@ -84,19 +84,17 @@ applied.
 | Chapter | Clip | Length | Source |
 | --- | --- | --- | --- |
 | Nails | macro manicure | 5.0s | stock |
-| Spa | candlelit treatment room | 4.3s | your footage |
-| Boutique | push-in on the boutique wall | 4.3s | your footage |
 
 All slowed with `minterpolate`, which synthesises the in-between frames. Simply lowering
 `playbackRate` in the browser holds each existing frame for longer and judders; this
 stays smooth at 24fps.
 
-**Neither the hero nor the hair chapter carries a clip any more.** The hero was a 10s
+**The hero, hair, spa, and boutique chapters do not carry clips.** The hero was a 10s
 animation of the mark morphing into a styled mannequin head; the client asked for a
 cleaner representation and it is now a still photograph of the styling floor (see *The
-hero* above). The hair chapter holds the hairstyle swapper instead. All three retired
-files stay in `assets/video/` — `hero.mp4`, `hero-salon.mp4` and `hair.mp4` — and
-nothing on the page references any of them.
+hero* above). The hair chapter holds the hairstyle swapper instead. The spa chapter uses
+a seated shoulder-treatment portrait, and the boutique uses an editorial in-salon retail
+portrait. Retired files stay in `assets/video/`, and the page does not reference them.
 
 ## The hairstyle swapper
 
@@ -263,6 +261,17 @@ gets no price at all rather than a misleading one.
 `site.url` in `data.json` drives the canonical link, the absolute social image and the
 generated `robots.txt` and `sitemap.xml`. **Change it to the salon's own domain when it
 has one**; everything downstream follows.
+
+## Motion and parallax
+
+GSAP and ScrollTrigger are vendored in `vendor/`, so the motion layer works on a
+static host without relying on a third-party CDN. It adds a sequenced hero entrance,
+subtle depth to the hero and chapter photography, staggered service copy, drawn rules,
+and pointer-only magnetic buttons. The chapter videos still play at their natural rate;
+none of them are scrubbed against scroll position.
+
+`prefers-reduced-motion` bypasses the GSAP layer and uses the existing static reveal
+fallback. Parallax distances are intentionally restrained and smaller on narrow screens.
 
 ## How the video is handled
 

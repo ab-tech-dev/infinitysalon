@@ -20,6 +20,11 @@ export default defineConfig({
             { recursive: true },
           )
         }
+        cpSync(
+          resolve(root, 'vendor'),
+          resolve(root, 'dist', 'vendor'),
+          { recursive: true },
+        )
       },
     },
   ],

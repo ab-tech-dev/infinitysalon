@@ -342,6 +342,23 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .svc--dark{background:#12100e;color:var(--paper)}
 .svc--dark .lede{color:rgba(247,244,239,.72)}
 .svc--dark .rule{background:var(--rule-dark)}
+.svc--boutique{background:#0d1729;color:var(--paper);overflow:hidden}
+.svc--boutique .svc__body{
+  position:relative;isolation:isolate;
+  background:
+    radial-gradient(circle at 82% 18%,rgba(201,169,97,.15),transparent 31%),
+    repeating-linear-gradient(132deg,transparent 0 22px,rgba(201,169,97,.035) 22px 23px),
+    #0d1729;
+}
+.svc--boutique .svc__body:before,
+.svc--boutique .svc__body:after{
+  content:"";position:absolute;z-index:-1;pointer-events:none;border:1px solid rgba(201,169,97,.18);
+  width:clamp(240px,34vw,520px);aspect-ratio:1;border-radius:50%;right:clamp(-260px,-16vw,-120px);top:8%;
+}
+.svc--boutique .svc__body:after{width:clamp(170px,24vw,360px);right:clamp(-160px,-8vw,-60px);top:24%;border-color:rgba(201,169,97,.11)}
+.svc--boutique .lede{color:rgba(247,244,239,.78)}
+.svc--boutique .rule{background:rgba(201,169,97,.28)}
+.svc--boutique .prods li{border-bottom-color:rgba(201,169,97,.2)}
 .svc--flip .svc__media{order:2}
 @media(max-width:900px){
   .svc{grid-template-columns:1fr}
@@ -674,6 +691,11 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 /* ------------------------------------------------------------- reveals */
 .rv{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
+.rv.gsap-managed{transition:none}
+.stage img,.svc__media>img,.svc__media>video,.section-visual img{will-change:transform}
+.svc__media{isolation:isolate}
+.svc__body .rule{transform-origin:left center}
+.svc--flip .svc__body .rule{transform-origin:right center}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1!important;transform:none!important;transition:none}}
 :focus-visible{outline:2px solid var(--gold-ink);outline-offset:3px}
 .svc--dark :focus-visible,.visit :focus-visible,.hero :focus-visible{outline-color:var(--gold-lift)}
@@ -869,7 +891,6 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
         <p class="hero__note">Walk-ins welcome &middot; 20% deposit secures your slot</p>
       </div>
     </div>
-    <p class="cue" aria-hidden="true">Scroll</p>
   </section>
 
   <!-- =========================================================== about -->
@@ -948,8 +969,9 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   <!-- ============================================================= spa -->
   <section class="chapter svc" id="spa" aria-labelledby="spa-h">
     <div class="svc__media">
-      <video class="js-vid" data-src="assets/video/spa.mp4" poster="assets/video/spa.jpg"
-             muted loop playsinline preload="none" aria-hidden="true"></video>
+      <img src="assets/img/sections/spa-treatment-v2.webp"
+           alt="A client receiving a professional shoulder massage in the salon"
+           width="1024" height="1536" loading="lazy" decoding="async">
     </div>
     <div class="svc__body rv">
       <h2 id="spa-h" >Make time for yourself.</h2>
@@ -961,10 +983,11 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   </section>
 
   <!-- ======================================================== boutique -->
-  <section class="chapter svc svc--flip svc--dark" id="boutique" aria-labelledby="bq-h">
+  <section class="chapter svc svc--flip svc--dark svc--boutique" id="boutique" aria-labelledby="bq-h">
     <div class="svc__media">
-      <video class="js-vid" data-src="assets/video/boutique.mp4" poster="assets/video/boutique.jpg"
-             muted loop playsinline preload="none" aria-hidden="true"></video>
+      <img src="assets/img/sections/boutique-v2.webp"
+           alt="A client browsing occasion fabrics and accessories in the salon boutique"
+           width="1024" height="1536" loading="lazy" decoding="async">
     </div>
     <div class="svc__body rv">
       <h2 id="bq-h" >Complete your look.</h2>
@@ -1184,6 +1207,8 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   <span>Book on WhatsApp</span>
 </a>
 
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
 <script>
 /* The scraped business record, inlined at build time from data.json so the
    page works from the filesystem as well as from a server. data.json stays
@@ -1573,7 +1598,7 @@ function video(){
 
   vids.forEach(v => { loader.observe(v); player.observe(v); });
 
-  /* a backgrounded tab should not keep four clips decoding */
+  /* a backgrounded tab should not keep chapter clips decoding */
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) vids.forEach(v => v.pause());
     else onScreen.forEach(v => v.play().catch(()=>{}));
@@ -1747,6 +1772,114 @@ function reveals(){
   }, { passive: true });
 }
 
+/* ------------------------------------------------------ GSAP motion layer
+   The page already has a strong editorial rhythm and natural-rate video.
+   GSAP adds depth and choreography without pinning sections or scrubbing
+   compressed footage. Reduced motion and a missing library fall back to the
+   existing IntersectionObserver reveal path above. */
+function motion(){
+  if (REDUCE || !window.gsap || !window.ScrollTrigger) { reveals(); return; }
+
+  const gsap = window.gsap;
+  const ScrollTrigger = window.ScrollTrigger;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Opening frame: the photograph settles while the lockup arrives in a
+     measured sequence. Everything remains readable before JS runs. */
+  const hero = $('#hero');
+  const heroPhoto = hero && hero.querySelector('.hero-photo');
+  const heroCopy = hero && hero.querySelector('.hero__copy');
+  if (heroCopy) {
+    heroCopy.classList.add('in', 'gsap-managed');
+    const opening = gsap.timeline({ defaults:{ ease:'power3.out' } });
+    opening
+      .from('.brand', { y:-16, autoAlpha:0, duration:.65 }, 0)
+      .from('#hero-eyebrow', { y:16, autoAlpha:0, duration:.6 }, .12)
+      .from('#hero-title > span', { yPercent:115, autoAlpha:0, duration:1, stagger:.13 }, .18)
+      .from('#hero-tag', { y:22, autoAlpha:0, duration:.7 }, .52)
+      .from('.hero__meta > span', { y:14, autoAlpha:0, duration:.55, stagger:.09 }, .66)
+      .from('.hero__cta > *', { y:16, autoAlpha:0, duration:.55, stagger:.08 }, .78)
+      .from('.hero__note', { autoAlpha:0, duration:.5 }, .96);
+  }
+
+  if (heroPhoto) {
+    gsap.fromTo(heroPhoto,
+      { scale:1.08, yPercent:-2 },
+      { scale:1.01, yPercent:7, ease:'none', scrollTrigger:{ trigger:hero, start:'top top', end:'bottom top', scrub:.7 } }
+    );
+    gsap.to('.hero__copy', {
+      yPercent:14, autoAlpha:.35, ease:'none',
+      scrollTrigger:{ trigger:hero, start:'top top', end:'bottom top', scrub:.7 }
+    });
+  }
+
+  /* Editorial imagery moves at a different rate from its frame. The small
+     rate and built-in scale create depth without exposing an image edge. */
+  $$('.section-visual, .svc__media').forEach((frame, index) => {
+    const media = frame.querySelector('img, video');
+    if (!media || frame.id === 'styles') return;
+    const distance = innerWidth < 700 ? 3 : 6;
+    gsap.fromTo(media,
+      { yPercent:-distance, scale:1.075 },
+      { yPercent:distance, scale:1.025, ease:'none', scrollTrigger:{
+        trigger:frame, start:'top bottom', end:'bottom top', scrub:.65,
+        invalidateOnRefresh:true
+      }}
+    );
+    gsap.fromTo(frame,
+      { clipPath:index % 2 ? 'inset(4% 0 4% 7%)' : 'inset(4% 7% 4% 0)' },
+      { clipPath:'inset(0% 0% 0% 0%)', duration:1.15, ease:'power3.out', scrollTrigger:{
+        trigger:frame, start:'top 88%', once:true
+      }}
+    );
+  });
+
+  /* Copy columns reveal as short editorial sequences instead of one block. */
+  $$('.svc__body.rv').forEach(body => {
+    body.classList.add('in', 'gsap-managed');
+    const parts = Array.from(body.children);
+    gsap.set(parts, { autoAlpha:0, y:26 });
+    gsap.timeline({ scrollTrigger:{ trigger:body, start:'top 78%', once:true } })
+      .to(parts, { autoAlpha:1, y:0, duration:.72, stagger:.085, ease:'power3.out' })
+      .fromTo(body.querySelectorAll('.rule'), { scaleX:0 }, { scaleX:1, duration:.8, ease:'power2.out' }, .18);
+  });
+
+  /* Remaining reading blocks get a quieter reveal. Dynamic cards are filled
+     before this function runs, so they can join the same score. */
+  $$('.rv').filter(el => !el.classList.contains('gsap-managed')).forEach(el => {
+    el.classList.add('gsap-managed');
+    gsap.fromTo(el,
+      { autoAlpha:0, y:34 },
+      { autoAlpha:1, y:0, duration:.85, ease:'power3.out', scrollTrigger:{ trigger:el, start:'top 86%', once:true } }
+    );
+  });
+
+  const cards = $$('#shop-grid li');
+  if (cards.length) {
+    gsap.from(cards, {
+      y:42, autoAlpha:0, duration:.75, stagger:.09, ease:'power3.out',
+      scrollTrigger:{ trigger:'#shop-grid', start:'top 82%', once:true }
+    });
+  }
+
+  /* A subtle magnetic response makes the primary controls feel physical.
+     It is pointer-only and always restores the control to its true position. */
+  if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
+    $$('.btn').forEach(btn => {
+      const moveX = gsap.quickTo(btn, 'x', { duration:.35, ease:'power3.out' });
+      const moveY = gsap.quickTo(btn, 'y', { duration:.35, ease:'power3.out' });
+      btn.addEventListener('pointermove', e => {
+        const r = btn.getBoundingClientRect();
+        moveX((e.clientX - r.left - r.width / 2) * .12);
+        moveY((e.clientY - r.top - r.height / 2) * .18);
+      });
+      btn.addEventListener('pointerleave', () => { moveX(0); moveY(0); });
+    });
+  }
+
+  document.fonts.ready.then(() => ScrollTrigger.refresh());
+}
+
 /* ------------------------------------------------ header & floating CTA */
 function chrome(){
   const hdr = $('#hdr'), wa = $('#wa'), footer = $('footer'), bar = $('#progress');
@@ -1888,7 +2021,7 @@ function grain(){
 /* ---------------------------------------------------------------- boot */
 function boot(){
   if (!DATA) { console.error('[infinity] no data'); return; }
-  fill(); tabs(); finder(); video(); styleSwap(); reveals(); chrome(); mobileMenu(); grain();
+  fill(); tabs(); finder(); video(); styleSwap(); motion(); chrome(); mobileMenu(); grain();
 }
 if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot); else boot();
 })();
