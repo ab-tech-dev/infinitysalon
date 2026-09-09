@@ -35,7 +35,7 @@
      every small gold *word* on a light ground uses --gold-ink (4.5:1), and
      on the dark chapters, where --gold is comfortably clear, --gold-lift
      carries the same accents brighter. */
-  --gold:#a8874a; --gold-ink:#8a6a2f; --gold-lift:#c9a961;
+  --gold:#a8874a; --gold-ink:#836428; --gold-lift:#c9a961;
   --rule:rgba(23,19,15,.14); --rule-dark:rgba(247,244,239,.16);
   --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
   --sans:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -375,19 +375,27 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 
 /* ============================================================== prices */
 .prices{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:34px;border-bottom:1px solid var(--rule);padding-bottom:18px}
+/* Nine outlined pills, wrapping onto two rows, all drawn at the same weight:
+   the row read as noise rather than as a choice, and the outlines were doing
+   the work the selected state should do. Only the chosen one carries a box
+   now, and each carries its count - a category is easier to pick when you can
+   see whether it holds three services or eleven. */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:30px;border-bottom:1px solid var(--rule);padding-bottom:16px}
 .tab{
-  appearance:none;background:transparent;border:1px solid var(--rule);border-radius:2px;
-  padding:9px 15px;font:inherit;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
-  color:var(--slate);cursor:pointer;transition:color .18s,border-color .18s,background .18s;
+  appearance:none;background:transparent;border:0;border-radius:2px;
+  padding:9px 13px;font:inherit;font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--slate);cursor:pointer;transition:color .18s,background .18s;
 }
-.tab:hover{color:var(--ink);border-color:var(--ink)}
-.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.tab:hover{color:var(--ink);background:var(--paper-2)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.tab__n{margin-left:7px;font-size:10px;letter-spacing:.04em;opacity:.55;font-variant-numeric:tabular-nums}
 .panel[hidden]{display:none}
-/* Categories run from three services to eleven, so switching tabs used to
-   drop the page out from under the reader. The panel holds the height of
-   the tallest one, measured once after render. */
-#panels{min-height:var(--panel-h,auto)}
+/* Reserving the height of the tallest category stopped the page jumping when
+   you switched tabs, but it left a quarter of a screen of blank paper under
+   every short one - a permanent cost for an occasional benefit, and the main
+   reason this section read as dead. A modest floor keeps the three-row
+   categories from collapsing without holding space for the eleven-row one. */
+#panels{min-height:15rem}
 .plist{margin:0;padding:0;list-style:none;columns:2;column-gap:56px}
 @media(max-width:760px){.plist{columns:1}}
 .plist li{break-inside:avoid;display:grid;grid-template-columns:minmax(0,1fr) auto auto;
@@ -464,6 +472,19 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
    keyboard-operable for free, and the browser's find-in-page can reach the
    answers. */
 .faq{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
+/* The answers wrap at a reading measure, so at 1180px the right-hand half of
+   this section was empty paper under an open question. The questions keep the
+   wider column; the space beside them carries the prompt that used to be a
+   lone sentence underneath, which is also where someone sits when the answer
+   they wanted was not in the list. It follows the scroll, because the moment
+   a question fails you is the moment you want the button. */
+.faq__grid{display:grid;gap:clamp(28px,4vw,60px);align-items:start}
+@media(min-width:880px){.faq__grid{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr)}}
+.faq__ask{border:1px solid var(--rule);padding:clamp(24px,2.4vw,30px);background:var(--paper-2)}
+@media(min-width:880px){.faq__ask{position:sticky;top:calc(var(--hdr) + 26px);margin-top:38px}}
+.faq__ask .kicker{margin-bottom:12px}
+.faq__askcopy{margin:0 0 20px;font-size:14.5px;line-height:1.6;color:var(--slate)}
+.faq__hours{margin:16px 0 0;font-size:12.5px;letter-spacing:.02em;color:var(--slate)}
 .faq__list{margin:38px 0 0;border-top:1px solid var(--rule)}
 .faq details{border-bottom:1px solid var(--rule)}
 .faq summary{
@@ -1079,8 +1100,18 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <h2 id="faq-h" >Before you book.</h2>
       <p class="lede">The questions we answer most often. If yours is not here, message us and we will tell you straight away.</p>
     </div>
-    <div class="faq__list rv" id="faq-list"></div>
-    <p class="faq__foot">Still deciding? <a class="js-wa" href="#" target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a> &mdash; we reply during opening hours.</p>
+    <div class="faq__grid">
+      <div class="faq__list rv" id="faq-list"></div>
+      <aside class="faq__ask rv">
+        <p class="kicker">Still deciding?</p>
+        <p class="faq__askcopy">Ask us anything you cannot see here. There is no deposit and nothing to commit to until you have a time you are happy with.</p>
+        <a class="btn btn--gold js-wa" href="#" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
+          Ask on WhatsApp
+        </a>
+        <p class="faq__hours" id="faq-hours"></p>
+      </aside>
+    </div>
   </section>
 
   <!-- ========================================================= careers -->
@@ -1252,6 +1283,7 @@ function fill(){
   const mail = $('#v-mail'); mail.textContent = C.email; mail.href = 'mailto:' + C.email;
   const tt = $('#v-tt'); tt.textContent = C.tiktok.handle; tt.href = C.tiktok.url;
   $('#v-policies').innerHTML = DATA.policies.map(t => '<li>' + esc(t) + '</li>').join('');
+  var fh=$('#faq-hours'); if (fh) fh.textContent = B.hours.line + ' · we reply during opening hours.';
   $('#f-legal').textContent = B.name + ' · ' + B.address.line + ' · ' + B.hours.line;
 
   /* --- the shop -----------------------------------------------------
@@ -1289,7 +1321,8 @@ function tabs(){
   const cats = DATA.pricing.categories;
   list.innerHTML = cats.map((c,i) =>
     '<button class="tab" role="tab" id="tab-'+c.id+'" aria-controls="p-'+c.id+'" ' +
-    'aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'">'+esc(c.label)+'</button>').join('');
+    'aria-selected="'+(i===0)+'" tabindex="'+(i===0?0:-1)+'">'+esc(c.label)+
+    '<span class="tab__n">'+c.items.length+'</span></button>').join('');
   /* Each row books itself, with the service and its price already written
      into the message — the same affordance the search results have always
      had. Without it a visitor who found their price in a tab had to go and
@@ -1305,22 +1338,6 @@ function tabs(){
       'Book<span class="vh"> ' + esc(it.name) + '</span></a></li>').join('') +
     '</ul></div>').join('');
 
-  /* Hold the height of the tallest category so choosing a tab does not
-     shorten the page under the reader's scroll position. Measured rather
-     than guessed, because the categories run from three rows to eleven. */
-  const holdHeight = () => {
-    let tall = 0;
-    $$('.panel').forEach(p => {
-      const was = p.hidden; p.hidden = false;
-      tall = Math.max(tall, p.offsetHeight);
-      p.hidden = was;
-    });
-    if (tall) panels.style.setProperty('--panel-h', tall + 'px');
-  };
-  holdHeight();
-  addEventListener('resize', holdHeight, { passive:true });
-  /* the serif arrives after first paint and changes every row's height */
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(holdHeight);
 
   const btns = $$('.tab');
   const select = (i, focus) => {
