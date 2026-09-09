@@ -342,23 +342,6 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .svc--dark{background:#12100e;color:var(--paper)}
 .svc--dark .lede{color:rgba(247,244,239,.72)}
 .svc--dark .rule{background:var(--rule-dark)}
-.svc--boutique{background:#0d1729;color:var(--paper);overflow:hidden}
-.svc--boutique .svc__body{
-  position:relative;isolation:isolate;
-  background:
-    radial-gradient(circle at 82% 18%,rgba(201,169,97,.15),transparent 31%),
-    repeating-linear-gradient(132deg,transparent 0 22px,rgba(201,169,97,.035) 22px 23px),
-    #0d1729;
-}
-.svc--boutique .svc__body:before,
-.svc--boutique .svc__body:after{
-  content:"";position:absolute;z-index:-1;pointer-events:none;border:1px solid rgba(201,169,97,.18);
-  width:clamp(240px,34vw,520px);aspect-ratio:1;border-radius:50%;right:clamp(-260px,-16vw,-120px);top:8%;
-}
-.svc--boutique .svc__body:after{width:clamp(170px,24vw,360px);right:clamp(-160px,-8vw,-60px);top:24%;border-color:rgba(201,169,97,.11)}
-.svc--boutique .lede{color:rgba(247,244,239,.78)}
-.svc--boutique .rule{background:rgba(201,169,97,.28)}
-.svc--boutique .prods li{border-bottom-color:rgba(201,169,97,.2)}
 .svc--flip .svc__media{order:2}
 @media(max-width:900px){
   .svc{grid-template-columns:1fr}
@@ -488,7 +471,19 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
    page instead. Native details/summary: it opens without JavaScript, it is
    keyboard-operable for free, and the browser's find-in-page can reach the
    answers. */
-.faq{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
+.faq{
+  position:relative;isolation:isolate;padding:var(--section-pad) var(--pad);
+  max-width:var(--measure-wide);margin:0 auto
+}
+.faq:before{
+  content:"";position:absolute;z-index:-1;top:0;bottom:0;left:calc(50% - 50vw);right:calc(50% - 50vw);
+  border-top:1px solid rgba(131,100,40,.2);border-bottom:1px solid rgba(131,100,40,.2);
+  background:
+    radial-gradient(circle at 10% 18%,rgba(201,169,97,.17),transparent 27%),
+    radial-gradient(circle at 91% 84%,rgba(94,62,74,.12),transparent 30%),
+    repeating-linear-gradient(132deg,transparent 0 28px,rgba(131,100,40,.025) 28px 29px),
+    #ebe2dc;
+}
 /* The answers wrap at a reading measure, so at 1180px the right-hand half of
    this section was empty paper under an open question. The questions keep the
    wider column; the space beside them carries the prompt that used to be a
@@ -497,11 +492,12 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
    a question fails you is the moment you want the button. */
 .faq__grid{display:grid;gap:clamp(28px,4vw,60px);align-items:start}
 @media(min-width:880px){.faq__grid{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr)}}
-.faq__ask{border:1px solid var(--rule);padding:clamp(24px,2.4vw,30px);background:var(--paper-2)}
+.faq__ask{border:1px solid rgba(201,169,97,.38);padding:clamp(24px,2.4vw,30px);background:#14213d;color:var(--paper)}
 @media(min-width:880px){.faq__ask{position:sticky;top:calc(var(--hdr) + 26px);margin-top:38px}}
-.faq__ask .kicker{margin-bottom:12px}
-.faq__askcopy{margin:0 0 20px;font-size:14.5px;line-height:1.6;color:var(--slate)}
-.faq__hours{margin:16px 0 0;font-size:12.5px;letter-spacing:.02em;color:var(--slate)}
+.faq__ask .kicker{margin-bottom:12px;color:var(--gold-lift)}
+.faq__ask .btn--gold:hover,.faq__ask .btn--gold:focus-visible{color:var(--gold-lift);border-color:var(--gold-lift)}
+.faq__askcopy{margin:0 0 20px;font-size:14.5px;line-height:1.6;color:rgba(247,244,239,.76)}
+.faq__hours{margin:16px 0 0;font-size:12.5px;letter-spacing:.02em;color:rgba(247,244,239,.64)}
 .faq__list{margin:38px 0 0;border-top:1px solid var(--rule)}
 .faq details{border-bottom:1px solid var(--rule)}
 .faq summary{
@@ -983,7 +979,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   </section>
 
   <!-- ======================================================== boutique -->
-  <section class="chapter svc svc--flip svc--dark svc--boutique" id="boutique" aria-labelledby="bq-h">
+  <section class="chapter svc svc--flip svc--dark" id="boutique" aria-labelledby="bq-h">
     <div class="svc__media">
       <img src="assets/img/sections/boutique-v2.webp"
            alt="A client browsing occasion fabrics and accessories in the salon boutique"
