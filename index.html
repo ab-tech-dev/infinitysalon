@@ -1800,8 +1800,8 @@ function motion(){
 
   if (heroPhoto) {
     gsap.fromTo(heroPhoto,
-      { scale:1.08, yPercent:-2 },
-      { scale:1.01, yPercent:7, ease:'none', scrollTrigger:{ trigger:hero, start:'top top', end:'bottom top', scrub:.7 } }
+      { scale:1.1, yPercent:-4 },
+      { scale:1.035, yPercent:1.5, ease:'none', scrollTrigger:{ trigger:hero, start:'top top', end:'bottom top', scrub:.7 } }
     );
     gsap.to('.hero__copy', {
       yPercent:14, autoAlpha:.35, ease:'none',
@@ -1814,16 +1814,16 @@ function motion(){
   $$('.section-visual, .svc__media').forEach((frame, index) => {
     const media = frame.querySelector('img, video');
     if (!media || frame.id === 'styles') return;
-    const distance = innerWidth < 700 ? 3 : 6;
+    const lift = innerWidth < 700 ? 2 : 3.5;
     gsap.fromTo(media,
-      { yPercent:-distance, scale:1.075 },
-      { yPercent:distance, scale:1.025, ease:'none', scrollTrigger:{
+      { yPercent:-lift, scale:1.09 },
+      { yPercent:lift * .25, scale:1.035, ease:'none', scrollTrigger:{
         trigger:frame, start:'top bottom', end:'bottom top', scrub:.65,
         invalidateOnRefresh:true
       }}
     );
     gsap.fromTo(frame,
-      { clipPath:index % 2 ? 'inset(4% 0 4% 7%)' : 'inset(4% 7% 4% 0)' },
+      { clipPath:index % 2 ? 'inset(0 0 0 7%)' : 'inset(0 7% 0 0)' },
       { clipPath:'inset(0% 0% 0% 0%)', duration:1.15, ease:'power3.out', scrollTrigger:{
         trigger:frame, start:'top 88%', once:true
       }}
@@ -1879,6 +1879,7 @@ function motion(){
 /* ------------------------------------------------ header & floating CTA */
 function chrome(){
   const hdr = $('#hdr'), wa = $('#wa'), footer = $('footer'), bar = $('#progress');
+  const hero = $('#hero');
   const darks = $$('.hero, .band, .svc--dark, .visit, footer');
   const visit = $('#visit');
 
@@ -1913,8 +1914,11 @@ function chrome(){
   const onScroll = () => {
     const y = window.scrollY || 0;
     const atTop = y <= 2;
+    const pastHero = !hero || hero.getBoundingClientRect().bottom <= 0;
     hdr.classList.toggle('is-at-top', atTop);
-    hdr.classList.toggle('solid', !atTop && y > 40);
+    /* The hero owns the transparent masthead. The nav only gains its solid,
+       section-aware treatment once the hero has completely left the frame. */
+    hdr.classList.toggle('solid', pastHero);
     wa.classList.toggle('in', y > window.innerHeight * .5);
     /* the floating button is a shortcut to the thing the visit panel and
        the footer already put in front of you — over either, it is in the
