@@ -548,6 +548,15 @@
       "alt": "Long knotless box braids"
     },
     {
+      "id": "wigs",
+      "name": "Ready-made & custom wigs",
+      "href": "#wigs",
+      "tag": "Made to order",
+      "body": "Ready-made units plus custom bob, body-wave, kinky-curly and braided wigs.",
+      "img": "assets/img/wigs/body-wave.webp",
+      "alt": "Long natural-black body-wave wig"
+    },
+    {
       "id": "nails",
       "name": "Nails",
       "href": "#nails",

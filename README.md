@@ -3,9 +3,9 @@
 A single-page site for **Infinity Hair and Beauty Salon**, 40/42 Powis Street, Woolwich,
 London SE18 6QS.
 
-A photographic hero, a gradient statement band, then eight chapters — hair, nails, spa,
-boutique, makeup, gele, facials, lashes — over a shop, a full price list and a booking
-section.
+A photographic hero, a gradient statement band, a ready-made and custom wig gallery,
+then the salon's service chapters — hair, nails, spa, boutique, makeup, gele, facials
+and lashes — over a shop, a full price list and a booking section.
 
 **No scroll-scrubbed video anywhere.** Each chapter holds a short clip that plays on
 entry and pauses on exit. Scrubbing a compressed video against scroll position is what
@@ -48,15 +48,20 @@ public/          robots.txt and sitemap.xml, generated — vite copies them to d
 assets/video/    one active chapter clip and retired footage (hero, spa and boutique are stills)
 assets/img/      logo, favicon, og image
 assets/img/sections/  the section photographs
+assets/img/real-salon/  polished scenes generated from the client's location references
+assets/img/wigs/  the four gallery style representations
 assets/styles/   the three hairstyle portraits in the hair chapter
 tools/           static server with a frame-capture route, used in development
 ```
 
 ## The hero
 
-One photograph of the styling floor, `assets/img/salon-hero-v2.*`, under a two-axis
-scrim that keeps the overlay copy legible against both the dark left of the frame and
-the lit interior on the right.
+One generated editorial photograph of the styling floor,
+`assets/img/real-salon/salon-hero.webp`, under a two-axis scrim that keeps the overlay
+copy legible against both the dark left of the frame and the lit interior on the right.
+It is not a retouched client snapshot: it uses the real premises as visual reference,
+carrying forward the honey-oak slats, display arches, grey floor, mirrors and active
+salon atmosphere in a cleaner composition.
 
 It carries the page's **primary action**. The site has one job — get an enquiry into
 WhatsApp — and for a while the only way to do that above the fold was a 60px `Book` in
@@ -65,19 +70,27 @@ ghost *See all services*, with the deposit and the walk-in policy stated under t
 nobody has to scroll to find out what booking commits them to. On a phone the two are
 matched in width; different lengths stacked read as a main action and an afterthought.
 
-**It is served as WebP and JPEG, not PNG.** The master is a 1.7 MB PNG — a lossless
-format carrying a photograph, which is the one thing it is worst at, and it was the
-largest paint on the page by an order of magnitude. Re-encoded from that same 1672×941
-original it is 65 KB of WebP with a 134 KB JPEG behind it in a `<picture>`; the PNG
-stays in the repository as the master. Replace all three together if you change the
-photograph.
+**It is served as WebP, not PNG.** The 1659×948 production image is 188 KB; the larger
+generation master remains outside the repository. Keep the left side visually quiet
+if the photograph is replaced, because that is where the page's primary copy sits.
 
-The mobile crop is `object-position: 86%`, not the middle. A phone shows about a third
-of this frame's width, and in the middle third of it there is a pot plant and two empty
-chairs — the client whose braids the photograph was taken for sat outside the crop
-entirely. Note the selector is `.stage .hero-photo`: a lone `.hero-photo` loses to the
-`.stage img` rule in the small-screen block, which is why the earlier value never
-applied.
+The mobile crop is `object-position: 66%`, holding the stylist and client in view while
+preserving enough dark area for the headline. The selector is `.stage .hero-photo`
+because a lone `.hero-photo` loses to the `.stage img` rule in the small-screen block.
+
+## The wig gallery
+
+Four deliberately different silhouettes make the range understandable at a glance:
+body wave, blunt bob, kinky curl and knotless boho braids. The first two are framed as
+ready-made styles and the latter two as custom conversations; every action opens
+WhatsApp with the exact look already named. The note below the gallery makes clear that
+the pictures represent styles and finish, while live ready-made stock changes.
+
+The images are generated representations rather than copied Pinterest or Unsplash
+photographs. Their salon backgrounds use the client's own premises as the reference:
+honey-oak slat walls, warm mirrors, a grey floor, navy seating and the wig-maker's
+bench. Replace these with approved photographs of completed client work as the real
+portfolio grows.
 
 ## The footage
 

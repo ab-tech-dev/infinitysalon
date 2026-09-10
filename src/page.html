@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Infinity Hair and Beauty Salon — Woolwich, London</title>
-<meta name="description" content="Hair styling, makeup, gele, facials, lashes, threading, nails and boutique shopping on Powis Street, Woolwich. Open every day, 9am–9pm. Book on WhatsApp.">
-<meta name="theme-color" content="#14213D">
+<meta name="description" content="Hair styling, ready-made and custom wigs, makeup, gele, facials, lashes, threading, nails and boutique shopping on Powis Street, Woolwich. Open every day, 9am–9pm.">
+<meta name="theme-color" content="#12100E">
 <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
 <!--__CANONICAL__-->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Infinity Salon">
 <meta property="og:title" content="Infinity Hair and Beauty Salon — Woolwich, London">
-<meta property="og:description" content="Hair, nails, spa, makeup, gele, facials, lashes and boutique on Powis Street, Woolwich. Open daily 9am–9pm.">
+<meta property="og:description" content="Hair, ready-made and custom wigs, nails, spa, makeup, gele, facials, lashes and boutique on Powis Street, Woolwich. Open daily 9am–9pm.">
 <meta property="og:image" content="assets/img/og-image.jpg">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
@@ -22,11 +22,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================== tokens
-   Warm ivory paper, near-black chapters, the salon's own navy and a single
-   muted gold used only for selection and status. No glass, no gradients. */
+   Warm ivory paper, near-black chapters and a single muted gold used only
+   for selection and status. No glass, no gradients.
+
+   Three colours, and navy is not one of them. The salon's mark is navy and
+   gold, so a --navy token sat here and surfaces kept reaching for it: the
+   wigs section, the plate behind each wig, its chips and the FAQ booking
+   panel had all become navy, which is enough of the page to pull the whole
+   thing off a black-gold-ivory scheme and onto a blue one. The token is
+   gone so the reach is no longer available. Navy belongs to the logo file;
+   every dark surface on this page is #12100e, and the footer #0d0b0a. */
 :root{
   --paper:#f7f4ef; --paper-2:#efe9e0;
-  --ink:#17130f; --navy:#14213d; --slate:#5f5851;
+  --ink:#17130f; --slate:#5f5851;
   /* Three golds, because one cannot do three jobs. --gold is the brand
      colour and it is used for rules, marks and anything decorative.
      Against the ivory it measures 3.07:1, which is under AA for text — so
@@ -186,11 +194,11 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .hero{position:relative;display:grid;align-items:end;
   padding:112px var(--pad) clamp(74px,10vh,122px);
   background:#12100e;color:var(--paper);overflow:hidden}
-.stage{position:absolute;inset:0;z-index:0}
-/* the <picture> is a format switch, not a box — it must not sit between the
-   stage and the image's height:100% */
-.stage picture{display:contents}
+.stage{position:absolute;inset:0;z-index:0;background:#12100e}
 .stage video,.stage img{width:100%;height:100%;object-fit:cover}
+.stage .hero-photo{position:absolute;inset:0;opacity:0;will-change:opacity,transform;
+  transition:opacity 1.45s cubic-bezier(.4,0,.2,1)}
+.stage .hero-photo.is-active{opacity:1}
 /* This clip runs from a near-white logo intro into a warm, light salon
    interior — unlike the night footage the previous scrims were tuned for, it
    is never dark on its own. The gradient here carries much more of its own
@@ -311,6 +319,53 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
   .styles__img{transition:none}
 }
 
+
+/* --------------------------------------------------------------- wig edit
+   The photographs carry different silhouettes, so the layout stays quiet
+   and regular enough to compare them without turning the gallery into a
+   product catalogue. */
+.wigs{position:relative;overflow:hidden;padding:var(--section-pad) var(--pad);background:#12100e;color:var(--paper)}
+.wigs:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.8;
+  background:radial-gradient(circle at 82% 12%,rgba(201,169,97,.16),transparent 28%),
+    repeating-linear-gradient(90deg,transparent 0 72px,rgba(247,244,239,.018) 72px 73px)}
+.wigs__in{position:relative;max-width:var(--measure-wide);margin:0 auto}
+.wigs__head{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.72fr);gap:28px 64px;
+  align-items:end;margin-bottom:clamp(38px,6vw,72px)}
+.wigs__head .kicker{grid-column:1/-1;margin-bottom:-8px;color:var(--gold-lift)}
+.wigs__head h2{font-size:clamp(40px,6vw,76px);font-weight:300;max-width:12ch}
+.wigs__intro{margin:0 0 8px;max-width:43ch;color:rgba(247,244,239,.72);font-size:16px}
+.wigs__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(30px,4vw,52px) clamp(16px,2vw,26px);align-items:start}
+.wig-card{position:relative;min-width:0}
+.wig-card figure{position:relative;margin:0;overflow:hidden;background:#1c1815;aspect-ratio:4/5}
+.wig-card img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
+.wig-card:hover img{transform:scale(1.035)}
+.wig-card__tag{position:absolute;top:14px;left:14px;margin:0;padding:8px 11px;background:rgba(13,11,10,.86);
+  color:var(--paper);font-size:9.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
+.wig-card__copy{padding:17px 0 4px}
+.wig-card__copy h3{font-size:clamp(22px,2vw,28px);font-weight:400;margin-bottom:6px}
+.wig-card__copy p{margin:0;color:rgba(247,244,239,.66);font-size:13.5px;line-height:1.6;max-width:48ch}
+.wig-card__link{display:inline-block;margin-top:13px;color:var(--gold-lift);text-decoration:none;font-size:10.5px;
+  font-weight:600;letter-spacing:.15em;text-transform:uppercase;border-bottom:1px solid rgba(201,169,97,.45);padding-bottom:3px}
+.wig-card__link:hover,.wig-card__link:focus-visible{color:var(--paper);border-color:var(--paper)}
+.wigs__note{display:flex;justify-content:space-between;align-items:center;gap:24px;margin:clamp(36px,5vw,60px) 0 0;
+  padding-top:24px;border-top:1px solid rgba(247,244,239,.16)}
+.wigs__note p{margin:0;max-width:58ch;color:rgba(247,244,239,.7);font-size:14px}
+@media(max-width:1050px){
+  .wigs__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:800px){
+  .wigs__head{grid-template-columns:1fr}
+  .wigs__head .kicker{grid-column:auto}.wigs__head h2{max-width:10ch}
+  .wigs__note{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:640px){
+  .wigs{padding-left:0;padding-right:0}
+  .wigs__head,.wigs__note{margin-left:var(--pad);margin-right:var(--pad)}
+  .wigs__grid{grid-template-columns:none;grid-auto-columns:min(82vw,340px);grid-auto-flow:column;
+    gap:16px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;
+    scrollbar-width:thin;padding:0 var(--pad) 20px}
+  .wig-card{scroll-snap-align:start}
+}
 
 /* ---------------------------------------------------------------- shop */
 .shop{padding:var(--section-pad) var(--pad);max-width:var(--measure-wide);margin:0 auto}
@@ -490,7 +545,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
    a question fails you is the moment you want the button. */
 .faq__grid{display:grid;gap:clamp(28px,4vw,60px);align-items:start}
 @media(min-width:880px){.faq__grid{grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr)}}
-.faq__ask{border:1px solid rgba(201,169,97,.38);padding:clamp(24px,2.4vw,30px);background:#14213d;color:var(--paper)}
+.faq__ask{border:1px solid rgba(201,169,97,.38);padding:clamp(24px,2.4vw,30px);background:#12100e;color:var(--paper)}
 @media(min-width:880px){.faq__ask{position:sticky;top:calc(var(--hdr) + 26px);margin-top:38px}}
 .faq__ask .kicker{margin-bottom:12px;color:var(--gold-lift)}
 .faq__ask .btn--gold:hover,.faq__ask .btn--gold:focus-visible{color:var(--gold-lift);border-color:var(--gold-lift)}
@@ -591,6 +646,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   .brand b{font-size:15px;letter-spacing:.13em;white-space:nowrap}
   .brand span{font-size:7.5px;letter-spacing:.28em}
   header .btn{margin-left:auto;padding:10px 13px;font-size:10px;letter-spacing:.1em;white-space:nowrap}
+  #about{padding-top:56px}
 
   .hero{min-height:100svh;padding:96px var(--pad) 64px}
   .stage video,.stage img{object-position:52% center}
@@ -755,7 +811,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 @media(max-width:480px){.facts{grid-template-columns:1fr}.facts > div:nth-child(odd){padding-right:0}}
 
 /* and one headline scale across the whole page */
-.svc h2,.editorial h2,.shop h2,.prices h2,.visit h2{
+.svc h2,.editorial h2,.shop h2,.prices h2,.visit h2,.wigs h2{
   font-size:clamp(32px,4.4vw,58px);font-weight:300}
 
 /* the wide photograph that opens a section — a fixed ratio rather than a
@@ -791,7 +847,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 .latest-grid p{margin:0;font-size:13.5px;color:var(--slate)}
 .svc--dark .latest-grid p{color:rgba(247,244,239,.6)}
 
-.hero-photo{width:100%;height:100%;object-fit:cover;object-position:65% center}
+.hero-photo{width:100%;height:100%;object-fit:cover;object-position:center center}
 
 @media(max-width:700px){
   .latest-grid{grid-template-columns:1fr}
@@ -801,7 +857,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
      photograph was taken for sat outside the crop entirely — and the rule
      never applied anyway, because `.stage img` in the small-screen block
      outranks a lone `.hero-photo`. */
-  .stage .hero-photo{object-position:86% center}
+  .stage .hero-photo{object-position:66% center}
 }
 </style>
 <!-- The machine-readable version of data.json: the salon, its hours and
@@ -823,6 +879,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
        slot it held goes to the shop. -->
   <nav class="main" aria-label="Sections"><a href="#about">About</a>
     <a href="#hair">Hair</a>
+    <a href="#wigs">Wigs</a>
     <a href="#prices">Prices</a>
     <a href="#shop">Shop</a>
     <a href="#faq">FAQ</a>
@@ -836,7 +893,14 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 </header>
 <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile sections"><a href="#about">About</a>
     <a href="#hair">Hair</a>
-    <a href="#beauty">Beauty</a>
+    <a href="#wigs">Wigs</a>
+    <a href="#nails">Nails</a>
+    <a href="#spa">Spa &amp; massage</a>
+    <a href="#boutique">Boutique</a>
+    <a href="#beauty">Makeup</a>
+    <a href="#gele">Gele</a>
+    <a href="#facials">Facials</a>
+    <a href="#lashes">Lashes &amp; threading</a>
     <a href="#shop">Shop</a>
     <a href="#latest">Latest styles</a>
     <a href="#prices">Prices</a>
@@ -848,18 +912,15 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 
   <!-- ============================================================ hero -->
   <section class="chapter hero" id="hero">
-    <!-- The largest paint on the page, and it was a 1.7 MB PNG — a lossless
-         format carrying a photograph, which is the one thing it is worst at.
-         Re-encoded from the same 1672x941 original: 65 KB of WebP, with a
-         134 KB JPEG behind it for anything that cannot take WebP. The PNG is
-         kept in the repository as the master. -->
-    <div class="stage">
-      <picture>
-        <source srcset="assets/img/salon-hero-v2.webp" type="image/webp">
-        <img class="hero-photo" src="assets/img/salon-hero-v2.jpg"
-             width="1672" height="941"
-             alt="The Infinity Hair and Beauty styling floor" fetchpriority="high">
-      </picture>
+    <div class="stage" role="img" aria-label="Clients having their hair beautifully finished inside Infinity Hair and Beauty">
+      <img class="hero-photo is-active" src="assets/img/real-salon/salon-hero.webp"
+           width="1659" height="948" alt="" fetchpriority="high">
+      <img class="hero-photo" src="assets/img/real-salon/salon-hero-waves.webp"
+           width="1672" height="941" alt="" loading="lazy" decoding="async">
+      <img class="hero-photo" src="assets/img/real-salon/salon-hero-braids.webp"
+           width="1672" height="941" alt="" loading="lazy" decoding="async">
+      <img class="hero-photo" src="assets/img/real-salon/salon-hero-curls.webp"
+           width="1672" height="941" alt="" loading="lazy" decoding="async">
     </div>
     <div class="scrim"></div>
     <div class="hero__in">
@@ -890,9 +951,9 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   <section class="editorial flow" id="about" aria-labelledby="about-h">
     <div class="editorial__in about__grid">
       <figure class="section-visual rv">
-        <img src="assets/img/sections/about.jpg"
-             alt="Salon interior with navy styling chairs and brass mirrors"
-             loading="lazy" decoding="async" width="1536" height="1024">
+        <img src="assets/img/real-salon/about-salon.webp"
+             alt="A client having her natural hair finished in the salon"
+             loading="lazy" decoding="async" width="1122" height="1402">
       </figure>
       <div class="about__copy rv">
         <div class="sec-head sec-head--stack">
@@ -944,6 +1005,52 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
     <i class="hair-feature__shimmer" aria-hidden="true"></i>
   </div>
 
+  <!-- ======================================================= wig gallery -->
+  <section class="wigs flow" id="wigs" aria-labelledby="wigs-h">
+    <div class="wigs__in">
+      <div class="wigs__head rv">
+        <p class="kicker">Ready-made &amp; custom units</p>
+        <h2 id="wigs-h">Made to wear.<br>Made for you.</h2>
+        <p class="wigs__intro">Choose a finished look or ask us to make your unit around the length, texture, parting and finish you want. Message us before visiting to check what is ready in salon.</p>
+      </div>
+      <div class="wigs__grid">
+        <article class="wig-card wig-card--feature">
+          <figure><img src="assets/img/wigs/body-wave.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Long natural-black body-wave wig with a side part"><p class="wig-card__tag">Ready-made style</p></figure>
+          <div class="wig-card__copy"><h3>Body-wave frontal</h3><p>Soft movement, a polished hairline and enough length to restyle for everyday or occasion wear.</p><a class="wig-card__link js-wa" data-wa="the body-wave frontal wig" href="#" target="_blank" rel="noopener noreferrer">Ask about this look</a></div>
+        </article>
+        <article class="wig-card">
+          <figure><img src="assets/img/wigs/blunt-bob.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Sleek natural-black blunt bob wig with a centre part"><p class="wig-card__tag">Ready-made style</p></figure>
+          <div class="wig-card__copy"><h3>The blunt bob</h3><p>Clean, precise and easy to dress up: a short unit with a sleek centre-part finish.</p><a class="wig-card__link js-wa" data-wa="the blunt bob wig" href="#" target="_blank" rel="noopener noreferrer">Check availability</a></div>
+        </article>
+        <article class="wig-card">
+          <figure><img src="assets/img/wigs/kinky-curly.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Shoulder-length kinky-curly wig in natural black"><p class="wig-card__tag">Custom texture</p></figure>
+          <div class="wig-card__copy"><h3>Kinky-curly unit</h3><p>Defined coils, natural volume and a shape tailored to the length and fullness you prefer.</p><a class="wig-card__link js-wa" data-wa="a custom kinky-curly wig" href="#" target="_blank" rel="noopener noreferrer">Plan your unit</a></div>
+        </article>
+        <article class="wig-card wig-card--wide">
+          <figure><img src="assets/img/wigs/boho-braided.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Hand-finished knotless boho braided wig at the wig maker's bench"><p class="wig-card__tag">Custom made</p></figure>
+          <div class="wig-card__copy"><p class="kicker">Made at the bench</p><h3>Knotless boho braids</h3><p>Fine braids and soft loose tendrils, built as a unit for the look of a long appointment with the convenience of a wig. Tell us your preferred length, colour and fullness.</p><a class="wig-card__link js-wa" data-wa="a custom knotless boho braided wig" href="#" target="_blank" rel="noopener noreferrer">Start a custom order</a></div>
+        </article>
+        <article class="wig-card">
+          <figure><img src="assets/img/wigs/honey-blonde-waves.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Long honey-blonde highlighted lace-front wig with loose waves"><p class="wig-card__tag">Ready-made style</p></figure>
+          <div class="wig-card__copy"><h3>Honey-blonde layers</h3><p>Face-framing highlights, flowing layers and a soft wave that is ready to wear or personalise.</p><a class="wig-card__link js-wa" data-wa="the honey-blonde layered wig" href="#" target="_blank" rel="noopener noreferrer">Check availability</a></div>
+        </article>
+        <article class="wig-card">
+          <figure><img src="assets/img/wigs/auburn-pixie.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Short copper-auburn pixie-cut wig with feathered layers"><p class="wig-card__tag">Ready-made style</p></figure>
+          <div class="wig-card__copy"><h3>Copper pixie</h3><p>A neat cropped silhouette with feathered texture and a warm copper-auburn finish.</p><a class="wig-card__link js-wa" data-wa="the copper pixie wig" href="#" target="_blank" rel="noopener noreferrer">Ask about this look</a></div>
+        </article>
+        <article class="wig-card">
+          <figure><img src="assets/img/wigs/burgundy-deep-wave.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Burgundy deep-wave custom lace-front wig being hand finished"><p class="wig-card__tag">Custom made</p></figure>
+          <div class="wig-card__copy"><h3>Burgundy deep wave</h3><p>A rich wine tone, defined movement and a hand-finished frontal made around your preferred length.</p><a class="wig-card__link js-wa" data-wa="a custom burgundy deep-wave wig" href="#" target="_blank" rel="noopener noreferrer">Plan your unit</a></div>
+        </article>
+        <article class="wig-card">
+          <figure><img src="assets/img/wigs/caramel-knotless.webp" width="1122" height="1402" loading="lazy" decoding="async" alt="Extra-long knotless braided wig with subtle caramel accents"><p class="wig-card__tag">Custom made</p></figure>
+          <div class="wig-card__copy"><h3>Caramel knotless braids</h3><p>Extra-long fine braids with subtle warm accents, constructed as a convenient custom unit.</p><a class="wig-card__link js-wa" data-wa="a custom caramel knotless braided wig" href="#" target="_blank" rel="noopener noreferrer">Start a custom order</a></div>
+        </article>
+      </div>
+      <div class="wigs__note rv"><p>These images show the styles and finish we can discuss. Ready-made stock changes, and every custom unit is confirmed with you before work begins.</p><a class="btn btn--gold js-wa" data-wa="ready-made and custom wigs" href="#" target="_blank" rel="noopener noreferrer">Enquire about wigs</a></div>
+    </div>
+  </section>
+
   <!-- =========================================================== nails -->
   <section class="chapter svc svc--flip svc--dark" id="nails" aria-labelledby="nails-h">
     <div class="svc__media">
@@ -962,9 +1069,9 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   <!-- ============================================================= spa -->
   <section class="chapter svc" id="spa" aria-labelledby="spa-h">
     <div class="svc__media">
-      <img src="assets/img/sections/spa-treatment-v2.webp"
-           alt="A client receiving a professional shoulder massage in the salon"
-           width="1024" height="1536" loading="lazy" decoding="async">
+      <img src="assets/img/real-salon/spa-room.webp"
+           alt="The warm, private treatment room at Infinity Hair and Beauty"
+           width="1122" height="1402" loading="lazy" decoding="async">
     </div>
     <div class="svc__body rv">
       <h2 id="spa-h" >Make time for yourself.</h2>
@@ -978,9 +1085,9 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
   <!-- ======================================================== boutique -->
   <section class="chapter svc svc--flip svc--dark" id="boutique" aria-labelledby="bq-h">
     <div class="svc__media">
-      <img src="assets/img/sections/boutique-v2.webp"
-           alt="A client browsing occasion fabrics and accessories in the salon boutique"
-           width="1024" height="1536" loading="lazy" decoding="async">
+      <img src="assets/img/real-salon/boutique.webp"
+           alt="Headwraps, jewellery and beauty pieces displayed in the boutique"
+           width="1122" height="1402" loading="lazy" decoding="async">
     </div>
     <div class="svc__body rv">
       <h2 id="bq-h" >Complete your look.</h2>
@@ -1120,7 +1227,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <div class="faq__list rv" id="faq-list"></div>
       <aside class="faq__ask rv">
         <p class="kicker">Still deciding?</p>
-        <p class="faq__askcopy">Ask us anything you cannot see here. There is no deposit and nothing to commit to until you have a time you are happy with.</p>
+        <p class="faq__askcopy">Ask us anything you cannot see here. Once you are happy with the time, a 20% deposit secures your appointment.</p>
         <a class="btn btn--gold js-wa" href="#" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.75-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.87 9.87 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.02h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.37c0-4.54 3.7-8.23 8.24-8.23a8.2 8.2 0 0 1 8.22 8.24c0 4.54-3.69 8.22-8.23 8.22z"/></svg>
           Ask on WhatsApp
@@ -1770,6 +1877,31 @@ function reveals(){
    GSAP adds depth and choreography without pinning sections or scrubbing
    compressed footage. Reduced motion and a missing library fall back to the
    existing IntersectionObserver reveal path above. */
+function heroRotation(){
+  const hero = $('#hero');
+  const slides = $$('.hero-photo');
+  if (!hero || slides.length < 2 || REDUCE) return;
+
+  let current = 0;
+  let timer = 0;
+  const stop = () => { if (timer) { clearInterval(timer); timer = 0; } };
+  const start = () => {
+    stop();
+    timer = setInterval(() => {
+      if (document.hidden) return;
+      slides[current].classList.remove('is-active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('is-active');
+    }, 7000);
+  };
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => entry.isIntersecting ? start() : stop(),
+      { threshold:.08 }).observe(hero);
+  } else start();
+  addEventListener('pagehide', stop, { once:true });
+}
+
 function motion(){
   if (REDUCE || !window.gsap || !window.ScrollTrigger) { reveals(); return; }
 
@@ -1780,7 +1912,7 @@ function motion(){
   /* Opening frame: the photograph settles while the lockup arrives in a
      measured sequence. Everything remains readable before JS runs. */
   const hero = $('#hero');
-  const heroPhoto = hero && hero.querySelector('.hero-photo');
+  const heroPhotos = hero ? $$('.hero-photo') : [];
   const heroCopy = hero && hero.querySelector('.hero__copy');
   if (heroCopy) {
     heroCopy.classList.add('in', 'gsap-managed');
@@ -1795,8 +1927,8 @@ function motion(){
       .from('.hero__note', { autoAlpha:0, duration:.5 }, .96);
   }
 
-  if (heroPhoto) {
-    gsap.fromTo(heroPhoto,
+  if (heroPhotos.length) {
+    gsap.fromTo(heroPhotos,
       { scale:1.1, yPercent:-4 },
       { scale:1.035, yPercent:1.5, ease:'none', scrollTrigger:{ trigger:hero, start:'top top', end:'bottom top', scrub:.7 } }
     );
@@ -1855,6 +1987,14 @@ function motion(){
     });
   }
 
+  const wigCards = $$('.wig-card');
+  if (wigCards.length) {
+    gsap.from(wigCards, {
+      y:54, autoAlpha:0, duration:.9, stagger:.12, ease:'power3.out',
+      scrollTrigger:{ trigger:'.wigs__grid', start:'top 80%', once:true }
+    });
+  }
+
   /* A subtle magnetic response makes the primary controls feel physical.
      It is pointer-only and always restores the control to its true position. */
   if (matchMedia('(hover:hover) and (pointer:fine)').matches) {
@@ -1877,7 +2017,7 @@ function motion(){
 function chrome(){
   const hdr = $('#hdr'), wa = $('#wa'), footer = $('footer'), bar = $('#progress');
   const hero = $('#hero');
-  const darks = $$('.hero, .band, .svc--dark, .visit, footer');
+  const darks = $$('.hero, .band, .wigs, .svc--dark, .visit, footer');
   const visit = $('#visit');
 
   /* --- where am I? ---------------------------------------------------
@@ -2018,7 +2158,7 @@ function grain(){
 /* ---------------------------------------------------------------- boot */
 function boot(){
   if (!DATA) { console.error('[infinity] no data'); return; }
-  fill(); tabs(); finder(); video(); styleSwap(); motion(); chrome(); mobileMenu(); grain();
+  fill(); tabs(); finder(); video(); styleSwap(); heroRotation(); motion(); chrome(); mobileMenu(); grain();
 }
 if (document.readyState === 'loading') addEventListener('DOMContentLoaded', boot); else boot();
 })();
