@@ -840,6 +840,14 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 /* ------------------------------------- latest styles, inside its chapter
    Empty until photographs are added to data.json, which is why it collapses
    rather than leaving a row of holes in the chapter body. */
+/* ------------------------------------------------- the TikTok embeds
+   Vertical video, so the wall is sized by what TikTok's iframe wants
+   rather than by our own grid: 300px is its practical floor. Empty until
+   URLs are added to `tiktoks` in data.json, and it collapses when empty
+   rather than leaving a hole in the chapter. */
+.tiktok-wall{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin:0 0 22px}
+.tiktok-wall:empty{display:none}
+.tiktok-wall blockquote{margin:0;min-width:0;max-width:100%}
 .latest-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2vw,24px)}
 .latest-grid:empty{display:none}
 .latest-grid img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;margin-bottom:12px}
@@ -1187,6 +1195,7 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
       <p class="lede">Explore our latest style videos on TikTok, then share your favourite with us when you book.</p>
       <hr class="rule">
       <div class="latest-grid" id="latest-grid"></div>
+      <div class="tiktok-wall" id="tiktok-wall"></div>
       <p ><a class="btn btn--gold" id="latest-social" target="_blank" rel="noopener noreferrer">See our latest styles on TikTok</a></p>
     </div>
   </section>
@@ -1421,6 +1430,35 @@ function fill(){
   $('#careers-address').href = 'mailto:' + C.email;
   $('#careers-address').textContent = C.email;
   $('#latest-grid').innerHTML = (DATA.latestStyles || []).map(s => '<article><img src="' + esc(s.img) + '" alt="' + esc(s.alt) + '" loading="lazy"><h3>' + esc(s.title) + '</h3><p>' + esc(s.caption) + '</p></article>').join('');
+
+  /* --- the TikTok wall ------------------------------------------------
+     One blockquote per video in the shape TikTok's embed script looks for.
+     Without the script each one is still a link to the video, so the
+     markup degrades rather than disappearing.
+
+     The script is third-party and sets cookies, so it is not fetched on
+     page load: an observer pulls it in only when the wall is nearly on
+     screen. A visitor who never scrolls this far never touches TikTok,
+     and with no URLs in data.json nothing is requested at all. */
+  const wall = $('#tiktok-wall');
+  const clips = DATA.tiktoks || [];
+  if (wall && clips.length) {
+    wall.innerHTML = clips.map(c => {
+      const m = /\/video\/(\d+)/.exec(String(c.url || ''));
+      if (!m) return '';
+      return '<blockquote class="tiktok-embed" cite="' + esc(c.url) + '" data-video-id="' + m[1] + '">' +
+        '<section><a href="' + esc(c.url) + '" target="_blank" rel="noopener noreferrer">' +
+        esc(c.caption || 'Watch on TikTok') + '</a></section></blockquote>';
+    }).join('');
+    const pull = new IntersectionObserver(es => {
+      if (!es.some(e => e.isIntersecting)) return;
+      pull.disconnect();
+      const sc = document.createElement('script');
+      sc.async = true; sc.src = 'https://www.tiktok.com/embed.js';
+      document.body.appendChild(sc);
+    }, { rootMargin: '300px' });
+    pull.observe(wall);
+  }
   const grid = $('#shop-grid');
   if (grid) grid.innerHTML = DATA.products.map(p => {
     const msg = "Hi Infinity Salon! I'd like to buy: " + p.name + " (" + p.price + ").";

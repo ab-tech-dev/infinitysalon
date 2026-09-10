@@ -39,8 +39,8 @@
     },
     "email": "cedarevent@yahoo.com",
     "tiktok": {
-      "handle": "@harannawoolwichhair",
-      "url": "https://www.tiktok.com/@harannawoolwichhair"
+      "handle": "@rihanna.hair.wool",
+      "url": "https://www.tiktok.com/@rihanna.hair.wool"
     }
   },
   "brand": {
@@ -533,6 +533,7 @@
     }
   ],
   "latestStyles": [],
+  "tiktoks": [],
   "site": {
     "url": "https://infinitysalon-flame.vercel.app",
     "note": "Absolute base for the canonical link, the social preview image and the structured data. Change this to the salon’s own domain when it has one."

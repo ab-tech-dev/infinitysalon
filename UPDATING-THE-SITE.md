@@ -24,6 +24,42 @@ To publish photos directly on the website:
 
 There is no login or upload dashboard. Website gallery updates require these file changes and a redeployment. With no photos added, the section displays the TikTok link without empty photo cards.
 
+## TikTok videos on the page
+
+The salon's TikTok is **@rihanna.hair.wool**. The "Find your next look" section
+can show real videos from it, embedded and playable in place.
+
+To add one: open the video on TikTok, tap **Share -> Copy link**, and paste it
+into `tiktoks` in `data.json`. Newest first.
+
+```json
+"tiktoks": [
+  {
+    "url": "https://www.tiktok.com/@rihanna.hair.wool/video/7412345678901234567",
+    "caption": "Knotless braids, waist length"
+  }
+]
+```
+
+Then `npm run build` and redeploy. Nothing else needs editing: the video id is
+read out of the URL, so the link you copied is all that is required. Remove an
+entry to take a video down; empty the array and the section falls back to the
+TikTok button alone.
+
+**A note on privacy.** These are real TikTok embeds, so TikTok's own script runs
+on the page and sets cookies. Two things follow from that:
+
+- The script is not loaded on arrival. It is fetched only when a visitor
+  actually scrolls to the videos, and not at all when `tiktoks` is empty, so
+  nobody who never reaches that section is exposed to it.
+- Even so, once you publish videos the site is setting third-party cookies, and
+  a UK business needs a cookie notice for that. The site does not have one yet.
+  Get that in place before this goes live with videos in it.
+
+If you would rather not carry that at all, the alternative is a still image per
+video with a link out to TikTok - no third-party script, no cookies, but the
+video does not play on the page.
+
 ## Job enquiries
 
 The Careers button opens the applicant's email app with a draft addressed to the existing salon email in `data.json` under `contact.email`. Applicants attach their CV and send the email themselves. The address is also visible for applicants without a configured email app. Applications are received in that mailbox; they are not stored on the website.

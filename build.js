@@ -35,6 +35,7 @@ const slim = {
      rendered six <img src="undefined"> */
   products: data.products.map(p => ({ name: p.name, price: p.price, body: p.body, img: p.img })),
   latestStyles: data.latestStyles || [],
+  tiktoks: data.tiktoks || [],
   policies: data.policies,
   serviceIndex: data.serviceIndex || [],
   faqs
