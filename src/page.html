@@ -199,6 +199,7 @@ header.on-dark .btn:hover{background:transparent;color:var(--paper)}
 .stage .hero-photo{position:absolute;inset:0;opacity:0;will-change:opacity,transform;
   transition:opacity 1.45s cubic-bezier(.4,0,.2,1)}
 .stage .hero-photo.is-active{opacity:1}
+.stage .hero-photo--mens{object-position:74% center}
 /* This clip runs from a near-white logo intro into a warm, light salon
    interior — unlike the night footage the previous scrims were tuned for, it
    is never dark on its own. The gradient here carries much more of its own
@@ -923,6 +924,8 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
     <div class="stage" role="img" aria-label="Clients having their hair beautifully finished inside Infinity Hair and Beauty">
       <img class="hero-photo is-active" src="assets/img/real-salon/salon-hero.webp"
            width="1659" height="948" alt="" fetchpriority="high">
+      <img class="hero-photo hero-photo--mens" src="assets/img/real-salon/salon-hero-mens-grooming.webp"
+           width="1672" height="941" alt="" loading="lazy" decoding="async">
       <img class="hero-photo" src="assets/img/real-salon/salon-hero-waves.webp"
            width="1672" height="941" alt="" loading="lazy" decoding="async">
       <img class="hero-photo" src="assets/img/real-salon/salon-hero-braids.webp"
@@ -1376,12 +1379,13 @@ function fill(){
     el.textContent = gaps[key] || fallback;
   });
 
-  /* four signature hair prices as a teaser, the full list lives below */
+  /* four signature hair prices as a teaser, including a men's service so
+     the offer reads as unisex before anyone reaches the full price list */
   const pick = [
     ['box-braids','Single Plait Knotless, Bra Length'],
     ['weaves-wigs','Frontal with Weave & Style'],
     ['twists','Kinky Twist, Shoulder Length'],
-    ['wash-treatments','Treatment']
+    ['cornrows-men','Twist / Plait for Men, Half Head']
   ];
   $('#hair-teaser').innerHTML = pick.map(([cat,name]) => {
     const c = DATA.pricing.categories.find(x => x.id === cat);
