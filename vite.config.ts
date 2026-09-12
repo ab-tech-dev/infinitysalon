@@ -25,6 +25,12 @@ export default defineConfig({
           resolve(root, 'dist', 'vendor'),
           { recursive: true },
         )
+        // Social crawlers need one permanent, unhashed image URL. Regular
+        // page assets stay fingerprinted by Vite for cache efficiency.
+        cpSync(
+          resolve(root, 'assets', 'img', 'og-image.jpg'),
+          resolve(root, 'dist', 'og-image.jpg'),
+        )
       },
     },
   ],

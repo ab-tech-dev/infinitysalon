@@ -170,7 +170,15 @@ if (!tpl.includes(ldMarker)) {
 const canonical = site
   ? '<link rel="canonical" href="' + site + '/">\n' +
     '<meta property="og:url" content="' + site + '/">\n' +
-    '<meta name="twitter:image" content="' + abs('assets/img/og-image.jpg') + '">'
+    '<meta property="og:image" content="' + abs('og-image.jpg') + '">\n' +
+    '<meta property="og:image:secure_url" content="' + abs('og-image.jpg') + '">\n' +
+    '<meta property="og:image:type" content="image/jpeg">\n' +
+    '<meta property="og:image:width" content="1200">\n' +
+    '<meta property="og:image:height" content="630">\n' +
+    '<meta property="og:image:alt" content="Infinity Hair and Beauty Salon — Your beauty, infinite possibilities">\n' +
+    '<meta name="twitter:image" content="' + abs('og-image.jpg') + '">\n' +
+    '<meta name="twitter:image:alt" content="Infinity Hair and Beauty Salon — Your beauty, infinite possibilities">\n' +
+    '<link rel="image_src" href="' + abs('og-image.jpg') + '">'
   : '';
 
 const out = tpl
