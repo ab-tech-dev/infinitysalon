@@ -863,6 +863,14 @@ footer{padding:44px var(--pad);background:#0d0b0a;color:rgba(247,244,239,.66);fo
 @media(max-width:700px){
   .latest-grid{grid-template-columns:1fr}
   .section-visual img{aspect-ratio:3/2}
+  /* Mobile crops show less of each photograph, so lift them independently and
+     keep the protective shade close to the header and lower-left copy only. */
+  .stage .hero-photo{filter:brightness(1.24) saturate(1.06) contrast(.97)}
+  .scrim{
+    background:linear-gradient(180deg,rgba(9,8,7,.45) 0%,rgba(9,8,7,.06) 19%,
+      transparent 49%,rgba(9,8,7,.34) 100%),
+      linear-gradient(90deg,rgba(9,8,7,.58) 0%,rgba(9,8,7,.28) 58%,
+      rgba(9,8,7,.03) 100%)}
   /* A phone shows about a third of this frame's width. At 62% that third
      was a pot plant and two empty chairs; the client whose braids the
      photograph was taken for sat outside the crop entirely — and the rule
